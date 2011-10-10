@@ -40,11 +40,11 @@ function plugin_align {
        if [  $? -eq 0 ]; then
            # aln worked, let's convert to BAM and sort on the fly:
 
-           nice ${SAMTOOLS.EXEC_PATH}  view -uS ${OUTPUT}.sam  | ${SAMTOOLS.EXEC_PATH}  sort - ${BASENAME}
+           nice ${SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}.sam  | ${SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
 
            if [ $? -eq 0 ]; then
 
-              nice ${SAMTOOLS.EXEC_PATH} index ${BASENAME}.bam
+              nice ${SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
 
             else
               return 2
