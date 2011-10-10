@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignerConfig>
     <name>Lastag</name>
-    <id>LASTAG_WRAPPED</id>
+    <id>LASTAG_GOBY</id>
     <help>Version of Lastag wrapped with Goby align mode.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsGobyReads>true</supportsGobyReads>
