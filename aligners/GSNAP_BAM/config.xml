@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignerConfig>
+    <name>GSNAP (BAM output)</name>
+    <id>GSNAP_BAM</id>
+    <help>GSNAP writting to BAM output. This aligner requests exclusive access to a server node and run parallel on this
+        node against a single reads file.
+    </help>
+    <supportsColorSpace>false</supportsColorSpace>
+    <supportsBisulfiteConvertedReads>false</supportsBisulfiteConvertedReads>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>false</supportsGobyAlignments>
+    <supportsPairedEndAlignments>true</supportsPairedEndAlignments>
+    <supportsFastqReads>true</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>true</supportsBAMAlignments>
+    <options>
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <name>Other aligner options</name>
+            <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
+            <required>false</required>
+            <default></default>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of locations a read can match in the reference to not be considered ambiguous. Read
+                is ambiguous if #hits>threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <flagFormat>-n %d</flagFormat>
+            <includeSpaces>true</includeSpaces>
+            <autoFormat>true</autoFormat>
+        </option>
+    </options>
+</alignerConfig>

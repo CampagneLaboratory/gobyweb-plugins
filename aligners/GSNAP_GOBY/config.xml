@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignerConfig>
+    <name>GSNAP (Goby output)</name>
+    <id>GSNAP_Goby</id>
+    <help>GSNAP writing to Goby output.</help>
+    <supportsColorSpace>false</supportsColorSpace>
+    <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsPairedEndAlignments>true</supportsPairedEndAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+    <options>
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <name>Other aligner options</name>
+            <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
+            <required>false</required>
+            <default></default>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of locations a read can match in the reference to not be considered ambiguous. Read
+                is ambiguous if #hits>threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <autoFormat>true</autoFormat>
+            <type>INTEGER</type>
+            <flagFormat>-n %d</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+    </options>
+</alignerConfig>

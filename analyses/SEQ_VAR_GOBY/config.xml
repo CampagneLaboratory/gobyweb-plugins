@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignmentAnalysisConfig>
+    <name>Sequence Variation Analyses with Goby</name>
+    <id>SEQ_VAR_GOBY</id>
+    <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
+        with Goby. Specific analysis depends on selected output format.
+    </help>
+    <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
+    <splitProcessCombine>true</splitProcessCombine>
+    <options>
+        <option>
+            <id>OUTPUT_FORMAT</id>
+            <name>Type of analysis and output format</name>
+            <help>Determines the type of sequence variation analysis to perform and the output format.</help>
+            <required>true</required>
+            <defaultsTo>genotypes</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>genotypes</category>
+                <category>allele-frequencies</category>
+                <category>group-comparisons</category>
+            </categories>
+            <autoFormat>true</autoFormat>
+            <flagFormat>--format=%s</flagFormat>
+
+            <includeSpaces>true</includeSpaces>
+        </option>
+    </options>
+</alignmentAnalysisConfig>

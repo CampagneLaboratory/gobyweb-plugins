@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignerConfig>
+    <name>Lastag</name>
+    <id>LASTAG_WRAPPED</id>
+    <help>Version of Lastag wrapped with Goby align mode.</help>
+    <supportsColorSpace>false</supportsColorSpace>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+
+    <options>
+
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <name>Other aligner options</name>
+            <help>Provide any additional Lastag option here following the syntax expected by Lastag.</help>
+            <required>false</required>
+            <defaultsTo> </defaultsTo>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}"
+        <option>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of locations a read can match in the reference to not be considered ambiguous. Read is ambiguous if #hits>threshold. </help>
+            <required>true</required>
+            <autoFormat>true</autoFormat>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <flagFormat>--ambiguity-threshold %d</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>QUALITY_FILTER_PARAMETERS</id>
+            <name>Percent identity</name>
+            <help>Quality filter parameters. Use threshold=x% to indicate that reads must have less than x% base differences when matched against the reference. Defaults to threshold=0.05, which indicates 5% error at most.</help>
+            <required>true</required>
+            <autoFormat>true</autoFormat>
+            <defaultsTo>threshold=0.05</defaultsTo>
+            <type>STRING</type>
+            <flagFormat>--quality-filter-parameters %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+    </options>
+</alignerConfig>

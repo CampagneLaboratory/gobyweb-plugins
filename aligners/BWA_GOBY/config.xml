@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignerConfig>
+    <name>BWA with Goby support</name>
+    <id>BWA_GOBY</id>
+    <help>Version of BWA that supports Goby formats natively.</help>
+    <supportsColorSpace>true</supportsColorSpace>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+
+    <options>
+
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <name>Other aligner options</name>
+            <help>Provide any additional BWA option here following the syntax expected by BWA.</help>
+            <required>false</required>
+            <defaultsTo> </defaultsTo>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+
+        <!--option>
+            <id>align_type</id>
+            <name>Alignment type</name>
+            <help>Help text</help>
+            <required>false</required>
+            <type>CATEGORY</type>
+            <categories>
+                <category>cmet</category>
+                <category>other</category>
+            </categories>
+            <autoFormat>true</autoFormat>
+            <flagFormat>&dash;&dash;align-type=%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>some_flag</id>
+            <name>Some flag</name>
+            <help>Help text</help>
+            <required>false</required>
+            <type>BOOLEAN</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>&dash;&dash;flag</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option-->
+    </options>
+</alignerConfig>

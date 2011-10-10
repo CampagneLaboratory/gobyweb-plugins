@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignmentAnalysisConfig>
+    <name>Differential Expression Analysis with DESeq</name>
+    <id>DIFF_EXP_DESEQ</id>
+    <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across groups. Counts are calculated with Goby, statistics of diffential expression are estimated with DESeq.</help>
+    <supportsTranscriptAlignments>true</supportsTranscriptAlignments>
+    <splitProcessCombine>false</splitProcessCombine>
+</alignmentAnalysisConfig>
