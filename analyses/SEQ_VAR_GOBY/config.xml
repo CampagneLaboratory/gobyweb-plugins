@@ -7,6 +7,7 @@
     </help>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
+    <producesVariantCallingFormatOutput/>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>

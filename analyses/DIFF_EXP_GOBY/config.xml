@@ -2,7 +2,10 @@
 <alignmentAnalysisConfig>
     <name>Differential Expression Analysis with Goby</name>
     <id>DIFF_EXP_GOBY</id>
-    <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across groups. Counts and statistics are estimated with Goby.</help>
+    <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across
+        groups. Counts and statistics are estimated with Goby.
+    </help>
     <supportsTranscriptAlignments>true</supportsTranscriptAlignments>
     <splitProcessCombine>false</splitProcessCombine>
+    <producesTabDelimitedOutput/>
 </alignmentAnalysisConfig>
