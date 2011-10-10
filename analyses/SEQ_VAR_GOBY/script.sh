@@ -45,8 +45,8 @@ function plugin_alignment_analysis_num_parts {
 function plugin_alignment_analysis_process {
    SLICING_PLAN_FILENAME=$1
    ARRAY_JOB_INDEX=$2
-   MINIMUM_VARIATION_SUPPORT= ${PLUGINS.ALIGNMENT_ANALYSIS_CONFIG.SEQ_VAR_GOBY.MINIMUM_VARIATION_SUPPORT}
-   THRESHOLD_DISTINCT_READ_INDICES = ${PLUGINS.ALIGNMENT_ANALYSIS_CONFIG.SEQ_VAR_GOBY.THRESHOLD_DISTINCT_READ_INDICES}
+   MINIMUM_VARIATION_SUPPORT= ${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
+   THRESHOLD_DISTINCT_READ_INDICES = ${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
 
    # These variables are defined: SLICING_PLAN_FILENAME
      echo "Processing run_single_alignment_analysis_process for part ${SGE_TASK_ID}"
@@ -96,7 +96,7 @@ function plugin_alignment_analysis_combine {
    shift
    PART_RESULT_FILES=$*
 
-   OUTPUT_FORMAT=${PLUGINS.ALIGNMENT_ANALYSIS_CONFIG.SEQ_VAR_GOBY.OUTPUT_FORMAT}
+   OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.OUTPUT_FORMAT}
 
    if [ "${OUTPUT_FORMAT" == "allele_frequencies" ]; then
 
@@ -119,9 +119,9 @@ function plugin_alignment_analysis_combine {
 
         # Do not attempt FDR adjustment when there is no p-value, just concat the split files and sort:
 
-        ${VCFTOOLS.BIN}/vcf-concat ${PART_RESULT_FILES} | \
-        ${VCFTOOLS.BIN}/vcf-sort | \
-        ${BGZIP.EXEC_PATH} -c > ${RESULT_FILE}
+        ${VCFTOOLS_BIN}/vcf-concat ${PART_RESULT_FILES} | \
+        ${VCFTOOLS_BIN}/vcf-sort | \
+        ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
 
    else
         goby fdr \
@@ -132,7 +132,7 @@ function plugin_alignment_analysis_combine {
           ${COLUMNS} \
           --output ${TMPDIR}/${TAG}-pre.vcf.gz
 
-        gunzip -c -d ${TMPDIR}/${TAG}-pre.vcf.gz | ${VCFTOOLS.BIN}/vcf-sort | ${BGZIP.EXEC_PATH} -c > ${RESULT_FILE}
+        gunzip -c -d ${TMPDIR}/${TAG}-pre.vcf.gz | ${VCFTOOLS_BIN}/vcf-sort | ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
    fi
 
    ${TABIX.EXEC_PATH} -f -p vcf ${RESULT_FILE}
