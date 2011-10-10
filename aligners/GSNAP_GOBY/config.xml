@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignerConfig>
     <name>GSNAP (Goby output)</name>
-    <id>GSNAP_Goby</id>
+    <id>GSNAP_GOBY</id>
     <help>GSNAP writing to Goby output.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
