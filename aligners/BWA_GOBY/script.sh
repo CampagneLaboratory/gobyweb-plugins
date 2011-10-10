@@ -9,8 +9,8 @@
 # INDEX_DIRECTORY = directory that contains the indexed database
 # INDEX_PREFIX = name of the indexed database to search
 
-# BWA_GOBY.EXEC_PATH = path to BWA, obtained from environment.sh
-# BWA_GOBY.NUM_THREADS = number of threads to run with, obtained from environment.sh
+# BWA_GOBY_EXEC_PATH = path to BWA, obtained from environment.sh
+# BWA_GOBY_NUM_THREADS = number of threads to run with, obtained from environment.sh
 
 # ALIGNER_OPTIONS = any BWA options the end-user would like to set
 
@@ -28,7 +28,7 @@ function plugin_align {
         # PAIRED END alignment, native aligner
         SAI_FILE_0=${READS##*/}-0.sai
         SAI_FILE_1=${READS##*/}-1.sai
-        nice ${BWA_GOBY.EXEC_PATH} aln -w 0 -t ${NUM_THREADS_BWA_NATIVE_GOBY} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
+        nice ${BWA_GOBY_EXEC_PATH} aln -w 0 -t ${NUM_THREADS_BWA_NATIVE_GOBY} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
         RETURN_STATUS=$?
         if [ $RETURN_STATUS -eq 0 ]; then
             nice ${ALIGNER_EXEC_PATH} aln -w 1 -t ${NUM_THREADS_BWA_NATIVE_GOBY} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
@@ -46,7 +46,7 @@ function plugin_align {
         RETURN_STATUS=$?
         if [ $RETURN_STATUS -eq 0 ]; then
             # aln worked, let's samse
-            nice ${BWA_GOBY.EXEC_PATH} samse ${COLOR_SPACE_OPTION} -F goby -f ${OUTPUT} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS_FILE}
+            nice ${BWA_GOBY_EXEC_PATH} samse ${COLOR_SPACE_OPTION} -F goby -f ${OUTPUT} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS_FILE}
             RETURN_STATUS=$?
         fi
     fi

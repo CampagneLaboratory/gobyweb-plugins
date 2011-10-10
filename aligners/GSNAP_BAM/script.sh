@@ -6,7 +6,7 @@
 # INDEX_DIRECTORY = directory that contains the indexed database
 # INDEX_PREFIX = name of the indexed database to search
 
-# GSNAP_BAM.EXEC_PATH = path to gsnap, obtained from environment.sh
+# GSNAP_BAM_EXEC_PATH = path to gsnap, obtained from environment.sh
 
 # ALIGNER_OPTIONS = any GSNAP options the end-user would like to set
 
