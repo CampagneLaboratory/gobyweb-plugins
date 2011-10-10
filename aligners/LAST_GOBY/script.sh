@@ -42,6 +42,6 @@ function plugin_align {
        goby align --reference ${REFERENCE} --aligner last ${COLOR_SPACE} --search \
            --ambiguity-threshold ${AMBIGUITY_THRESHOLD} --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}" \
            --database-name ${INDEX_PREFIX} --database-directory ${INDEX_DIRECTORY} \
-           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${BASENAME}
+           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${OUTPUT}
 
 }
