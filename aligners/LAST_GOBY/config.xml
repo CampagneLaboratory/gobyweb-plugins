@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <alignerConfig>
-    <name>Lastag</name>
+    <name>Last</name>
     <id>LAST_GOBY</id>
     <help>Version of Last (official release) wrapped with Goby align mode.</help>
     <supportsColorSpace>false</supportsColorSpace>
