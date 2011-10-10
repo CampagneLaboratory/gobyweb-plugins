@@ -5,5 +5,5 @@
     <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across groups. Counts are calculated with Goby, statistics of diffential expression are estimated with DESeq.</help>
     <supportsTranscriptAlignments>true</supportsTranscriptAlignments>
     <splitProcessCombine>false</splitProcessCombine>
-    <producesTabDelimitedOutput/>
+    <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
 </alignmentAnalysisConfig>

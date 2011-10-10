@@ -7,5 +7,5 @@
     </help>
     <supportsTranscriptAlignments>true</supportsTranscriptAlignments>
     <splitProcessCombine>false</splitProcessCombine>
-    <producesTabDelimitedOutput/>
+    <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
 </alignmentAnalysisConfig>
