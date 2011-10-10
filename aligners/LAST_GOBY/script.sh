@@ -9,7 +9,7 @@
 # INDEX_DIRECTORY = directory that contains the indexed database
 # INDEX_PREFIX = name of the indexed database to search
 
-# ALIGNER_OPTIONS = any lastag options the end-user would like to set
+# ALIGNER_OPTIONS = any Last options the end-user would like to set
 
 # Please note that Goby must be configured with appropriate path to Last aligner executable.
 
@@ -39,7 +39,7 @@ function plugin_align {
 
       # This Goby wrapper detects automatically if the reads file is paired end:
 
-       goby align --reference ${REFERENCE} --aligner lastag ${COLOR_SPACE} --search \
+       goby align --reference ${REFERENCE} --aligner last ${COLOR_SPACE} --search \
            --ambiguity-threshold ${AMBIGUITY_THRESHOLD} --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}" \
            --database-name ${INDEX_PREFIX} --database-directory ${INDEX_DIRECTORY} \
            ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${BASENAME}
