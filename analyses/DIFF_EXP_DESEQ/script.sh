@@ -11,11 +11,10 @@
 
 function plugin_alignment_analysis {
 
-
-
         DESEQ_OUTPUT="output=$RESULT_DIR/${TAG}.stats.tsv graphOutput=${IMAGE_OUTPUT_PNG}"
         DESEQ_GENE_INPUT=""
         DESEQ_EXON_INPUT=""
+
         if [ "${ANNOTATION_TYPE_GENE}" == "true" ]; then
             goby alignment-to-annotation-counts \
                 --annotation ${ANNOTATION_FILE} \
