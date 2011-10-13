@@ -33,6 +33,7 @@ function plugin_alignment_analysis_sequential {
             RETURN_STATUS=$?
         fi
         if [ $RETURN_STATUS -eq 0 ]; then
-            R -f GobyDEToPlots.R --slave --quiet --no-restore --no-save --no-readline --args input=${STATS_OUTPUT} graphOutput=${IMAGE_OUTPUT_PNG}
+
+            R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${STATS_OUTPUT} graphOutput=${IMAGE_OUTPUT_PNG}
         fi
 }

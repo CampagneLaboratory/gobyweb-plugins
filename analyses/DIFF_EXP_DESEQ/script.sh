@@ -11,40 +11,45 @@
 
 function plugin_alignment_analysis_sequential {
 
-        DESEQ_OUTPUT="output=$RESULT_DIR/${TAG}.stats.tsv graphOutput=${IMAGE_OUTPUT_PNG}"
-        DESEQ_GENE_INPUT=""
-        DESEQ_EXON_INPUT=""
+        DESEQ_OUTPUT="output=stats.tsv graphOutput=.png"
 
         if [ "${ANNOTATION_TYPE_GENE}" == "true" ]; then
+            OUT_FILENAME=gene-counts.stats.tsv
+            DESEQ_GENE_INPUT="geneInput=${OUT_FILENAME}"
             goby alignment-to-annotation-counts \
                 --annotation ${ANNOTATION_FILE} \
                 --write-annotation-counts false \
-                --stats $RESULT_DIR/${TAG}-gene-counts.stats.tsv \
+                --stats ${OUT_FILENAME} \
                 --include-annotation-types gene \
                 --groups ${GROUPS_DEFINITION} \
                 --compare ${COMPARE_DEFINITION} \
                 --eval counts ${USE_WEIGHTS_DIRECTIVE} \
                 ${ENTRIES_FILES}
             RETURN_STATUS=$?
-            DESEQ_GENE_INPUT="geneInput=$RESULT_DIR/${TAG}-gene-counts.stats.tsv"
+
         fi
         if [ $RETURN_STATUS -eq 0 ]; then
             if [ "${ANNOTATION_TYPE_EXON}" == "true" ]; then
+                OUT_FILENAME=exon-counts-stats.tsv
+                DESEQ_EXON_INPUT="exonInput=${OUT_FILENAME}"
                 goby alignment-to-annotation-counts \
                     --annotation ${ANNOTATION_FILE} \
                     --write-annotation-counts false \
-                    --stats $RESULT_DIR/${TAG}-exon-counts.stats.tsv \
+                    --stats ${OUT_FILENAME} \
                     --include-annotation-types exon \
                     --groups ${GROUPS_DEFINITION} \
                     --compare ${COMPARE_DEFINITION} \
                     --eval counts ${USE_WEIGHTS_DIRECTIVE} \
                     ${ENTRIES_FILES}
                 RETURN_STATUS=$?
-                DESEQ_EXON_INPUT="exonInput=$RESULT_DIR/${TAG}-exon-counts.stats.tsv"
+
             fi
         fi
+        pwd
+        ls -lat
         if [ $RETURN_STATUS -eq 0 ]; then
-            R -f geneDESeqAnalysis.R --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${DESEQ_EXON_INPUT}
+            R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${DESEQ_EXON_INPUT}
             RETURN_STATUS=$?
         fi
+        ls -ltr
 }
