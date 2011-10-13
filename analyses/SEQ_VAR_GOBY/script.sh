@@ -97,6 +97,7 @@ function plugin_alignment_analysis_combine {
    PART_RESULT_FILES=$*
 
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.OUTPUT_FORMAT}
+   NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.NUM_TOP_HITS}
 
    if [ "${OUTPUT_FORMAT" == "allele_frequencies" ]; then
 
@@ -126,8 +127,8 @@ function plugin_alignment_analysis_combine {
    else
         goby fdr \
           --vcf \
-          --q-threshold 0.3 \
-          --top-hits 10000 \
+          --q-threshold ${Q_VALUE_THRESHOLD} \
+          --top-hits ${NUM_TOP_HITS} \
           ${PART_RESULT_FILES}  \
           ${COLUMNS} \
           --output ${TMPDIR}/${TAG}-pre.vcf.gz

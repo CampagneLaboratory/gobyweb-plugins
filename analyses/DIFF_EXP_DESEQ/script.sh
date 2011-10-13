@@ -9,7 +9,7 @@
 
 # IMAGE_OUTPUT_PNG = path to an image file output (must be written in PNG format)
 
-function plugin_alignment_analysis {
+function plugin_alignment_analysis_sequential {
 
         DESEQ_OUTPUT="output=$RESULT_DIR/${TAG}.stats.tsv graphOutput=${IMAGE_OUTPUT_PNG}"
         DESEQ_GENE_INPUT=""

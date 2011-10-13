@@ -23,8 +23,26 @@
             </categories>
             <autoFormat>true</autoFormat>
             <flagFormat>--format=%s</flagFormat>
-
             <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>NUM_TOP_HITS</id>
+            <name>Number of top hits</name>
+            <help>Number of hits to report if no candidates has an adjusted p-value above the q-value threshold.</help>
+            <required>true</required>
+            <defaultsTo>10000</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>Q_VALUE_THRESHOLD</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-value (p-values adjusted for multiple testing). A candidate will be reported if any of its q-value is larger or equal to the threshold.</help>
+            <required>true</required>
+            <defaultsTo>0.3</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+
         </option>
     </options>
 </alignmentAnalysisConfig>
