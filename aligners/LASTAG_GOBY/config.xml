@@ -22,7 +22,6 @@
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
         </option>
-        --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}"
         <option>
             <id>AMBIGUITY_THRESHOLD</id>
             <name>Ambiguity threshold</name>

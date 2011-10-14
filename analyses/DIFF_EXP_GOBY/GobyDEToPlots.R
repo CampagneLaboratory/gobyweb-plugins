@@ -86,15 +86,23 @@ findPlotColumnNums <- function(columns, calcType) {
 }
 
 #
-# Simply return the graph output filename, ignoring suffix.
+# This will place the suffix (file + "" + suffix) at the end
+# of the graphOutputFile but before the file extension. If suffix is "GENE"
+# and graphOutputFile is "this.png" this will output
+# "thisGENE.png". If the file has no extension, such as "thispng"
+# this will output "thispngGENE".
 #
 generateGraphFilename <- function(graphOutputFile, suffix) {
-
-        graphOutputFile
-
+    parts <- array(unlist(strsplit(graphOutputFile, ".", fixed=TRUE)))
+    extension <- tolower(parts[length(parts)])
+    if (graphOutputFile == extension) {
+        newFilename <- paste(graphOutputFile,"", suffix, sep="")
+        newFilename
+    } else {
+        newFilename <- paste(substring(graphOutputFile, 1, nchar(graphOutputFile)-nchar(extension)-1),"", suffix , ".", extension, sep="")
+        newFilename
     }
 }
-
 plotTable <- function(dataTable, groupNames, graphOutputFile, elementType) {
     if (nrow(dataTable) == 0) {
         return()

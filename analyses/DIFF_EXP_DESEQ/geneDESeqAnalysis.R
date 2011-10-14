@@ -58,7 +58,7 @@ generateGraphFilename <- function(graphOutputFile, suffix) {
     parts <- array(unlist(strsplit(graphOutputFile, ".", fixed=TRUE)))
     extension <- tolower(parts[length(parts)])
     if (graphOutputFile == extension) {
-        newFilename <- paste(graphOutputFile, "-", suffix, sep="")
+        newFilename <- paste(graphOutputFile, "", suffix, sep="")
         newFilename
     } else {
         newFilename <- paste(substring(graphOutputFile, 1, nchar(graphOutputFile)-nchar(extension)-1),"", suffix , ".", extension, sep="")

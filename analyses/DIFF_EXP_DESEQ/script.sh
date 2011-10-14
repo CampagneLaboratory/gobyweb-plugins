@@ -7,8 +7,6 @@
 # ANNOTATION_TYPES = gene|exon|other, specifies the kind of annotations to calculate counts for.
 # USE_WEIGHTS_DIRECTIVE = optional, command line flags to have Goby annotation-to-counts adjust counts with weigths.
 
-# IMAGE_OUTPUT_PNG = path to an image file output (must be written in PNG format)
-
 function plugin_alignment_analysis_sequential {
 
         DESEQ_OUTPUT="output=stats.tsv graphOutput=.png"
