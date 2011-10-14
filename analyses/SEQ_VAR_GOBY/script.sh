@@ -19,7 +19,7 @@ function plugin_alignment_analysis_split {
   NUMBER_OF_PARTS=$1
   SPLICING_PLAN_RESULT=$2
   shift
-
+  shift
   goby suggest-position-slices \
           --number-of-slices ${NUMBER_OF_PARTS} \
           --output ${SPLICING_PLAN_RESULT} \
@@ -30,23 +30,19 @@ function plugin_alignment_analysis_split {
 function plugin_alignment_analysis_num_parts {
    SPLICING_PLAN_FILE=$1
 
-   grep -v targetIdStart ${SPLICING_PLAN_FILE} | wc -l >num-pieces.txt
+   if [ $? -eq 0 ]; then
 
-   if [ $? -eq 0 ] then
-
-        return `cat num-pieces.txt`
-
-   else
-
-        return 0
+        return `grep -v targetIdStart ${SPLICING_PLAN_FILE} | wc -l `
    fi
+
+   return 0
 }
 
 function plugin_alignment_analysis_process {
    SLICING_PLAN_FILENAME=$1
    ARRAY_JOB_INDEX=$2
-   MINIMUM_VARIATION_SUPPORT= ${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
-   THRESHOLD_DISTINCT_READ_INDICES = ${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
+   MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
+   THRESHOLD_DISTINCT_READ_INDICES=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
 
    # These variables are defined: SLICING_PLAN_FILENAME
      echo "Processing run_single_alignment_analysis_process for part ${SGE_TASK_ID}"
@@ -99,7 +95,7 @@ function plugin_alignment_analysis_combine {
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.OUTPUT_FORMAT}
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.NUM_TOP_HITS}
 
-   if [ "${OUTPUT_FORMAT" == "allele_frequencies" ]; then
+   if [ "${OUTPUT_FORMAT}" == "allele_frequencies" ]; then
 
         COLUMNS="--column P"
 

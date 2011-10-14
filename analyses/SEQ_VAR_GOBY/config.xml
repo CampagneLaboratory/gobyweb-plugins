@@ -18,8 +18,8 @@
             <type>CATEGORY</type>
             <categories>
                 <category>genotypes</category>
-                <category>allele-frequencies</category>
-                <category>group-comparisons</category>
+                <category>allele_frequencies</category>
+                <category>group_comparisons</category>
             </categories>
             <autoFormat>true</autoFormat>
             <flagFormat>--format=%s</flagFormat>
@@ -35,14 +35,22 @@
             <autoFormat>false</autoFormat>
         </option>
         <option>
-            <id>Q_VALUE_THRESHOLD</id>
-            <name>q-value threshold</name>
-            <help>Threshold on q-value (p-values adjusted for multiple testing). A candidate will be reported if any of its q-value is larger or equal to the threshold.</help>
+            <id>MINIMUM_VARIATION_SUPPORT</id>
+            <name>Minimum variation support</name>
+            <help>Minimum number of reads that must have the variation for the variation to be reported in the output</help>
             <required>true</required>
-            <defaultsTo>0.3</defaultsTo>
+            <defaultsTo>1</defaultsTo>
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
-
+        </option>
+         <option>
+            <id>THRESHOLD_DISTINCT_READ_INDICES</id>
+            <name>Minimum number of distinct read indices</name>
+            <help>Number of distinct read indices a position has to have to be reported in the output.</help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
         </option>
     </options>
 </alignmentAnalysisConfig>
