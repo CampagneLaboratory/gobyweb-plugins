@@ -41,8 +41,11 @@ function plugin_alignment_analysis_num_parts {
 function plugin_alignment_analysis_process {
    SLICING_PLAN_FILENAME=$1
    ARRAY_JOB_INDEX=$2
-   MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
-   THRESHOLD_DISTINCT_READ_INDICES=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
+   shift
+   shift
+   MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
+   THRESHOLD_DISTINCT_READ_INDICES=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
+   OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
 
    # These variables are defined: SLICING_PLAN_FILENAME
      echo "Processing run_single_alignment_analysis_process for part ${SGE_TASK_ID}"
@@ -50,8 +53,7 @@ function plugin_alignment_analysis_process {
 
      WINDOW_LIMITS=`awk -v arrayJobIndex=${ARRAY_JOB_INDEX} '{ if (lineNumber==arrayJobIndex) print " -s "$3" -e "$6; lineNumber++; }' ${SLICING_PLAN_FILENAME}`
      STAT2_FILENAME=${SGE_O_WORKDIR}/results/${TAG}-variations-stats2.tsv
-     MINIMUM_VARIATION_SUPPORT=1
-     THRESHOLD_DISTINCT_READ_INDICES=1
+
      echo "Discovering sequence variants for window limits: ${WINDOW_LIMITS} and statsFilename: ${STAT2_FILENAME}"
 
      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Start discover-sequence-variations for part # ${CURRENT_PART}." --index ${CURRENT_PART} --job-type job-part
@@ -92,8 +94,8 @@ function plugin_alignment_analysis_combine {
    shift
    PART_RESULT_FILES=$*
 
-   OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.OUTPUT_FORMAT}
-   NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_CONFIG_SEQ_VAR_GOBY.NUM_TOP_HITS}
+   OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
+   NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_NUM_TOP_HITS}
 
    if [ "${OUTPUT_FORMAT}" == "allele_frequencies" ]; then
 
@@ -132,6 +134,6 @@ function plugin_alignment_analysis_combine {
         gunzip -c -d ${TMPDIR}/${TAG}-pre.vcf.gz | ${VCFTOOLS_BIN}/vcf-sort | ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
    fi
 
-   ${TABIX.EXEC_PATH} -f -p vcf ${RESULT_FILE}
+   ${TABIX_EXEC_PATH} -f -p vcf ${RESULT_FILE}
 
 }
