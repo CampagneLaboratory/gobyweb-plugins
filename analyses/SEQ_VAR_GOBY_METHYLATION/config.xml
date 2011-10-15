@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignmentAnalysisConfig>
+    <name>Methylation analysis with Goby</name>
+    <id>SEQ_VAR_GOBY_METHYLATION</id>
+    <help>Compares groups of samples and produce methylation rate output and statistics of differential methylation.
+       Implemented with Goby.
+    </help>
+    <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
+    <splitProcessCombine>true</splitProcessCombine>
+    <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <files>
+        <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
+        but the file format is methylation here. Please note that the special SCRIPT id is necessary to
+        override the default script file. -->
+        <file id="SCRIPT" filename="script.sh" import-from-plugin="SEQ_VAR_GOBY"/>
+    </files>
+    <options>
+        <option>
+            <id>OUTPUT_FORMAT</id>
+            <name>Type of analysis and output format</name>
+            <help>Determines the type of sequence variation analysis to perform and the output format.</help>
+            <required>true</required>
+            <defaultsTo>genotypes</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>methylation</category>
+            </categories>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>NUM_TOP_HITS</id>
+            <name>Number of top hits</name>
+            <help>Number of hits to report if no candidates has an adjusted p-value above the q-value threshold.</help>
+            <required>true</required>
+            <defaultsTo>10000</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>MINIMUM_VARIATION_SUPPORT</id>
+            <name>Minimum variation support</name>
+            <help>Minimum number of reads that must have the variation for the variation to be reported in the output</help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+         <option>
+            <id>THRESHOLD_DISTINCT_READ_INDICES</id>
+            <name>Minimum number of distinct read indices</name>
+            <help>Number of distinct read indices a position has to have to be reported in the output.</help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+    </options>
+</alignmentAnalysisConfig>
