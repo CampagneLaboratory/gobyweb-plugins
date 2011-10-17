@@ -59,6 +59,7 @@ function plugin_align {
         if [ $? -eq 0 ]; then
            # sort worked. We index the BAM file. If this works, the return code will be 0, indicating no problem with plugin_align
            nice ${SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
+           ls -lat
         else
           echo "Returning error code 2: sorting failed."
           return 2

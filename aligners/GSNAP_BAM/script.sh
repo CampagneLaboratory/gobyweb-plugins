@@ -45,7 +45,7 @@ function plugin_align {
            if [ $? -eq 0 ]; then
 
               nice ${SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
-
+              ls -lat
             else
               return 2
            fi
