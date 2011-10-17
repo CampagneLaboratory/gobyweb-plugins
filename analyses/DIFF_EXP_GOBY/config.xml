@@ -8,13 +8,14 @@
     <supportsTranscriptAlignments>true</supportsTranscriptAlignments>
     <splitProcessCombine>false</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
+    <version>1.0</version>
     <files>
         <file>
             <id>R_SCRIPT</id>
             <filename>GobyDEToPlots.R</filename>
         </file>
     </files>
-      <options>
+    <options>
 
         <option>
             <id>NORMALIZATION_METHOD</id>

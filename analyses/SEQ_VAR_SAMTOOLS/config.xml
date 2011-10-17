@@ -8,6 +8,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <version>1.0</version>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>

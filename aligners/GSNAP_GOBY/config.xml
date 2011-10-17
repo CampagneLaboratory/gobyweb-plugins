@@ -11,6 +11,7 @@
     <supportsFastqReads>false</supportsFastqReads>
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
+    <version>1.0</version>
     <options>
         <option>
             <id>ALIGNER_OPTIONS</id>

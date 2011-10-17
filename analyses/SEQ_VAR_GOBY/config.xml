@@ -8,6 +8,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <version>1.0</version>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>
@@ -37,13 +38,14 @@
         <option>
             <id>MINIMUM_VARIATION_SUPPORT</id>
             <name>Minimum variation support</name>
-            <help>Minimum number of reads that must have the variation for the variation to be reported in the output</help>
+            <help>Minimum number of reads that must have the variation for the variation to be reported in the output
+            </help>
             <required>true</required>
             <defaultsTo>1</defaultsTo>
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
         </option>
-         <option>
+        <option>
             <id>THRESHOLD_DISTINCT_READ_INDICES</id>
             <name>Minimum number of distinct read indices</name>
             <help>Number of distinct read indices a position has to have to be reported in the output.</help>

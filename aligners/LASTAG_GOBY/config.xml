@@ -9,7 +9,7 @@
     <supportsFastqReads>false</supportsFastqReads>
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
-
+    <version>1.0</version>
     <options>
 
         <option>
@@ -17,7 +17,7 @@
             <name>Other aligner options</name>
             <help>Provide any additional Lastag option here following the syntax expected by Lastag.</help>
             <required>false</required>
-            <defaultsTo> </defaultsTo>
+            <defaultsTo></defaultsTo>
             <type>STRING</type>
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
@@ -25,7 +25,9 @@
         <option>
             <id>AMBIGUITY_THRESHOLD</id>
             <name>Ambiguity threshold</name>
-            <help>The maximum number of locations a read can match in the reference to not be considered ambiguous. Read is ambiguous if #hits>threshold. </help>
+            <help>The maximum number of locations a read can match in the reference to not be considered ambiguous. Read
+                is ambiguous if #hits>threshold.
+            </help>
             <required>true</required>
             <autoFormat>true</autoFormat>
             <defaultsTo>1</defaultsTo>
@@ -36,7 +38,10 @@
         <option>
             <id>QUALITY_FILTER_PARAMETERS</id>
             <name>Percent identity</name>
-            <help>Quality filter parameters. Use threshold=x% to indicate that reads must have less than x% base differences when matched against the reference. Defaults to threshold=0.05, which indicates 5% error at most.</help>
+            <help>Quality filter parameters. Use threshold=x% to indicate that reads must have less than x% base
+                differences when matched against the reference. Defaults to threshold=0.05, which indicates 5% error at
+                most.
+            </help>
             <required>true</required>
             <autoFormat>true</autoFormat>
             <defaultsTo>threshold=0.05</defaultsTo>
