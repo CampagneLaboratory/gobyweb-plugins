@@ -5,6 +5,12 @@
     <help>BWA writting to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
     </help>
+    <requires>
+        <resource>
+            <id>SAMTOOLS</id>
+            <version>0.1.14</version>
+        </resource>
+    </requires>
     <supportsColorSpace>true</supportsColorSpace>
     <supportsBisulfiteConvertedReads>false</supportsBisulfiteConvertedReads>
     <supportsGobyReads>true</supportsGobyReads>

@@ -54,11 +54,11 @@ function plugin_align {
     if [ $? -eq 0 ]; then
         # aln worked, let's convert to BAM and sort on the fly:
 
-        nice ${SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}  | ${SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
+        nice ${RESOURCES_SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}  | ${RESOURCES_SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
 
         if [ $? -eq 0 ]; then
            # sort worked. We index the BAM file. If this works, the return code will be 0, indicating no problem with plugin_align
-           nice ${SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
+           nice ${RESOURCES_SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
            ls -lat
         else
           echo "Returning error code 2: sorting failed."

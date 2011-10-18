@@ -3,12 +3,18 @@
     <name>Sequence Variation Analyses with samtools</name>
     <id>SEQ_VAR_SAMTOOLS</id>
     <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
-          with SAMTOOLS. Specific analysis depends on selected output format.
+        with SAMTOOLS. Specific analysis depends on selected output format.
     </help>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <version>1.0</version>
+    <requires>
+        <resource>
+            <id>SAMTOOLS</id>
+            <version>0.1.14</version>
+        </resource>
+    </requires>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>
@@ -32,6 +38,5 @@
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
         </option>
-
     </options>
 </alignmentAnalysisConfig>

@@ -31,7 +31,7 @@ function plugin_alignment_analysis_sequential {
             # The .fa.gz exists
             if [ ! -s ${REFERENCE_FASTA_FILEPATH}.fai ]; then
                 # fa.gz has no samtools index, create it
-                nice ${SAMTOOLS_EXEC_PATH} faidx  ${REFERENCE_FASTA_FILEPATH}
+                nice ${RESOURCES_SAMTOOLS_EXEC_PATH} faidx  ${REFERENCE_FASTA_FILEPATH}
                 if [ ! -s ${REFERENCE_FASTA_FILEPATH}.fai ]; then
                     # Couldn't create the index
                     ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Reference fasta and index files could not be created on compute node." --index ${CURRENT_PART} --job-type job-part
@@ -61,7 +61,7 @@ function plugin_alignment_analysis_sequential {
                 gzip ${REFERENCE_FASTA_FILEPATH}
                 REFERENCE_FASTA_FILEPATH=REFERENCE_FASTA_GZ_FILEPATH
                 # create the samtools index
-                nice ${SAMTOOLS_EXEC_PATH} faidx  ${REFERENCE_FASTA_FILEPATH}
+                nice ${RESOURCES_SAMTOOLS_EXEC_PATH} faidx  ${REFERENCE_FASTA_FILEPATH}
 
                 if [ ! -s ${REFERENCE_FASTA_FILEPATH} ] || [ ! -s ${REFERENCE_FASTA_FILEPATH}.fai ]; then
                      # The fasta file or its index could not be created. Fail the job:
@@ -98,11 +98,11 @@ function plugin_alignment_analysis_sequential {
 
        if [ "${OUTPUT_FORMAT}" == "compare_groups" ]; then
 
-          nice ${SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -c -v -g -1 ${num_samples_in_group_1} -s all-samples.lst - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
+          nice ${RESOURCES_SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -c -v -g -1 ${num_samples_in_group_1} -s all-samples.lst - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
 
        elif [ "${OUTPUT_FORMAT}" == "genotypes" ]; then
 
-          nice ${SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -g -v -A - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
+          nice ${RESOURCES_SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -g -v -A - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
 
        else
            ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Analysis type is not supported with samtools mpileup: ${$OUTPUT_FORMAT}" --index 1 --job-type job-part
