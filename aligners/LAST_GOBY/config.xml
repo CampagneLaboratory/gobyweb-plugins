@@ -10,6 +10,12 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.0</version>
+    <requires>
+        <resource>
+            <id>LAST</id>
+            <version>189</version>
+        </resource>
+    </requires>
     <options>
 
         <option>

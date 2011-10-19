@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resourceConfig>
+    <name>Last</name>
+    <id>LAST</id>
+    <help>Last aligner. Obtained from http://last.cbrc.jp/</help>
+    <version>189</version>
+    <files>
+        <file>
+            <id>EXEC_PATH</id>
+            <filename>lastal</filename>
+        </file>
+        <file>
+            <id>INDEXER</id>
+            <filename>lastdb</filename>
+        </file>
+    </files>
+</resourceConfig>

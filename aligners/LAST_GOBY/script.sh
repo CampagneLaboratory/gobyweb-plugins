@@ -37,8 +37,11 @@ function plugin_align {
 
       fi
 
-      # This Goby wrapper detects automatically if the reads file is paired end:
+       # Override the path to last to use the resource
+       dirname=`dirname ${RESOURCES_LAST_EXEC_PATH}`
+       echo "executables.path.last = ${dirname}" >>${TMPDIR}/goby.properties
 
+       # This Goby wrapper detects automatically if the reads file is paired end:
        goby align --reference ${REFERENCE} --aligner last ${COLOR_SPACE} --search \
            --ambiguity-threshold ${AMBIGUITY_THRESHOLD} --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}" \
            --database-name ${INDEX_PREFIX} --database-directory ${INDEX_DIRECTORY} \

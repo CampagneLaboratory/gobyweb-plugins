@@ -54,9 +54,7 @@ function plugin_alignment_analysis_sequential {
                 echo Reference file does not exist on node => generate
                 ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Reference fasta and index files are being created on compute node." --index ${CURRENT_PART} --job-type job-part
 
-                java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${TMPDIR}/log4j.properties \
-                                                 -Dgoby.configuration=file:goby.properties -jar goby.jar \
-                    --mode compact-to-fasta -i ${REFERENCE_COMPACT_FILE} -o ${REFERENCE_FASTA_FILEPATH}
+                goby compact-to-fasta -i ${REFERENCE_COMPACT_FILE} -o ${REFERENCE_FASTA_FILEPATH}
                 # Compress it to save disc space
                 gzip ${REFERENCE_FASTA_FILEPATH}
                 REFERENCE_FASTA_FILEPATH=REFERENCE_FASTA_GZ_FILEPATH
