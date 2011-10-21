@@ -9,6 +9,24 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <version>1.0</version>
+    <output-schema>
+        <file>
+            <id>STATS_RESULTS</id>
+            <name>VCF file</name>
+            <required>true</required>
+            <mime-type>text/variant-calling-format</mime-type>
+            <filename>stats.vcf.gz</filename>
+            <help>VCF file with results of called variations.</help>
+        </file>
+        <file>
+            <id>STATS_RESULTS_INDEX</id>
+            <name>VCF file index</name>
+            <required>true</required>
+            <mime-type>text/variant-calling-format-index</mime-type>
+            <filename>stats.vcf.gz.tbi</filename>
+            <help>VCF file index (produced with tabix).</help>
+        </file>
+    </output-schema>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>

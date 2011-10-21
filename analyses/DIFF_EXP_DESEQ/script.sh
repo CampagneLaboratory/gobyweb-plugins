@@ -7,47 +7,75 @@
 # ANNOTATION_TYPES = gene|exon|other, specifies the kind of annotations to calculate counts for.
 # USE_WEIGHTS_DIRECTIVE = optional, command line flags to have Goby annotation-to-counts adjust counts with weigths.
 
-function plugin_alignment_analysis_sequential {
+function eval {
+EVAL=counts
+}
 
-        DESEQ_OUTPUT="output=stats.tsv graphOutput=.png"
+. ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_PARALLEL_SCRIPT}
 
-        if [ "${ANNOTATION_TYPE_GENE}" == "true" ]; then
-            OUT_FILENAME=gene-counts.stats.tsv
-            DESEQ_GENE_INPUT="geneInput=${OUT_FILENAME}"
-            goby alignment-to-annotation-counts \
-                --annotation ${ANNOTATION_FILE} \
-                --write-annotation-counts false \
-                --stats ${OUT_FILENAME} \
-                --include-annotation-types gene \
-                --groups ${GROUPS_DEFINITION} \
-                --compare ${COMPARE_DEFINITION} \
-                --eval counts ${USE_WEIGHTS_DIRECTIVE} \
-                ${ENTRIES_FILES}
-            RETURN_STATUS=$?
+function plugin_alignment_analysis_combine {
+   set -x
+   set -T
+   RESULT_FILE=$1
+   shift
+   PART_RESULT_FILES=$*
 
-        fi
-        if [ $RETURN_STATUS -eq 0 ]; then
-            if [ "${ANNOTATION_TYPE_EXON}" == "true" ]; then
-                OUT_FILENAME=exon-counts-stats.tsv
-                DESEQ_EXON_INPUT="exonInput=${OUT_FILENAME}"
-                goby alignment-to-annotation-counts \
-                    --annotation ${ANNOTATION_FILE} \
-                    --write-annotation-counts false \
-                    --stats ${OUT_FILENAME} \
-                    --include-annotation-types exon \
-                    --groups ${GROUPS_DEFINITION} \
-                    --compare ${COMPARE_DEFINITION} \
-                    --eval counts ${USE_WEIGHTS_DIRECTIVE} \
-                    ${ENTRIES_FILES}
-                RETURN_STATUS=$?
+   NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NUM_TOP_HITS}
+   Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_Q_VALUE_THRESHOLD}
 
-            fi
-        fi
-        pwd
-        ls -lat
-        if [ $RETURN_STATUS -eq 0 ]; then
-            R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${DESEQ_EXON_INPUT}
-            RETURN_STATUS=$?
-        fi
-        ls -ltr
+   # combine all split files here:
+   OUT_FILENAME=combined-stats.tsv
+   run-goby 16g fdr \
+          --q-threshold 1.0 \
+          ${PART_RESULT_FILES}  \
+          --output ${OUT_FILENAME}
+
+   if [ $? -eq 0 ]; then
+      GENE_OUT_FILENAME=gene-counts.stats.tsv
+      DESEQ_GENE_INPUT="geneInput=${GENE_OUT_FILENAME}"
+
+      EXON_OUT_FILENAME=exon-counts-stats.tsv
+      DESEQ_EXON_INPUT="exonInput=${EXON_OUT_FILENAME}"
+
+      # Extract gene part of file:
+      head -1 ${OUT_FILENAME} >${GENE_OUT_FILENAME}
+      grep GENE ${OUT_FILENAME} |cat >>${GENE_OUT_FILENAME}
+      wc -l ${GENE_OUT_FILENAME}
+
+      HAS_GENES=`cat ${GENE_OUT_FILENAME} | wc -l`
+
+
+      # Extract exon part of file:
+      head -1 ${OUT_FILENAME} >${EXON_OUT_FILENAME}
+      grep EXON ${OUT_FILENAME} 1>>${EXON_OUT_FILENAME}
+      ls -lat
+      HAS_EXONS=`cat ${EXON_OUT_FILENAME} | wc -l `
+
+      # Run DESeq on gene and exon input:
+
+      if [ "$HAS_GENES" != "1" ]; then
+
+        DESEQ_OUTPUT="output=gene-stats.tsv graphOutput=.png"
+        R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT}
+
+      fi
+      if [ "$HAS_EXONS" != "1" ]; then
+
+        DESEQ_OUTPUT="output=exon-stats.tsv graphOutput=.png"
+        R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_EXON_INPUT}
+      fi
+      if [ "${HAS_GENES}" != "1" ] && [ "${HAS_EXONS}" != "1" ]; then
+
+        run-goby 16g fdr \
+          --q-threshold 1.0 \
+          gene-stats.tsv exon-stats.tsv  \
+          ${COLUMNS} \
+          --output stats.tsv
+
+      elif [ "${HAS_GENES}" != "1" ]; then
+        mv gene-stats.tsv stats.tsv
+      elif [ "${HAS_EXONS}" != "1" ]; then
+        mv exon-stats.tsv stats.tsv
+      fi
+   fi
 }

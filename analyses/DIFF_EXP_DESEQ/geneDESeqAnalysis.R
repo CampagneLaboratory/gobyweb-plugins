@@ -106,7 +106,7 @@ processFile <- function(inputFile, outputFile, graphOutputFile, elementType, app
     countsTable <- countsTable[, -1]  # Slice out the element-type column
     colNames <- colnames(countsTable)
     
-    
+
     # this vector assigns samples to a particular group
     conditions <- array(unlist(lapply(colNames, groupNameFunction)))
     
@@ -122,7 +122,7 @@ processFile <- function(inputFile, outputFile, graphOutputFile, elementType, app
     countDataSet <- newCountDataSet(countsTable, conditions)
     
     # Size factors and the effective library size
-    # Alternatively could use the acutal toal numbers of reads or estimate them from data as below
+    # Alternatively could use the actual total numbers of reads or estimate them from data as below
     countDataSet <- estimateSizeFactors(countDataSet)
     sizeFactors(countDataSet)
     head(countDataSet)

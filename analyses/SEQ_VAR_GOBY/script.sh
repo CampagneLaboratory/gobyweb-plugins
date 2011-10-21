@@ -49,7 +49,6 @@ function plugin_alignment_analysis_process {
 
    # These variables are defined: SLICING_PLAN_FILENAME
      echo "Processing run_single_alignment_analysis_process for part ${SGE_TASK_ID}"
-     cat ${SLICING_PLAN_FILENAME}|wc -l >number-of-parts.txt
 
      WINDOW_LIMITS=`awk -v arrayJobIndex=${ARRAY_JOB_INDEX} '{ if (lineNumber==arrayJobIndex) print " -s "$3" -e "$6; lineNumber++; }' ${SLICING_PLAN_FILENAME}`
      STAT2_FILENAME=${SGE_O_WORKDIR}/results/${TAG}-variations-stats2.tsv
@@ -90,7 +89,7 @@ function plugin_alignment_analysis_process {
 
 function plugin_alignment_analysis_combine {
 
-   RESULT_FILE=$1
+   RESULT_FILE=stats.vcf.gz
    shift
    PART_RESULT_FILES=$*
 

@@ -14,37 +14,48 @@
 # OTHER.png
 # TRANSCRIPT.png
 
-function plugin_alignment_analysis_sequential {
-     NORMALIZATION_METHOD="${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NORMALIZATION_METHOD}"
+function eval {
+EVAL=counts
+}
+. ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
-     if [ "${IS_TRANSCRIPT}" == "true" ]; then
-            OUT_FILENAME=stats.tsv
+function plugin_alignment_analysis_combine {
+   set -x
+   set -T
+   RESULT_FILE=$1
+   shift
+   PART_RESULT_FILES=$*
 
-            goby alignment-to-transcript-counts \
-                --stats ${OUT_FILENAME} \
-                --groups ${GROUPS_DEFINITION} \
-                --compare ${COMPARE_DEFINITION} ${USE_WEIGHTS_DIRECTIVE} \
-                ${ENTRIES_FILES}
-            RETURN_STATUS=$?
-     else
+   NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NUM_TOP_HITS}
+   Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_Q_VALUE_THRESHOLD}
 
-            OUT_FILENAME=stats.tsv
+   # Run FDR to combine parts:
 
-            goby alignment-to-annotation-counts \
-                --annotation ${ANNOTATION_FILE} \
-                --write-annotation-counts false \
-                --stats ${OUT_FILENAME} \
-                --include-annotation-types ${ANNOTATION_TYPES} \
-                --groups ${GROUPS_DEFINITION} \
-                --compare ${COMPARE_DEFINITION} ${USE_WEIGHTS_DIRECTIVE} \
-                --normalization-methods ${NORMALIZATION_METHOD} \
-                ${ENTRIES_FILES}
-            RETURN_STATUS=$?
+   OUT_FILENAME=combined-stats.tsv
+   run-goby 16g fdr \
+          --column-selection-filter t-test  \
+          --column-selection-filter fisher-exact-R  \
+          --q-threshold 1 \
+          ${PART_RESULT_FILES}  \
+          --output ${OUT_FILENAME}
 
-      fi
+   # Estimate stats on complete file
 
-      if [ $RETURN_STATUS -eq 0 ]; then
+      # (TODO)
+
+   # Run FDR again to adjust p-values and create final TSV:
+   OUT_FILENAME=stats.tsv
+   run-goby 16g fdr \
+          --column-selection-filter t-test  \
+          --column-selection-filter fisher-exact-R  \
+          --q-threshold ${Q_VALUE_THRESHOLD} \
+          --top-hits ${NUM_TOP_HITS} \
+          combined-stats.tsv          \
+          --output ${OUT_FILENAME}
+
+   if [ $RETURN_STATUS -eq 0 ]; then
             IMAGE_OUTPUT_PNG=
             R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${OUT_FILENAME} graphOutput=.png
-      fi
+   fi
+
 }
