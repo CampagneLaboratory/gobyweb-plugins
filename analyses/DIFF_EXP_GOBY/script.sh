@@ -67,7 +67,7 @@ function plugin_alignment_analysis_combine {
 
    if [ $RETURN_STATUS -eq 0 ]; then
             IMAGE_OUTPUT_PNG=
-            R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${OUT_FILENAME} graphOutput=.png
+            R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=stats.tsv graphOutput=.png
    fi
 
 }
