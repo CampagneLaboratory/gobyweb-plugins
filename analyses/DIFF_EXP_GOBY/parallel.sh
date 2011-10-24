@@ -61,20 +61,24 @@ function plugin_alignment_analysis_process {
    eval
 
    WINDOW_LIMITS=`awk -v arrayJobIndex=${ARRAY_JOB_INDEX} '{ if (lineNumber==arrayJobIndex) print " --start-position "$3" --end-position "$6; lineNumber++; }' ${SLICING_PLAN_FILENAME}`
+   if [ "${ARRAY_JOB_INDEX}" == "1" ]; then
+       INFO_OPTION=" --info-output ${TAG}-info-1.tsv "
+   fi
 
-            OUT_FILENAME=${TAG}-stats-${ARRAY_JOB_INDEX}.tsv
+   OUT_FILENAME=${TAG}-stats-${ARRAY_JOB_INDEX}.tsv
 
-            run-goby 3g alignment-to-annotation-counts \
-                --annotation ${ANNOTATION_FILE} \
-                --write-annotation-counts false \
-                --eval ${EVAL} \
-                --stats ${OUT_FILENAME} \
-                --include-annotation-types ${ANNOTATION_TYPES} \
-                --groups ${GROUPS_DEFINITION} \
-                --compare ${COMPARE_DEFINITION} ${USE_WEIGHTS_DIRECTIVE} \
-                --normalization-methods ${NORMALIZATION_METHOD} \
-                ${WINDOW_LIMITS} \
-                ${ENTRIES_FILES}
+   run-goby 3g alignment-to-annotation-counts \
+          --annotation ${ANNOTATION_FILE} \
+          --write-annotation-counts false \
+          --eval ${EVAL} \
+          --stats ${OUT_FILENAME} \
+          --include-annotation-types ${ANNOTATION_TYPES} \
+          --groups ${GROUPS_DEFINITION} \
+          --compare ${COMPARE_DEFINITION} ${USE_WEIGHTS_DIRECTIVE} \
+          --normalization-methods ${NORMALIZATION_METHOD} \
+          ${WINDOW_LIMITS} \
+          ${INFO_OPTION}   \
+          ${ENTRIES_FILES}
 
 }
 

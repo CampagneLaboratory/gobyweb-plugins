@@ -15,7 +15,7 @@
 # TRANSCRIPT.png
 
 function eval {
-EVAL=counts
+EVAL=raw-counts
 }
 . ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
@@ -29,7 +29,13 @@ function plugin_alignment_analysis_combine {
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NUM_TOP_HITS}
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_Q_VALUE_THRESHOLD}
 
+   INFO_FILE=`ls -1 ${PART_RESULT_FILES} |grep info`
+   cp ${INFO_FILE} ./info.xml
+
    # Run FDR to combine parts:
+
+   PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
+
 
    OUT_FILENAME=combined-stats.tsv
    run-goby 16g fdr \
@@ -40,18 +46,22 @@ function plugin_alignment_analysis_combine {
           --output ${OUT_FILENAME}
 
    # Estimate stats on complete file
+   NORMALIZATION_METHOD="${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NORMALIZATION_METHOD}"
+   if [ -z "${NORMALIZATION_METHOD}" ]; then
+        NORMALIZATION_METHOD="aligned-count"
+   fi
 
-      # (TODO)
+   #cp ${OUT_FILENAME} /home/gobyweb/GOBYWEB_SGE_JOBS-campagne/campagne/PGCWIBL
 
-   # Run FDR again to adjust p-values and create final TSV:
-   OUT_FILENAME=stats.tsv
-   run-goby 16g fdr \
-          --column-selection-filter t-test  \
-          --column-selection-filter fisher-exact-R  \
-          --q-threshold ${Q_VALUE_THRESHOLD} \
-          --top-hits ${NUM_TOP_HITS} \
-          combined-stats.tsv          \
-          --output ${OUT_FILENAME}
+   run-goby 16g stats --info info.xml \
+          ${OUT_FILENAME} \
+          --parallel \
+          --groups ${GROUPS_DEFINITION} \
+          --compare ${COMPARE_DEFINITION} ${USE_WEIGHTS_DIRECTIVE} \
+          --normalization-methods ${NORMALIZATION_METHOD} \
+          -o stats.tsv
+
+   dieUponError "statistics evaluation failed."
 
    if [ $RETURN_STATUS -eq 0 ]; then
             IMAGE_OUTPUT_PNG=
