@@ -31,44 +31,35 @@ function plugin_align {
                 # PAIRED END alignment, native aligner
                 SAI_FILE_0=${READS##*/}-0.sai
                 SAI_FILE_1=${READS##*/}-1.sai
-                nice ${ALIGNER_EXEC_PATH} aln -w 0 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
-                RETURN_STATUS=$?
-                if [ $RETURN_STATUS -eq 0 ]; then
-                    nice ${ALIGNER_EXEC_PATH} aln -w 1 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
-                    RETURN_STATUS=$?
-                    if [ $RETURN_STATUS -eq 0 ]; then
-                        # aln worked, let's sampe
-                        nice ${ALIGNER_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -f pre-sort-${TAG} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS} ${READS}
-                    fi
-                fi
+                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln -w 0 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                dieUponError "bwa aln step failed for first read, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln -w 1 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                dieUponError "bwa aln step failed for second read, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+                # aln worked, let's sampe
+                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -f pre-sort-${TAG} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS} ${READS}
+                dieUponError "bwa sampe step failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
     else
                 # Single end alignment, native aligner
                 SAI_FILE_0=${READS##*/}.sai
-                nice ${ALIGNER_EXEC_PATH} aln ${PARALLEL_OPTION}  ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
-                RETURN_STATUS=$?
-                if [ $RETURN_STATUS -eq 0 ]; then
-                    # aln worked, let's samse
-                    nice ${ALIGNER_EXEC_PATH} samse ${COLOR_SPACE_OPTION} -f pre-sort-${TAG}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS}
-                fi
+                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln ${PARALLEL_OPTION}  ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                dieUponError "bwa aln step failed (single end), sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+                # aln worked, let's samse
+                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} samse ${COLOR_SPACE_OPTION} -f pre-sort-${TAG}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS}
+                dieUponError "bwa samse step failed (single end), sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
     fi
-    if [ $? -eq 0 ]; then
-        # aln worked, let's convert to BAM and sort on the fly:
 
-        nice ${RESOURCES_SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}  | ${RESOURCES_SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
+    # aln worked, let's convert to BAM and sort on the fly:
 
-        if [ $? -eq 0 ]; then
-           # sort worked. We index the BAM file. If this works, the return code will be 0, indicating no problem with plugin_align
-           nice ${RESOURCES_SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
-           ls -lat
-        else
-          echo "Returning error code 2: sorting failed."
-          return 2
-        fi
-    else
-        echo "Returning error code 1: alignment failed."
-        return 1
+    nice ${RESOURCES_SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}  | ${RESOURCES_SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
+    dieUponError "samtools view|sort step failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-    fi
+    # sort worked. We index the BAM file. If this works, the return code will be 0, indicating no problem with plugin_align
+    nice ${RESOURCES_SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
+    dieUponError "samtools index step failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
 }

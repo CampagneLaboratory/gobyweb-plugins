@@ -10,6 +10,10 @@
             <id>SAMTOOLS</id>
             <version-at-least>0.1.14</version-at-least>
         </resource>
+        <resource>
+            <id>BWA_GOBY</id>
+            <version-at-least>0.5.9.16</version-at-least>
+        </resource>
     </requires>
     <supportsColorSpace>true</supportsColorSpace>
     <supportsBisulfiteConvertedReads>false</supportsBisulfiteConvertedReads>

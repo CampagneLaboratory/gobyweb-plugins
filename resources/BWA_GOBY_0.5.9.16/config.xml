@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resourceConfig>
+    <name>BWA with Goby support</name>
+    <id>BWA_GOBY</id>
+    <help>Version of BWA that supports Goby file format.</help>
+    <version>0.5.9.16</version>
+    <files>
+        <file>
+            <id>EXEC_PATH</id>
+            <filename>bwa-icb</filename>
+        </file>
+    </files>
+</resourceConfig>
