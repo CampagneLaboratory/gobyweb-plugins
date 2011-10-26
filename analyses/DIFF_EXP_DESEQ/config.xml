@@ -37,7 +37,56 @@
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
+        <!--option>
+            <id>TEST1</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>1.0</defaultsTo>
+            <type>DOUBLE</type>
+            <flagFormat>&dash;&dash;test1 %s</flagFormat>
+            <autoFormat>true</autoFormat>
+        </option>
 
+        <option>
+            <id>TEST2</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>true</defaultsTo>
+            <type>SWITCH</type>
+            <flagFormat>&dash;&dash;test2</flagFormat>
+            <autoFormat>true</autoFormat>
+        </option>
+        <option>
+            <id>TEST3_FALSE_SWITCH</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>SWITCH</type>
+            <flagFormat>&dash;&dash;test3</flagFormat>
+            <autoFormat>true</autoFormat>
+        </option>
+
+        <option>
+            <id>TEST4_FALSE_BOOLEAN</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <flagFormat>&dash;&dash;test4 %s</flagFormat>
+            <type>BOOLEAN</type>
+            <autoFormat>true</autoFormat>
+        </option-->
     </options>
     <files>
         <file>

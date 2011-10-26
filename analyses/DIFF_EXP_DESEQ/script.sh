@@ -23,12 +23,8 @@ function plugin_alignment_analysis_combine {
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NUM_TOP_HITS}
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_Q_VALUE_THRESHOLD}
 
-   # combine all split files here:
-   OUT_FILENAME=combined-stats.tsv
-   run-goby 16g fdr \
-          --q-threshold 1.0 \
-          ${PART_RESULT_FILES}  \
-          --output ${OUT_FILENAME}
+   # following function from DIFF_EXP_GOBY/parallel.sh
+   run_fdr
 
    if [ $? -eq 0 ]; then
       GENE_OUT_FILENAME=gene-counts.stats.tsv

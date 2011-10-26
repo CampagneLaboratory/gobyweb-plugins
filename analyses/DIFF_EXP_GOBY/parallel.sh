@@ -51,6 +51,8 @@ function plugin_alignment_analysis_process {
    MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
    THRESHOLD_DISTINCT_READ_INDICES=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
+   REMOVE_SHARED_SEGMENTS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_REMOVE_SHARED_SEGMENTS}
+   ALL_OTHER_OPTIONS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_ALL_OTHER_OPTIONS}
 
    NORMALIZATION_METHOD="${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NORMALIZATION_METHOD}"
    if [ -z "${NORMALIZATION_METHOD}" ]; then
@@ -78,8 +80,28 @@ function plugin_alignment_analysis_process {
           --normalization-methods ${NORMALIZATION_METHOD} \
           ${WINDOW_LIMITS} \
           ${INFO_OPTION}   \
+          ${ALL_OTHER_OPTIONS} \
           ${ENTRIES_FILES}
 
 }
 
+function run_fdr() {
+
+   # The following sections extracts the info.xml file stored among split-results
+   # and adjust the PART_RESULT_FILES variables to exclude the fake tsv info file.
+   INFO_FILE=`ls -1 ${PART_RESULT_FILES} |grep info`
+   cp ${INFO_FILE} ./info.xml
+
+   # Run FDR to combine parts:
+
+   PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
+
+   OUT_FILENAME=combined-stats.tsv
+   run-goby 16g fdr \
+          --column-selection-filter t-test  \
+          --column-selection-filter fisher-exact-R  \
+          --q-threshold 1 \
+          ${PART_RESULT_FILES}  \
+          --output ${OUT_FILENAME}
+}
 

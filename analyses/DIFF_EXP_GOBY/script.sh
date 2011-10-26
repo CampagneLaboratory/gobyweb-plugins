@@ -19,6 +19,8 @@ EVAL=raw-counts
 }
 . ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
+
+
 function plugin_alignment_analysis_combine {
    set -x
    set -T
@@ -29,22 +31,7 @@ function plugin_alignment_analysis_combine {
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NUM_TOP_HITS}
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_Q_VALUE_THRESHOLD}
 
-   # The following sections extracts the info.xml file stored among split-results
-   # and adjust the PART_RESULT_FILES variables to exclude the fake tsv info file.
-   INFO_FILE=`ls -1 ${PART_RESULT_FILES} |grep info`
-   cp ${INFO_FILE} ./info.xml
-
-   # Run FDR to combine parts:
-
-   PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
-
-   OUT_FILENAME=combined-stats.tsv
-   run-goby 16g fdr \
-          --column-selection-filter t-test  \
-          --column-selection-filter fisher-exact-R  \
-          --q-threshold 1 \
-          ${PART_RESULT_FILES}  \
-          --output ${OUT_FILENAME}
+   run_fdr
 
    # Estimate stats on complete file
    NORMALIZATION_METHOD="${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_NORMALIZATION_METHOD}"

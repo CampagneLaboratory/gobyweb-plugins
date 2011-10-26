@@ -40,6 +40,21 @@
             <autoFormat>false</autoFormat>
         </option>
         <option>
+            <id>REMOVE_SHARED_SEGMENTS</id>
+            <name>Remove shared segments</name>
+            <help>Remove annotation segments when they partially overlap with more than one primary annotation id. When
+                this option is selected and the primary id is a gene, and secondary id is an exon, the mode will remove
+                exons that are associated with several genes. When the option is used with transcript id as primary and
+                exon as secondary, exons are removed that are shared across different transcripts of the same gene.
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>SWITCH</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>--remove-shared-segments</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
             <id>NUM_TOP_HITS</id>
             <name>Number of top hits</name>
             <help>Number of hits to report if no candidates has an adjusted p-value above the q-value threshold.</help>
@@ -51,11 +66,59 @@
         <option>
             <id>Q_VALUE_THRESHOLD</id>
             <name>q-value threshold</name>
-            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any q-value is lower than the threshold.</help>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
             <required>true</required>
             <defaultsTo>1.0</defaultsTo>
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>TEST1</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>1.0</defaultsTo>
+            <type>DOUBLE</type>
+            <autoFormat>true</autoFormat>
+        </option>
+
+        <option>
+            <id>TEST2</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>true</defaultsTo>
+            <type>SWITCH</type>
+            <autoFormat>true</autoFormat>
+        </option>
+        <option>
+            <id>TEST3_FALSE_SWITCH</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>SWITCH</type>
+            <autoFormat>true</autoFormat>
+        </option>
+
+        <option>
+            <id>TEST4_FALSE_BOOLEAN</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>true</autoFormat>
         </option>
     </options>
     <output-schema>
