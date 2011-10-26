@@ -5,7 +5,12 @@
     <dbLegacyId>bwa bam output</dbLegacyId>
     <help>BWA writing to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
-    </help>    <requires>
+    </help>
+    <requires>
+        <resource>
+            <id>BWA_GOBY</id>
+            <version-at-least>0.5.9.16</version-at-least>
+        </resource>
         <resource>
             <id>SAMTOOLS</id>
             <version-at-least>0.1.14</version-at-least>
@@ -26,7 +31,7 @@
             <name>Other aligner options</name>
             <help>Provide any additional BWA option here following the syntax expected by BWA.</help>
             <required>false</required>
-            <defaultsTo> </defaultsTo>
+            <defaultsTo></defaultsTo>
             <type>STRING</type>
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
