@@ -2,6 +2,7 @@
 <alignerConfig>
     <name>Last</name>
     <id>LAST_GOBY</id>
+    <dbLegacyId>last</dbLegacyId>
     <help>Version of Last (official release) wrapped with Goby align mode.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsGobyReads>true</supportsGobyReads>
@@ -28,7 +29,6 @@
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
         </option>
-        --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}"
         <option>
             <id>AMBIGUITY_THRESHOLD</id>
             <name>Ambiguity threshold</name>

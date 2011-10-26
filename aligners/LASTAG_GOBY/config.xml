@@ -2,6 +2,7 @@
 <alignerConfig>
     <name>Lastag</name>
     <id>LASTAG_GOBY</id>
+    <dbLegacyId>lastag</dbLegacyId>
     <help>Version of Lastag wrapped with Goby align mode.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsGobyReads>true</supportsGobyReads>
@@ -14,6 +15,7 @@
 
         <option>
             <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
             <name>Other aligner options</name>
             <help>Provide any additional Lastag option here following the syntax expected by Lastag.</help>
             <required>false</required>

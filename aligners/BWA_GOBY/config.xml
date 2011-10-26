@@ -2,6 +2,7 @@
 <alignerConfig>
     <name>BWA with Goby support</name>
     <id>BWA_GOBY</id>
+    <dbLegacyId>bwa (Goby native)</dbLegacyId>
     <help>Version of BWA that supports Goby formats natively.</help>
     <supportsColorSpace>true</supportsColorSpace>
     <supportsGobyReads>true</supportsGobyReads>
@@ -14,6 +15,7 @@
 
         <option>
             <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
             <name>Other aligner options</name>
             <help>Provide any additional BWA option here following the syntax expected by BWA.</help>
             <required>false</required>

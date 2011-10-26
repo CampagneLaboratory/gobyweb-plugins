@@ -2,6 +2,7 @@
 <alignerConfig>
     <name>GSNAP (Goby output)</name>
     <id>GSNAP_GOBY</id>
+    <dbLegacyId>gsnap (Goby native)</dbLegacyId>
     <help>GSNAP writing to Goby output.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
@@ -15,6 +16,7 @@
     <options>
         <option>
             <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
             <name>Other aligner options</name>
             <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
             <required>false</required>

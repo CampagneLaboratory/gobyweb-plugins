@@ -2,6 +2,7 @@
 <alignerConfig>
     <name>GSNAP (BAM output)</name>
     <id>GSNAP_BAM</id>
+    <dbLegacyId>gsnap bam output</dbLegacyId>
     <help>GSNAP writing to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
     </help>
@@ -17,6 +18,7 @@
     <options>
         <option>
             <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
             <name>Other aligner options</name>
             <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
             <required>false</required>
