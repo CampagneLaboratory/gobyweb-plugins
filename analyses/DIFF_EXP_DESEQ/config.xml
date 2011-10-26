@@ -13,7 +13,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <version>20111021144833</version>
+            <version-at-least>20111021144833</version-at-least>
         </resource>
     </requires>
     <options>

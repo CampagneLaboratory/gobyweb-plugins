@@ -8,7 +8,7 @@
     <requires>
         <resource>
             <id>SAMTOOLS</id>
-            <version>0.1.14</version>
+            <version-at-least>0.1.14</version-at-least>
         </resource>
     </requires>
     <supportsColorSpace>true</supportsColorSpace>

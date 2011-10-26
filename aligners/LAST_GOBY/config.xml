@@ -13,7 +13,7 @@
     <requires>
         <resource>
             <id>LAST</id>
-            <version>189</version>
+            <version-at-least>189</version-at-least>
         </resource>
     </requires>
     <options>
