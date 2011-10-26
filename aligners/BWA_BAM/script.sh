@@ -20,7 +20,7 @@ function plugin_align {
     BASENAME=$2
 
     COLOR_SPACE_OPTION=""
-    if [ "${COLOR_SPACE}" == "--color-space" ]; then
+    if [ "${COLOR_SPACE}" == "true" ]; then
                 COLOR_SPACE_OPTION="-c"
     fi
     # set the number of threads to the number of cores available on the server:
