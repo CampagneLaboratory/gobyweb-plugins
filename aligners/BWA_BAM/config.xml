@@ -2,7 +2,7 @@
 <alignerConfig>
     <name>BWA (BAM output)</name>
     <id>BWA_BAM</id>
-    <help>BWA writting to BAM output. This aligner requests exclusive access to a server node and run parallel on this
+    <help>BWA writing to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
     </help>
     <requires>

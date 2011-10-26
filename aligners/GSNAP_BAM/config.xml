@@ -2,7 +2,7 @@
 <alignerConfig>
     <name>GSNAP (BAM output)</name>
     <id>GSNAP_BAM</id>
-    <help>GSNAP writting to BAM output. This aligner requests exclusive access to a server node and run parallel on this
+    <help>GSNAP writing to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
     </help>
     <supportsColorSpace>false</supportsColorSpace>
