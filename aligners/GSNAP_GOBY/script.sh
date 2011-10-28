@@ -6,7 +6,8 @@
 # INDEX_DIRECTORY = directory that contains the indexed database
 # INDEX_PREFIX = name of the indexed database to search
 
-# GSNAP_BAM_EXEC_PATH = path to gsnap, obtained from environment.sh
+# ${RESOURCES_ILLUMINA_ADAPTERS_FILE_PATH} = path to adapters.txt, obtained from the ILLUMINA_ADAPTERS resource
+# ${RESOURCES_GSNAP_GOBY_EXEC_PATH} = path to gsnap, obtained from the GSNAP_GOBY resource
 
 # ALIGNER_OPTIONS = any GSNAP options the end-user would like to set
 
@@ -25,11 +26,10 @@ function plugin_align {
          BISULFITE_OPTION=" --mode cmet -m 1 -i 100 --terminal-threshold=100    "
          # set the number of threads to the number of cores available on the server:
          NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
-         #NUM_THREADS=8
          ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"
 
          # Trim the reads if they are bisulfite.
-         goby trim  -i small-reads.compact-reads -o small-reads-trimmed.compact-reads --complement -a  /home/gobyweb/goby-dev/adapters.txt   --min-left-length 4
+         goby trim  -i small-reads.compact-reads -o small-reads-trimmed.compact-reads --complement -a  ${RESOURCES_ILLUMINA_ADAPTERS_FILE_PATH}  --min-left-length 4
          dieUponError "trim reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          WINDOW_OPTIONS=" "
@@ -41,11 +41,11 @@ function plugin_align {
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
          # PAIRED END alignment, native aligner
-         nice ${ALIGNER_EXEC_PATH} ${COLOR_SPACE_OPTION} ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
+         nice ${RESOURCES_GSNAP_GOBY_EXEC_PATH} ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
 
      else
          # Single end alignment, native aligner
-         nice ${ALIGNER_EXEC_PATH} ${COLOR_SPACE_OPTION} ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD}  -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} ${READ_FILE_SMALL}
+         nice ${RESOURCES_GSNAP_GOBY_EXEC_PATH}  ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD}  -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} ${READ_FILE_SMALL}
 
      fi
 

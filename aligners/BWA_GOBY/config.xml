@@ -25,30 +25,17 @@
             <includeSpaces>true</includeSpaces>
         </option>
         <option>
-            <id>MAXIMUM_NUMBER_GAP_OPENS</id>
-            <dbLegacyId>bwaMaximumNumberGapOpens</dbLegacyId>
-            <name>Max Number Gap Opens</name>
-            <help>Maximum number of gap opens</help>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <dbLegacyId>ambiguityThreshold</dbLegacyId>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of reference sequence locations that can be matched for a read to be considered non-ambiguous.</help>
             <required>true</required>
-            <autoFormat>true</autoFormat>
             <defaultsTo>1</defaultsTo>
             <type>INTEGER</type>
-            <flagFormat>-o %s</flagFormat>
-            <includeSpaces>true</includeSpaces>
-        </option>
-        <option>
-            <id>MAXIMUM_NUMBER_GAP_EXTENSIONS</id>
-            <dbLegacyId>bwaMaximumNumberGapExtensions</dbLegacyId>
-            <name>Max Number Gap Extensions</name>
-            <help>Maximum number of gap extensions, -1 for k-difference mode (disallowing long gaps)</help>
-            <required>true</required>
             <autoFormat>true</autoFormat>
-            <defaultsTo>-1</defaultsTo>
-            <type>INTEGER</type>
-            <flagFormat>-e %s</flagFormat>
+            <flagFormat>-n %s</flagFormat>
             <includeSpaces>true</includeSpaces>
         </option>
-
         <!--option>
             <id>align_type</id>
             <name>Alignment type</name>
