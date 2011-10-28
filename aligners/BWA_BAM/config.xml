@@ -8,7 +8,7 @@
     </help>
     <requires>
         <resource>
-            <id>BWA_GOBY</id>
+            <id>BWA_WITH_GOBY</id>
             <version-at-least>0.5.9.16</version-at-least>
         </resource>
         <resource>

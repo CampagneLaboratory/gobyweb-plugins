@@ -50,7 +50,7 @@
             <id>MAXIMUM_NUMBER_GAP_OPENS</id>
             <dbLegacyId>bwaMaximumNumberGapOpens</dbLegacyId>
             <name>Max Number Gap Opens</name>
-            <help></help>
+            <help>Maximum number of gap opens</help>
             <required>true</required>
             <autoFormat>false</autoFormat>
             <defaultsTo>1</defaultsTo>
@@ -60,7 +60,7 @@
             <id>MAXIMUM_NUMBER_GAP_EXTENSIONS</id>
             <dbLegacyId>bwaMaximumNumberGapExtensions</dbLegacyId>
             <name>Max Number Gap Extensions</name>
-            <help></help>
+            <help>Maximum number of gap extensions, -1 for k-difference mode (disallowing long gaps)</help>
             <required>true</required>
             <autoFormat>false</autoFormat>
             <defaultsTo>-1</defaultsTo>
