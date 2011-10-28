@@ -41,10 +41,16 @@ function plugin_align {
        dirname=`dirname ${RESOURCES_LAST_EXEC_PATH}`
        echo "executables.path.last = ${dirname}" >>${TMPDIR}/goby.properties
 
+       ALIGNER_OPTIONS_COMPLETE="matchQuality="${PLUGINS_LASTAG_GOBY_MATCH_QUALITY}","\
+"maxGapsAllowed="${PLUGINS_LASTAG_GOBY_MAX_GAPS_ALLOWED}","\
+"gapOpeningCost="${PLUGINS_LASTAG_GOBY_GAP_EXISTENCE_COST}","\
+"gapExtensionCost="${PLUGINS_LASTAG_GOBY_GAP_EXTENSION_COST}","\
+${ALIGNER_OPTIONS}
+
        # This Goby wrapper detects automatically if the reads file is paired end:
        goby align --reference ${REFERENCE} --aligner last ${COLOR_SPACE} --search \
            --ambiguity-threshold ${AMBIGUITY_THRESHOLD} --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}" \
            --database-name ${INDEX_PREFIX} --database-directory ${INDEX_DIRECTORY} \
-           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${OUTPUT}
+           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${OUTPUT} --options ${ALIGNER_OPTIONS_COMPLETE}
 
 }
