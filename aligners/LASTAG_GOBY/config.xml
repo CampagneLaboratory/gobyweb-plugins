@@ -17,7 +17,9 @@
             <id>ALIGNER_OPTIONS</id>
             <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
             <name>Other aligner options</name>
-            <help>Provide any additional Lastag option here following the syntax expected by the Goby align mode with lastag aligner.</help>
+            <help>Provide any additional Lastag option here following the syntax expected by the Goby align mode with
+                lastag aligner.
+            </help>
             <required>false</required>
             <defaultsTo></defaultsTo>
             <type>STRING</type>
@@ -98,7 +100,11 @@
             <required>true</required>
             <autoFormat>false</autoFormat>
             <categories>
-                <category>PERFECT_MATCHES_ONLY</category>
+                <category>
+                    <id>PERFECT_MATCHES_ONLY</id>
+                    <name>Perfect matches only</name>
+                    <help>Keeps only perfect matches.</help>
+                </category>
                 <category>ONE_MISMATCH</category>
                 <category>TWO_MISMATCHES</category>
                 <category>IDENTITY_95</category>
