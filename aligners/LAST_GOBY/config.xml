@@ -11,6 +11,7 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.0</version>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last</indexDirectory>
     <requires>
         <resource>
             <id>LAST</id>

@@ -15,6 +15,7 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>true</supportsBAMAlignments>
     <version>1.0</version>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/gsnap</indexDirectory>
     <options>
         <option>
             <id>ALIGNER_OPTIONS</id>

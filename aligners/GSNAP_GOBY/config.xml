@@ -13,6 +13,7 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.1</version>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/gsnap</indexDirectory>
     <requires>
         <resource>
             <id>GSNAP_WITH_GOBY</id>

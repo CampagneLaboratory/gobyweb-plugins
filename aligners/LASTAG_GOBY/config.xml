@@ -11,8 +11,8 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.0</version>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/lastag</indexDirectory>
     <options>
-
         <option>
             <id>ALIGNER_OPTIONS</id>
             <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
