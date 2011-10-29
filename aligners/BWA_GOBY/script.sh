@@ -28,21 +28,21 @@ function plugin_align {
         # PAIRED END alignment, native aligner
         SAI_FILE_0=${READS##*/}-0.sai
         SAI_FILE_1=${READS##*/}-1.sai
-        nice ${BWA_GOBY_EXEC_PATH} aln -w 0 -t ${NUM_THREADS_BWA_NATIVE_GOBY} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
+        nice ${BWA_GOBY_EXEC_PATH} aln -w 0 -t ${BWA_GOBY_NUM_THREADS} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
         RETURN_STATUS=$?
         if [ $RETURN_STATUS -eq 0 ]; then
-            nice ${ALIGNER_EXEC_PATH} aln -w 1 -t ${NUM_THREADS_BWA_NATIVE_GOBY} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
+            nice ${BWA_GOBY_EXEC_PATH} aln -w 1 -t ${BWA_GOBY_NUM_THREADS} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
             RETURN_STATUS=$?
             if [ $RETURN_STATUS -eq 0 ]; then
                 # aln worked, let's sampe
-                nice ${ALIGNER_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -F goby -f ${OUTPUT} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS_FILE} ${READS_FILE}
+                nice ${BWA_GOBY_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -F goby -f ${OUTPUT} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS_FILE} ${READS_FILE}
                 RETURN_STATUS=$?
             fi
         fi
     else
         # Single end alignment, native aligner
         SAI_FILE_0=${READS##*/}.sai
-        nice ${ALIGNER_EXEC_PATH} aln ${COLOR_SPACE_OPTION} -t ${NUM_THREADS_BWA_NATIVE_GOBY} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
+        nice ${BWA_GOBY_EXEC_PATH} aln ${COLOR_SPACE_OPTION} -t ${BWA_GOBY_NUM_THREADS} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} -x ${START_POSITION} -y ${END_POSITION} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS_FILE}
         RETURN_STATUS=$?
         if [ $RETURN_STATUS -eq 0 ]; then
             # aln worked, let's samse
