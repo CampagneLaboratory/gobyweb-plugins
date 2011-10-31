@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignerConfig>
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>GSNAP (Goby output)</name>
     <id>GSNAP_GOBY</id>
     <dbLegacyId>gsnap (Goby native)</dbLegacyId>

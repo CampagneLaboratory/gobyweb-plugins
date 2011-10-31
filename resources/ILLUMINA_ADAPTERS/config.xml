@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<resourceConfig>
+<resourceConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Illumina adapters</name>
     <id>ILLUMINA_ADAPTERS</id>
     <help>Sequences for paired-end adapters used in Illumina sequencing protocols. Obtain these sequences from

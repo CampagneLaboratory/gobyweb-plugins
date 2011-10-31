@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<resourceConfig>
+<resourceConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>BWA with Goby support</name>
     <id>BWA_WITH_GOBY</id>
     <help>Version of BWA that supports Goby file format.</help>
