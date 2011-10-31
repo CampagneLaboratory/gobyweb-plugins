@@ -12,7 +12,7 @@
     <requires>
         <resource>
             <id>SAMTOOLS</id>
-            <version-at-least>0.1.14</version-at-least>
+            <versionAtLeast>0.1.14</versionAtLeast>
         </resource>
     </requires>
     <options>

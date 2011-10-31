@@ -17,7 +17,7 @@
     <requires>
         <resource>
             <id>GSNAP_WITH_GOBY</id>
-            <version-at-least>2011.10.16</version-at-least>
+            <versionAtLeast>2011.10.16</versionAtLeast>
         </resource>
     </requires>
      <options>
@@ -27,7 +27,7 @@
             <name>Other aligner options</name>
             <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
             <required>false</required>
-            <default> </default>
+            <defaultsTo></defaultsTo>
             <type>STRING</type>
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>

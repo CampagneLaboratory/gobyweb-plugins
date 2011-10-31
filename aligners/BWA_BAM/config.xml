@@ -9,11 +9,11 @@
     <requires>
         <resource>
             <id>BWA_WITH_GOBY</id>
-            <version-at-least>0.5.9.16</version-at-least>
+            <versionAtLeast>0.5.9.16</versionAtLeast>
         </resource>
         <resource>
             <id>SAMTOOLS</id>
-            <version-at-least>0.1.14</version-at-least>
+            <versionAtLeast>0.1.14</versionAtLeast>
         </resource>
     </requires>
     <supportsColorSpace>true</supportsColorSpace>

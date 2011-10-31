@@ -23,7 +23,7 @@
             <name>Other aligner options</name>
             <help>Provide any additional GSNAP option here following the syntax expected by GSNAP.</help>
             <required>false</required>
-            <default></default>
+            <defaultsTo></defaultsTo>
             <type>STRING</type>
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>

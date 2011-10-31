@@ -16,7 +16,7 @@
         <file>
             <id>SCRIPT</id>
             <filename>script.sh</filename>
-            <import-from-plugin>SEQ_VAR_GOBY</import-from-plugin>
+            <importFromPlugin>SEQ_VAR_GOBY</importFromPlugin>
         </file>
     </files>
     <options>
