@@ -85,17 +85,15 @@
             <required>true</required>
             <autoFormat>true</autoFormat>
             <defaultsTo>0.05</defaultsTo>
-            <type>FLOAT</type>
+            <type>DOUBLE</type>
             <flagFormat>--quality-filter-parameters threshold=%s</flagFormat>
             <includeSpaces>true</includeSpaces>
         </option>
         <option>
             <id>MATCH_QUALITY</id>
             <dbLegacyId>lastMatchQuality</dbLegacyId>
-            <name>Percent identity</name>
-            <help>Quality filter parameters. Use threshold=x% to indicate that reads must have less than x% base
-                differences when matched against the reference. Defaults to threshold=0.05, which indicates 5% error at
-                most.
+            <name>Match quality</name>
+            <help>Keep only matches with the specified quality criteria.
             </help>
             <required>true</required>
             <autoFormat>false</autoFormat>
