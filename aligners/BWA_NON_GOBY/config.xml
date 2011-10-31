@@ -44,7 +44,7 @@
             <required>true</required>
             <autoFormat>false</autoFormat>
             <defaultsTo>0.05</defaultsTo>
-            <type>FLOAT</type>
+            <type>DOUBLE</type>
         </option>
         <option>
             <id>MAXIMUM_NUMBER_GAP_OPENS</id>
