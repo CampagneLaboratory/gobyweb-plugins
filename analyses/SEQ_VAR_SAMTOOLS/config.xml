@@ -3,6 +3,7 @@
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Sequence Variation Analyses with samtools</name>
     <id>SEQ_VAR_SAMTOOLS</id>
+    <dbLegacyId>samtools mpileup</dbLegacyId>
     <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
         with SAMTOOLS. Specific analysis depends on selected output format.
     </help>

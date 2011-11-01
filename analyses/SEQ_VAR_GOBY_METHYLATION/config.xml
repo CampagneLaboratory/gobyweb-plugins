@@ -2,7 +2,7 @@
 <alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Methylation analysis with Goby</name>
     <id>SEQ_VAR_GOBY_METHYLATION</id>
-    <dbLegacyId></dbLegacyId>
+    <dbLegacyId>GobyMethylation</dbLegacyId>
     <help>Compares groups of samples and produce methylation rate output and statistics of differential methylation.
         Implemented with Goby.
     </help>

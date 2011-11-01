@@ -2,6 +2,7 @@
 <alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Differential Expression Analysis with Goby</name>
     <id>DIFF_EXP_GOBY</id>
+    <dbLegacyId>Goby</dbLegacyId>
     <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across
         groups. Counts and statistics are estimated with Goby.
     </help>
