@@ -10,7 +10,7 @@
 # REFERENCE = Top level id file for reference genome.
 # ALIGNER_OPTIONS = any Last options the end-user would like to set
 
-. ${RESOURCES_GOBY_DEV_GOBY_SCRIPT}
+. ${RESOURCES_GOBY_SHELL_SCRIPT}
 
 function plugin_align {
 
@@ -27,13 +27,13 @@ function plugin_align {
           # The reads file to process
           READS_FILE=${READS##*/}
 
-          run-goby reformat-compact-reads --output ${READS_FILE} \
-              --start-position ${START_POSITION} --end-position ${END_POSITION} ${READS}
+          goby reformat-compact-reads ${READS} --output ${READS_FILE} \
+              --start-position ${START_POSITION} --end-position ${END_POSITION}
 
           dieUponError "split reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       fi
-      run-goby compact-to-fasta -i ${READS_FILE} --output reads.fastq -t fastq
+      goby compact-to-fasta -i ${READS_FILE} --output reads.fastq -t fastq
       dieUponError "compact-reads to fastq conversion failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f reads.fastq > temp_f
@@ -43,7 +43,7 @@ function plugin_align {
       ${RESOURCES_LAST_MAP_PROBS_EXEC} temp_f temp_r | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_S} > alignments.maf
       dieUponError "Combining forward and reverse strand alignments failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-      run-goby last-to-compact -i alignments.maf -o ${OUTPUT} --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
+      goby last-to-compact -i alignments.maf -o ${OUTPUT} --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
       dieUponError "Conversion of MAF file to Goby alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 }

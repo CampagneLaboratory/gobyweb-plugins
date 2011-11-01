@@ -7,7 +7,7 @@
 # INDEX_PREFIX = name of the indexed database to search
 
 # ${RESOURCES_ILLUMINA_ADAPTERS_FILE_PATH} = path to adapters.txt, obtained from the ILLUMINA_ADAPTERS resource
-# ${RESOURCES_GSNAP_GOBY_EXEC_PATH} = path to gsnap, obtained from the GSNAP_GOBY resource
+# ${RESOURCES_GSNAP_WITH_GOBY_EXEC_PATH} = path to gsnap, obtained from the GSNAP_GOBY resource
 
 # ALIGNER_OPTIONS = any GSNAP options the end-user would like to set
 
@@ -41,11 +41,11 @@ function plugin_align {
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
          # PAIRED END alignment, native aligner
-         nice ${RESOURCES_GSNAP_GOBY_EXEC_PATH} ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
+         nice ${RESOURCES_GSNAP_WITH_GOBY_EXEC_PATH} ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_GSNAP_GOBY_ALL_OTHER_OPTIONS} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
 
      else
          # Single end alignment, native aligner
-         nice ${RESOURCES_GSNAP_GOBY_EXEC_PATH}  ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} -n ${AMBIGUITY_THRESHOLD}  -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} ${READ_FILE_SMALL}
+         nice ${RESOURCES_GSNAP_WITH_GOBY_EXEC_PATH}  ${WINDOW_OPTIONS} -B 4 ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_GSNAP_GOBY_ALL_OTHER_OPTIONS}  -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} ${READ_FILE_SMALL}
 
      fi
 

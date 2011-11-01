@@ -19,6 +19,10 @@
             <id>GSNAP_WITH_GOBY</id>
             <versionAtLeast>2011.10.16</versionAtLeast>
         </resource>
+        <resource>
+            <id>ILLUMINA_ADAPTERS</id>
+            <versionAtLeast>1.0</versionAtLeast>
+        </resource>
     </requires>
      <options>
         <option>

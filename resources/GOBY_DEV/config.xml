@@ -10,7 +10,7 @@
             <filename>goby.jar</filename>
         </file>
          <file>
-            <id>GOBY_SCRIPT</id>
+            <id>SHELL_SCRIPT</id>
             <filename>goby-script.sh</filename>
         </file>
     </files>
