@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <name>Last bisulfite</name>
+    <id>LAST_BISULFITE</id>
+    <help>Version of Last (official release) that aligns bisulfite converted reads. This plugin uses the alignment
+        strategy discussed at http://last.cbrc.jp/doc/bisulfite.txt.
+        Please note that this aligner does not generate TooManyHits information, and therefore is unable to distinguish
+        between reads that do not match and reads that match in too many locations.
+    </help>
+    <supportsColorSpace>false</supportsColorSpace>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+    <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
+    <version>1.0</version>
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20111101121924</versionAtLeast>
+        </resource>
+        <resource>
+            <id>LAST</id>
+            <versionAtLeast>189</versionAtLeast>
+        </resource>
+    </requires>
+    <!-- This plugin assumes that forward and reverse strands have been indexed separately and put into the indexDirectory
+    with the names index_f and index_r
+    -->
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite-chr1</indexDirectory>
+
+    <options>
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
+            <name>Other aligner options</name>
+            <help>Provide any additional Last option here following the syntax expected by the Goby align mode with last
+                aligner.
+            </help>
+            <required>false</required>
+            <defaultsTo></defaultsTo>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>D</id>
+            <name>d</name>
+            <help>Minimum score for gapless alignments.</help>
+            <required>true</required>
+            <defaultsTo>108</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>E</id>
+            <name>e</name>
+            <help>Minimum score for gapped alignments.</help>
+            <required>true</required>
+            <defaultsTo>120</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>S</id>
+            <name>s</name>
+            <help>Score threshold for last-map-probs.py. Should be high enough to
+                avoid random, spurious alignments: otherwise, the mismap probabilities
+                will not be reliable. A threshold of 150 is often reasonable. For
+                instance, if we compare 50 bp reads to the human genome, we expect a
+                random alignment with score >= 150 once every few thousand reads.
+            </help>
+            <required>true</required>
+            <defaultsTo>150</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+    </options>
+</alignerConfig>
