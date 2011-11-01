@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Sequence Variation Analyses with samtools</name>
     <id>SEQ_VAR_SAMTOOLS</id>
     <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
@@ -39,4 +40,6 @@
             <autoFormat>false</autoFormat>
         </option>
     </options>
+    <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <maximumNumberOfGroups>2</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

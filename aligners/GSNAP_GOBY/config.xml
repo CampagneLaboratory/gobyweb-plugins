@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>GSNAP (Goby output)</name>
     <id>GSNAP_GOBY</id>
     <dbLegacyId>gsnap (Goby native)</dbLegacyId>
@@ -24,7 +25,7 @@
             <versionAtLeast>1.0</versionAtLeast>
         </resource>
     </requires>
-     <options>
+    <options>
         <option>
             <id>ALIGNER_OPTIONS</id>
             <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
@@ -49,6 +50,30 @@
             <type>INTEGER</type>
             <flagFormat>-n %s</flagFormat>
             <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>STRANDNESS</id>
+            <name>Standness option.</name>
+            <help>Determines whether --cmet-stranded of --cmet-nonstranded or --atoi-stranded or --atoi-nonstranded are
+                used.
+            </help>
+            <required>true</required>
+            <defaultsTo>stranded</defaultsTo>
+            <autoFormat>false</autoFormat>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>stranded</id>
+                    <name>stranded</name>
+                    <help>Stranded version of the GSNAP algorithms.</help>
+                </category>
+                <category>
+                    <id>nonstranded</id>
+                    <name>non-stranded</name>
+                    <help>Stranded version of the GSNAP algorithms.</help>
+                </category>
+            </categories>
+
         </option>
     </options>
 </alignerConfig>

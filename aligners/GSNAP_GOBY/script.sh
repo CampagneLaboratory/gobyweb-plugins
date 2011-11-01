@@ -23,7 +23,9 @@ function plugin_align {
          dieUponError "reformat reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          # GSNAP version 2011-03-11 and newer, for older use -C
-         BISULFITE_OPTION=" --mode cmet -m 1 -i 100 --terminal-threshold=100    "
+
+         STRANDNESS=${PLUGINS_ALIGNER_GSNAP_GOBY_STRANDNESS}
+         BISULFITE_OPTION=" --mode cmet${STRANDNESS} -m 1 -i 100 --terminal-threshold=100    "
          # set the number of threads to the number of cores available on the server:
          NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
          ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"
@@ -38,6 +40,7 @@ function plugin_align {
          WINDOW_OPTIONS=" --creads-window-start=${START_POSITION} --creads-window-end=${END_POSITION}  "
          READ_FILE_SMALL=" ${READS_FILE} "
      fi
+
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
          # PAIRED END alignment, native aligner

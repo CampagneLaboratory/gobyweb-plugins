@@ -73,4 +73,6 @@
             <autoFormat>false</autoFormat>
         </option>
     </options>
+     <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <maximumNumberOfGroups>10</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

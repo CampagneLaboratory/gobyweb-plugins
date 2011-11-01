@@ -135,5 +135,7 @@
             <help>Scatter plot for other (intergenic regions).</help>
         </outputFile>
     </outputSchema>
+    <minimumNumberOfGroups>2</minimumNumberOfGroups>
+    <maximumNumberOfGroups>2</maximumNumberOfGroups>
 </alignmentAnalysisConfig>
 

@@ -163,5 +163,6 @@
             <help>Scatter plot for transcripts counts.</help>
         </outputFile>
     </outputSchema>
-
+    <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <maximumNumberOfGroups>10</maximumNumberOfGroups>
 </alignmentAnalysisConfig>
