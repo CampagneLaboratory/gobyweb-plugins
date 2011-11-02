@@ -24,8 +24,10 @@ function plugin_align {
 
          # GSNAP version 2011-03-11 and newer, for older use -C
 
-         STRANDNESS=${PLUGINS_ALIGNER_GSNAP_GOBY_STRANDNESS}
-         BISULFITE_OPTION=" --mode cmet${STRANDNESS} -m 1 -i 100 --terminal-threshold=100    "
+         STRANDNESS="${PLUGINS_ALIGNER_GSNAP_GOBY_STRANDNESS}"
+         BISULFITE_OPTION=" --mode "cmet-${STRANDNESS}" -m 1 -i 100 --terminal-threshold=100    "
+         # Remove next line when switching to GSNAP icb with support for cmet-non-stranded:
+         BISULFITE_OPTION=" --mode "cmet" -m 1 -i 100 --terminal-threshold=100    "
          # set the number of threads to the number of cores available on the server:
          NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
          ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"

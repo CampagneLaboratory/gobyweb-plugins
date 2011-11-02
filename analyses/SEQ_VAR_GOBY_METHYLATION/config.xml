@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Methylation analysis with Goby</name>
     <id>SEQ_VAR_GOBY_METHYLATION</id>
     <dbLegacyId>GobyMethylation</dbLegacyId>
@@ -23,13 +24,18 @@
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>
+            <dbLegacyId>analysisType_gobymethylation</dbLegacyId>
             <name>Type of analysis and output format</name>
             <help>Determines the type of sequence variation analysis to perform and the output format.</help>
             <required>true</required>
             <defaultsTo>methylation</defaultsTo>
             <type>CATEGORY</type>
             <categories>
-                <category>methylation</category>
+                <category>
+                    <id>METHYLATION</id>
+                    <name>methylation</name>
+                    <help>Methylation rate estimation and call for differentially methylated sites.</help>
+                </category>
             </categories>
             <autoFormat>false</autoFormat>
         </option>
@@ -62,6 +68,6 @@
             <autoFormat>false</autoFormat>
         </option>
     </options>
-     <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>10</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

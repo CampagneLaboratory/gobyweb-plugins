@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Sequence Variation Analyses with Goby</name>
     <id>SEQ_VAR_GOBY</id>
     <dbLegacyId>Compare sequence variants</dbLegacyId>
@@ -31,19 +32,42 @@
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>
+            <dbLegacyId>analysisType_compare_sequence_variants</dbLegacyId>
             <name>Type of analysis and output format</name>
             <help>Determines the type of sequence variation analysis to perform and the output format.</help>
             <required>true</required>
             <defaultsTo>genotypes</defaultsTo>
             <type>CATEGORY</type>
             <categories>
-                <category>genotypes</category>
-                <category>allele_frequencies</category>
-                <category>group_comparisons</category>
+                <category>
+                    <id>GENOTYPES</id>
+                    <name>genotypes</name>
+                    <help>Calls genotypes at observed bases.</help>
+                </category>
+                <category>
+                    <id>ALLELE_FREQUENCIES</id>
+                    <name>allele_frequencies</name>
+                    <help>Estimate allelic expression.</help>
+                </category>
+                <category>
+                    <id>GROUP_COMPARISONS</id>
+                    <name>group_comparisons</name>
+                    <help>Compare groups of samples with allelic association test.</help>
+                </category>
             </categories>
             <autoFormat>true</autoFormat>
             <flagFormat>--format=%s</flagFormat>
             <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>REALIGN_AROUND_INDELS</id>
+            <dbLegacyId>realignment_option</dbLegacyId>
+            <name>Realign reads near indels</name>
+            <help>When this option is active, reads are realigned around indels and this can help prevent alignment artifacts.</help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
         </option>
         <option>
             <id>NUM_TOP_HITS</id>
@@ -73,7 +97,8 @@
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
         </option>
+
     </options>
-     <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>10</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

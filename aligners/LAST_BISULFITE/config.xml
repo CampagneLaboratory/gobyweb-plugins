@@ -29,7 +29,7 @@
     <!-- This plugin assumes that forward and reverse strands have been indexed separately and put into the indexDirectory
     with the names index_f and index_r
     -->
-    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite-chr1</indexDirectory>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite</indexDirectory>
 
     <options>
         <option>
