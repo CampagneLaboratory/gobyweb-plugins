@@ -7,6 +7,7 @@
     <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
         with SAMTOOLS. Specific analysis depends on selected output format.
     </help>
+    <analysisType>SequenceVariants</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
@@ -31,11 +32,13 @@
                     <id>GENOTYPES</id>
                     <name>genotypes</name>
                     <help>Calls genotypes at observed bases.</help>
+                    <dbLegacyValue>genotypes</dbLegacyValue>
                 </category>
                 <category>
                     <id>GROUP_COMPARISONS</id>
                     <name>group_comparisons</name>
                     <help>Compare groups of samples with allelic association test.</help>
+                    <dbLegacyValue>group-comparison</dbLegacyValue>
                 </category>
             </categories>
             <autoFormat>false</autoFormat>

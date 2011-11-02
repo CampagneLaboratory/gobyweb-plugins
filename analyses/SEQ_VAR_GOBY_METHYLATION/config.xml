@@ -7,6 +7,7 @@
     <help>Compares groups of samples and produce methylation rate output and statistics of differential methylation.
         Implemented with Goby.
     </help>
+    <analysisType>Methylation</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
@@ -35,6 +36,7 @@
                     <id>METHYLATION</id>
                     <name>methylation</name>
                     <help>Methylation rate estimation and call for differentially methylated sites.</help>
+                    <dbLegacyValue>methylation</dbLegacyValue>
                 </category>
             </categories>
             <autoFormat>false</autoFormat>

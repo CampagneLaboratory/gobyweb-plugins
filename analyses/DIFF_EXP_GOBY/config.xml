@@ -7,6 +7,7 @@
     <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across
         groups. Counts and statistics are estimated with Goby.
     </help>
+    <analysisType>DiffExp</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
@@ -33,11 +34,19 @@
             <name>Normalization</name>
             <help>Normalization method(s).</help>
             <required>true</required>
-            <defaultsTo>aligned-count</defaultsTo>
+            <defaultsTo>aligned_count</defaultsTo>
             <type>CATEGORY</type>
             <categories>
-                <category>aligned-count</category>
-                <category>bullard-upper-quartile</category>
+                <category>
+                    <id>aligned-count</id>
+                    <name>aligned-count</name>
+                    <help>aligned-count</help>
+                </category>
+                <category>
+                    <id>bullard-upper-quartile</id>
+                    <name>bullard-upper-quartile</name>
+                    <help>bullard-upper-quartile</help>
+                </category>
             </categories>
             <autoFormat>false</autoFormat>
         </option>
@@ -88,16 +97,19 @@
                     <id>NONE</id>
                     <name>None</name>
                     <help>No adjustment.</help>
+                    <dbLegacyValue>none</dbLegacyValue>
                 </category>
                 <category>
                     <id>GC_CONTENT</id>
                     <name>GC content</name>
                     <help>Adjust for GC content.</help>
+                    <dbLegacyValue>gc</dbLegacyValue>
                 </category>
                 <category>
                     <id>HEPTAMERS</id>
                     <name>Heptamers</name>
                     <help>Adjust for heptamer bias.</help>
+                    <dbLegacyValue>heptamers</dbLegacyValue>
                 </category>
             </categories>
         </option>
@@ -120,6 +132,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
                     <id>NONE</id>
                     <name>None.</name>
                     <help>Should be used when GC content adjustment is not needed.</help>
+                    <dbLegacyValue>false</dbLegacyValue>
                 </category>
                 <category>
                     <id>FORMULA1</id>
@@ -146,7 +159,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
         <option>
             <id>ANNOTATION_SOURCE</id>
             <dbLegacyId>annotation_types</dbLegacyId>
-            <name>Source of annotations.</name>
+            <name>Source of annotations</name>
             <help>Select the source of annotations and type of analysis to perform.
             </help>
             <defaultsTo>GENE_EXON_OTHER</defaultsTo>
@@ -156,11 +169,13 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
                     <id>GENE_EXON_OTHER</id>
                     <name>Gene/Exon/Other</name>
                     <help>Differential expression for Gene/Exon/Other annotations.</help>
+                    <dbLegacyValue>genes/exons/other</dbLegacyValue>
                 </category>
                 <category>
                     <id>CNV</id>
                     <name>Copy Number Variants</name>
                     <help>Differential coverage over regions of known CNVs.</help>
+                    <dbLegacyValue>CNVs</dbLegacyValue>
                 </category>
             </categories>
         </option>
@@ -191,7 +206,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
 
         <option>
             <id>TEST1</id>
-            <name>q-value threshold</name>
+            <name>TEST1 q-value threshold</name>
             <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
                 q-value is lower than the threshold.
             </help>
@@ -203,7 +218,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
 
         <option>
             <id>TEST2</id>
-            <name>q-value threshold</name>
+            <name>TEST2 q-value threshold</name>
             <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
                 q-value is lower than the threshold.
             </help>
@@ -214,7 +229,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
         </option>
         <option>
             <id>TEST3_FALSE_SWITCH</id>
-            <name>q-value threshold</name>
+            <name>TEST3 q-value threshold</name>
             <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
                 q-value is lower than the threshold.
             </help>
@@ -226,7 +241,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
 
         <option>
             <id>TEST4_FALSE_BOOLEAN</id>
-            <name>q-value threshold</name>
+            <name>TEST4 q-value threshold</name>
             <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
                 q-value is lower than the threshold.
             </help>
