@@ -203,53 +203,6 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
             <help>Estimate other counts. The other category represents intergenic regions.</help>
             <type>BOOLEAN</type>
         </option>
-
-        <option>
-            <id>TEST1</id>
-            <name>TEST1 q-value threshold</name>
-            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
-                q-value is lower than the threshold.
-            </help>
-            <required>true</required>
-            <defaultsTo>1.0</defaultsTo>
-            <type>DOUBLE</type>
-            <autoFormat>true</autoFormat>
-        </option>
-
-        <option>
-            <id>TEST2</id>
-            <name>TEST2 q-value threshold</name>
-            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
-                q-value is lower than the threshold.
-            </help>
-            <required>true</required>
-            <defaultsTo>true</defaultsTo>
-            <type>SWITCH</type>
-            <autoFormat>true</autoFormat>
-        </option>
-        <option>
-            <id>TEST3_FALSE_SWITCH</id>
-            <name>TEST3 q-value threshold</name>
-            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
-                q-value is lower than the threshold.
-            </help>
-            <required>true</required>
-            <defaultsTo>false</defaultsTo>
-            <type>SWITCH</type>
-            <autoFormat>true</autoFormat>
-        </option>
-
-        <option>
-            <id>TEST4_FALSE_BOOLEAN</id>
-            <name>TEST4 q-value threshold</name>
-            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
-                q-value is lower than the threshold.
-            </help>
-            <required>true</required>
-            <defaultsTo>false</defaultsTo>
-            <type>BOOLEAN</type>
-            <autoFormat>true</autoFormat>
-        </option>
     </options>
     <outputSchema>
         <outputFile>
