@@ -59,7 +59,7 @@ function plugin_alignment_analysis_process {
        NORMALIZATION_METHOD="aligned-count"
    fi
 
-   # fectch the type statistics to evaluate from the main script:
+   # fetch the type statistics to evaluate from the main script:
    eval
 
    WINDOW_LIMITS=`awk -v arrayJobIndex=${ARRAY_JOB_INDEX} '{ if (lineNumber==arrayJobIndex) print " --start-position "$3" --end-position "$6; lineNumber++; }' ${SLICING_PLAN_FILENAME}`
@@ -68,6 +68,13 @@ function plugin_alignment_analysis_process {
    fi
 
    OUT_FILENAME=${TAG}-stats-${ARRAY_JOB_INDEX}.tsv
+
+   # fetch the weight and annotation type arguments from the main script:
+   setupWeights
+
+   setupAnnotationTypes
+
+   setupAnnottionSource
 
    run-goby 3g alignment-to-annotation-counts \
           --annotation ${ANNOTATION_FILE} \

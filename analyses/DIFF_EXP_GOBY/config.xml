@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Differential Expression Analysis with Goby</name>
     <id>DIFF_EXP_GOBY</id>
     <dbLegacyId>Goby</dbLegacyId>
@@ -75,6 +76,119 @@
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
+
+        <option>
+            <id>WEIGHT_ADJUSTMENT</id>
+            <dbLegacyId>weightAdjustment</dbLegacyId>
+            <name>weight adjustment</name>
+            <help>Type of count adjustment.</help>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>NONE</id>
+                    <name>None</name>
+                    <help>No adjustment.</help>
+                </category>
+                <category>
+                    <id>GC_CONTENT</id>
+                    <name>GC content</name>
+                    <help>Adjust for GC content.</help>
+                </category>
+                <category>
+                    <id>HEPTAMERS</id>
+                    <name>Heptamers</name>
+                    <help>Adjust for heptamer bias.</help>
+                </category>
+            </categories>
+        </option>
+        <!--
+dbLegacyId="adjustGCBias"
+Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
+
+        -->
+        <option>
+            <id>BIAS_ADJUSTMENT_FORMULA</id>
+            <dbLegacyId>adjustGCBias</dbLegacyId>
+            <name>GC adjustment formula</name>
+            <help>When GC weight adjustment is selected, you can configure the type of formula used to adjust counts for
+                GC content.
+            </help>
+            <defaultsTo>NONE</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>NONE</id>
+                    <name>None.</name>
+                    <help>Should be used when GC content adjustment is not needed.</help>
+                </category>
+                <category>
+                    <id>FORMULA1</id>
+                    <name>FORMULA1</name>
+                    <help>FORMULA1</help>
+                </category>
+                <category>
+                    <id>FORMULA2</id>
+                    <name>FORMULA2</name>
+                    <help>FORMULA2</help>
+                </category>
+                <category>
+                    <id>FORMULA3</id>
+                    <name>FORMULA3</name>
+                    <help>FORMULA3</help>
+                </category>
+                <category>
+                    <id>FORMULA4</id>
+                    <name>FORMULA4</name>
+                    <help>FORMULA4</help>
+                </category>
+            </categories>
+        </option>
+        <option>
+            <id>ANNOTATION_SOURCE</id>
+            <dbLegacyId>annotation_types</dbLegacyId>
+            <name>Source of annotations.</name>
+            <help>Select the source of annotations and type of analysis to perform.
+            </help>
+            <defaultsTo>GENE_EXON_OTHER</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>GENE_EXON_OTHER</id>
+                    <name>Gene/Exon/Other</name>
+                    <help>Differential expression for Gene/Exon/Other annotations.</help>
+                </category>
+                <category>
+                    <id>CNV</id>
+                    <name>Copy Number Variants</name>
+                    <help>Differential coverage over regions of known CNVs.</help>
+                </category>
+            </categories>
+        </option>
+        <!--
+
+        -->
+        <option>
+            <id>ESTIMATE_COUNTS_GENE</id>
+            <dbLegacyId>analysisType_goby_gene</dbLegacyId>
+            <name>Gene counts</name>
+            <help>Estimate gene counts.</help>
+            <type>BOOLEAN</type>
+        </option>
+        <option>
+            <id>ESTIMATE_COUNTS_EXON</id>
+            <dbLegacyId>analysisType_goby_exon</dbLegacyId>
+            <name>Exon counts</name>
+            <help>Estimate exon counts.</help>
+            <type>BOOLEAN</type>
+        </option>
+        <option>
+            <id>ESTIMATE_COUNTS_OTHER</id>
+            <dbLegacyId>analysisType_goby_other</dbLegacyId>
+            <name>Other counts</name>
+            <help>Estimate other counts. The other category represents intergenic regions.</help>
+            <type>BOOLEAN</type>
+        </option>
+
         <option>
             <id>TEST1</id>
             <name>q-value threshold</name>

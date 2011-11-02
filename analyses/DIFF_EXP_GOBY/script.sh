@@ -5,7 +5,7 @@
 # COMPARE_DEFINITION
 # ANNOTATION_FILE = file describing annotations in the Goby annotation format.
 # ANNOTATION_TYPES = gene|exon|other, specifies the kind of annotations to calculate counts for.
-# USE_WEIGHTS_DIRECTIVE = optional, command line flags to have Goby annotation-to-counts adjust counts with weigths.
+# USE_WEIGHTS_DIRECTIVE = optional, command line flags to have Goby annotation-to-counts adjust counts with weights.
 
 # All output files must be created in the directory where the analysis script is run.
 # the script generates one TSV file with the statistics, as well as images for the scatter plots:
@@ -19,7 +19,57 @@ EVAL=raw-counts
 }
 . ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
+function setupWeights {
 
+   if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_WEIGHT_ADJUSTMENT}" == "NONE" ]; then
+
+       USE_WEIGHTS_DIRECTIVE=" "
+
+   elif [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_WEIGHT_ADJUSTMENT}" == "GC_CONTENT" ]; then
+
+       USE_WEIGHTS_DIRECTIVE="--use-weights gc --adjust-gc-bias ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_BIAS_ADJUSTMENT_FORMULA} "
+
+   elif [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_WEIGHT_ADJUSTMENT}" == "HEPTAMERS" ]; then
+
+       USE_WEIGHTS_DIRECTIVE="--use-weights heptamers "
+   else
+     dieUponError "weight adjustment  not supported: ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_WEIGHT_ADJUSTMENT}"
+   fi
+
+}
+
+function setupAnnotationTypes {
+   ANNOTATION_TYPES=""
+   if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_GENE}" == "true" ]; then
+
+       ANNOTATION_TYPES="${ANNOTATION_TYPES},gene"
+
+   if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_EXON}" == "true" ]; then
+
+       ANNOTATION_TYPES="${ANNOTATION_TYPES},exon"
+
+   if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_OTHER}" == "true" ]; then
+
+       ANNOTATION_TYPES="${ANNOTATION_TYPES},other"
+   fi
+
+   if [ "${ANNOTATION_TYPES} == "" ]; then
+     dieUponError "At least one annotation type must be selected to run a differential analysis."
+   fi
+
+}
+
+function setupAnnotationSource {
+
+  ANNOTATION_SOURCE=""
+  if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ANNOTATION_SOURCE}" == "GENE_EXON_OTHER" ]; then
+    # gene exon annotation file.
+    ANNOTATION_SOURCE="${REFERENCE_DIRECTORY}/exon-annotations.tsv"
+  else
+    # CNV annotation file.
+    ANNOTATION_SOURCE="${REFERENCE_DIRECTORY}/cnv-annotations.tsv"
+  fi
+}
 
 function plugin_alignment_analysis_combine {
    set -x
@@ -39,8 +89,7 @@ function plugin_alignment_analysis_combine {
         NORMALIZATION_METHOD="aligned-count"
    fi
 
-   #cp ${OUT_FILENAME} /home/gobyweb/GOBYWEB_SGE_JOBS-campagne/campagne/PGCWIBL
-   #cp info.xml /home/gobyweb/GOBYWEB_SGE_JOBS-campagne/campagne/PGCWIBL
+   setupWeights
 
    run-goby 16g stats --info info.xml \
           ${OUT_FILENAME} \
