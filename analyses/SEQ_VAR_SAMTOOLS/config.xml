@@ -11,6 +11,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <supportsBAMAlignments>true</supportsBAMAlignments>
     <version>1.0</version>
     <requires>
         <resource>
@@ -31,12 +32,14 @@
                 <category>
                     <id>GENOTYPES</id>
                     <name>genotypes</name>
+                    <value>GENOTYPES</value>
                     <help>Calls genotypes at observed bases.</help>
                     <dbLegacyValue>genotypes</dbLegacyValue>
                 </category>
                 <category>
                     <id>GROUP_COMPARISONS</id>
                     <name>group_comparisons</name>
+                    <value>GROUP_COMPARISONS</value>
                     <help>Compare groups of samples with allelic association test.</help>
                     <dbLegacyValue>group-comparison</dbLegacyValue>
                 </category>

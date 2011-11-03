@@ -11,6 +11,7 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <version>1.0</version>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
     <requires>
         <resource>
             <id>GOBY</id>

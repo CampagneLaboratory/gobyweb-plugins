@@ -11,6 +11,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
     <requires>
         <resource>
@@ -38,13 +39,15 @@
             <type>CATEGORY</type>
             <categories>
                 <category>
-                    <id>aligned-count</id>
+                    <id>ALIGNED_COUNT</id>
                     <name>aligned-count</name>
+                    <value>aligned-count</value>
                     <help>aligned-count</help>
                 </category>
                 <category>
-                    <id>bullard-upper-quartile</id>
+                    <id>BULLARD_UPPER_QUARTILE</id>
                     <name>bullard-upper-quartile</name>
+                    <value>bullard-upper-quartile</value>
                     <help>bullard-upper-quartile</help>
                 </category>
             </categories>
@@ -96,18 +99,21 @@
                 <category>
                     <id>NONE</id>
                     <name>None</name>
+                    <value>NONE</value>
                     <help>No adjustment.</help>
                     <dbLegacyValue>none</dbLegacyValue>
                 </category>
                 <category>
                     <id>GC_CONTENT</id>
                     <name>GC content</name>
+                    <value>GC_CONTENT</value>
                     <help>Adjust for GC content.</help>
                     <dbLegacyValue>gc</dbLegacyValue>
                 </category>
                 <category>
                     <id>HEPTAMERS</id>
                     <name>Heptamers</name>
+                    <value>HEPTAMERS</value>
                     <help>Adjust for heptamer bias.</help>
                     <dbLegacyValue>heptamers</dbLegacyValue>
                 </category>
@@ -130,28 +136,33 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
             <categories>
                 <category>
                     <id>NONE</id>
-                    <name>None.</name>
+                    <name>None</name>
+                    <value>NONE</value>
                     <help>Should be used when GC content adjustment is not needed.</help>
                     <dbLegacyValue>false</dbLegacyValue>
                 </category>
                 <category>
                     <id>FORMULA1</id>
                     <name>FORMULA1</name>
+                    <value>FORMULA1</value>
                     <help>FORMULA1</help>
                 </category>
                 <category>
                     <id>FORMULA2</id>
                     <name>FORMULA2</name>
+                    <value>FORMULA2</value>
                     <help>FORMULA2</help>
                 </category>
                 <category>
                     <id>FORMULA3</id>
                     <name>FORMULA3</name>
+                    <value>FORMULA3</value>
                     <help>FORMULA3</help>
                 </category>
                 <category>
                     <id>FORMULA4</id>
                     <name>FORMULA4</name>
+                    <value>FORMULA4</value>
                     <help>FORMULA4</help>
                 </category>
             </categories>
@@ -168,12 +179,14 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
                 <category>
                     <id>GENE_EXON_OTHER</id>
                     <name>Gene/Exon/Other</name>
+                    <value>GENE_EXON_OTHER</value>
                     <help>Differential expression for Gene/Exon/Other annotations.</help>
                     <dbLegacyValue>genes/exons/other</dbLegacyValue>
                 </category>
                 <category>
                     <id>CNV</id>
                     <name>Copy Number Variants</name>
+                    <value>CNV</value>
                     <help>Differential coverage over regions of known CNVs.</help>
                     <dbLegacyValue>CNVs</dbLegacyValue>
                 </category>

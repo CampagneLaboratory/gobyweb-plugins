@@ -104,31 +104,36 @@
             <autoFormat>false</autoFormat>
             <defaultsTo>BEST_MATCH</defaultsTo>
             <type>CATEGORY</type>
-             <categories>
+            <categories>
                 <category>
                     <id>PERFECT_MATCHES_ONLY</id>
                     <name>Perfect matches only</name>
+                    <value>PERFECT_MATCHES_ONLY</value>
                     <help>Keeps only perfect matches.</help>
                 </category>
                 <category>
                     <id>ONE_MISMATCH</id>
                     <name>One mismatch at most.</name>
+                    <value>ONE_MISMATCH</value>
                     <help>Keeps only up to one mismatch.</help>
                 </category>
                 <category>
                     <id>TWO_MISMATCHES</id>
                     <name>Two mismatches</name>
+                    <value>TWO_MISMATCHES</value>
                     <help>Keeps only up to twp mismatches.</help>
                 </category>
                 <category>
                     <id>IDENTITY_95</id>
                     <name>95% identity</name>
+                    <value>IDENTITY_95</value>
                     <help>Keep matches with at least 95% identity over the length of the read.</help>
                 </category>
                 <category>
                     <id>BEST_MATCH</id>
                     <name>Best match.</name>
-                    <help>Keep best matche, irrespective of agreement with reference.</help>
+                    <value>BEST_MATCH</value>
+                    <help>Keep best match, irrespective of agreement with reference.</help>
                 </category>
             </categories>
 

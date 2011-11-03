@@ -11,6 +11,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
     <outputSchema>
         <outputFile>
@@ -43,18 +44,21 @@
                 <category>
                     <id>GENOTYPES</id>
                     <name>genotypes</name>
+                    <value>GENOTYPES</value>
                     <help>Calls genotypes at observed bases.</help>
                     <dbLegacyValue>genotypes</dbLegacyValue>
                 </category>
                 <category>
                     <id>ALLELE_FREQUENCIES</id>
                     <name>allele_frequencies</name>
+                    <value>ALLELE_FREQUENCIES</value>
                     <help>Estimate allelic expression.</help>
                     <dbLegacyValue>allele-frequencies</dbLegacyValue>
                 </category>
                 <category>
                     <id>GROUP_COMPARISONS</id>
                     <name>group_comparisons</name>
+                    <value>GROUP_COMPARISONS</value>
                     <help>Compare groups of samples with allelic association test.</help>
                     <dbLegacyValue>group-comparison</dbLegacyValue>
                 </category>

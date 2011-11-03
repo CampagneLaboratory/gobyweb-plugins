@@ -94,11 +94,11 @@ function plugin_alignment_analysis_sequential {
        ls -lth
        ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Running samtools mpileup" --index 1 --job-type job-part
 
-       if [ "${OUTPUT_FORMAT}" == "compare_groups" ]; then
+       if [ "${OUTPUT_FORMAT}" == "GROUP_COMPARISONS" ]; then
 
           nice ${RESOURCES_SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -c -v -g -1 ${num_samples_in_group_1} -s all-samples.lst - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
 
-       elif [ "${OUTPUT_FORMAT}" == "genotypes" ]; then
+       elif [ "${OUTPUT_FORMAT}" == "GENOTYPES" ]; then
 
           nice ${RESOURCES_SAMTOOLS_EXEC_PATH} mpileup -6 -uf ${REFERENCE_FASTA_FILEPATH} ${ENTRIES_FILES}  | ${BCFTOOLS_EXEC_PATH} view  -g -v -A - > ${SGE_O_WORKDIR}/${TAG}-samtools.vcf
 

@@ -11,6 +11,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
     <files>
         <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
@@ -35,6 +36,7 @@
                 <category>
                     <id>METHYLATION</id>
                     <name>methylation</name>
+                    <value>METHYLATION</value>
                     <help>Methylation rate estimation and call for differentially methylated sites.</help>
                     <dbLegacyValue>methylation</dbLegacyValue>
                 </category>

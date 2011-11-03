@@ -63,13 +63,15 @@
             <type>CATEGORY</type>
             <categories>
                 <category>
-                    <id>stranded</id>
+                    <id>STRANDED</id>
                     <name>stranded</name>
+                    <value>stranded</value>
                     <help>Stranded version of the GSNAP algorithms.</help>
                 </category>
                 <category>
-                    <id>nonstranded</id>
+                    <id>NON_STRANDED</id>
                     <name>non-stranded</name>
+                    <value>nonstranded</value>
                     <help>Stranded version of the GSNAP algorithms.</help>
                 </category>
             </categories>

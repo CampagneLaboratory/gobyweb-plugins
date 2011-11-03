@@ -96,15 +96,15 @@ function plugin_alignment_analysis_combine {
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_NUM_TOP_HITS}
 
-   if [ "${OUTPUT_FORMAT}" == "allele_frequencies" ]; then
+   if [ "${OUTPUT_FORMAT}" == "ALLELE_FREQUENCIES" ]; then
 
         COLUMNS="--column P"
 
-       elif [ "${OUTPUT_FORMAT}" == "compare_groups" ]; then
+       elif [ "${OUTPUT_FORMAT}" == "GROUP_COMPARISONS" ]; then
 
          COLUMNS="--column FisherP[${COMPARE_DEFINITION}]"
 
-       elif [ "${OUTPUT_FORMAT}" == "methylation" ]; then
+       elif [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
          COLUMNS="--column FisherP[${COMPARE_DEFINITION}]"
 
@@ -113,7 +113,7 @@ function plugin_alignment_analysis_combine {
      fi
 
    echo "Adjusting P-value columns: $COLUMNS"
-   if [ "${OUTPUT_FORMAT}" == "genotypes" ]; then
+   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" ]; then
 
         # Do not attempt FDR adjustment when there is no p-value, just concat the split files and sort:
 
