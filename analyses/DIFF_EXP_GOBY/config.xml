@@ -202,7 +202,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
             <help>Estimate gene counts.</help>
             <type>BOOLEAN</type>
         </option>
-        <option>
+        <option hiddenWhen="matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
             <id>ESTIMATE_COUNTS_EXON</id>
             <dbLegacyId>analysisType_goby_exon</dbLegacyId>
             <name>Exon counts</name>
