@@ -30,6 +30,9 @@
         </file>
     </files>
     <options>
+        <validation>
+            <rule validWhen="matches(ANNOTATION_SOURCE,GENE_EXON_OTHER) AND (((value(ESTIMATE_COUNTS_GENE) OR (value(ESTIMATE_COUNTS_EXON) OR value(ESTIMATE_COUNTS_OTHER)))))" error="at least one of gene exon, other must be selected when ANNOTATION_SOURCE is gene/exon/other"/>
+        </validation>
         <option>
             <id>NORMALIZATION_METHOD</id>
             <name>Normalization</name>
@@ -202,14 +205,14 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
             <help>Estimate gene counts.</help>
             <type>BOOLEAN</type>
         </option>
-        <option hiddenWhen="matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
+        <option hiddenWhen="NOT matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
             <id>ESTIMATE_COUNTS_EXON</id>
             <dbLegacyId>analysisType_goby_exon</dbLegacyId>
             <name>Exon counts</name>
             <help>Estimate exon counts.</help>
             <type>BOOLEAN</type>
         </option>
-        <option>
+        <option hiddenWhen="NOT matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
             <id>ESTIMATE_COUNTS_OTHER</id>
             <dbLegacyId>analysisType_goby_other</dbLegacyId>
             <name>Other counts</name>
