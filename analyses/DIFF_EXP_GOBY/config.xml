@@ -195,7 +195,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
         <!--
 
         -->
-        <option>
+        <option  hiddenWhen="NOT matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
             <id>ESTIMATE_COUNTS_GENE</id>
             <dbLegacyId>analysisType_goby_gene</dbLegacyId>
             <name>Gene counts</name>
