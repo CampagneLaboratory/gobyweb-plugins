@@ -239,6 +239,7 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
             <name>Gene counts</name>
             <help>Estimate gene counts.</help>
             <type>BOOLEAN</type>
+            <defaultsTo>true</defaultsTo>
         </option>
         <option hiddenWhen="NOT matches(ANNOTATION_SOURCE,GENE_EXON_OTHER)">
             <id>ESTIMATE_COUNTS_EXON</id>
