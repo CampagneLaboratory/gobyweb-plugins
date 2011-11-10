@@ -66,7 +66,7 @@
     </files>
     <options>
         <validation>
-            <rule validWhen="matches(ANNOTATION_SOURCE,GENE_EXON_OTHER) AND (((value(ESTIMATE_COUNTS_GENE) OR (value(ESTIMATE_COUNTS_EXON) OR value(ESTIMATE_COUNTS_OTHER)))))" error="at least one of gene exon, other must be selected when ANNOTATION_SOURCE is gene/exon/other"/>
+            <rule validWhen="matches(ANNOTATION_SOURCE,GENE_EXON_OTHER) AND (value(ESTIMATE_COUNTS_GENE) OR value(ESTIMATE_COUNTS_EXON) OR value(ESTIMATE_COUNTS_OTHER))" error="at least one of gene exon, other must be selected when ANNOTATION_SOURCE is gene/exon/other"/>
         </validation>
         <option>
             <id>NORMALIZATION_METHOD</id>
