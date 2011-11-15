@@ -50,6 +50,14 @@
     <version>1.0</version>
     <outputSchema>
         <outputFile>
+            <id>STATS_RESULTS_DB</id>
+            <name>Sqlite DB file</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>stats.db</filename>
+            <help>Sqlite DB file with results of called variations.</help>
+        </outputFile>
+        <outputFile>
             <id>STATS_RESULTS</id>
             <name>VCF file</name>
             <required>true</required>
