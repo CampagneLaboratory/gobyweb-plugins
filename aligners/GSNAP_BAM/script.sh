@@ -53,7 +53,8 @@ function plugin_align {
        BISULFITE_OPTION=""
        if [ "${BISULFITE_SAMPLE}" == "true" ]; then
              # 2011-03-11 and newer, for older use -C
-             BISULFITE_OPTION="--mode cmet "
+             STRANDNESS="${PLUGINS_ALIGNER_GSNAP_BAM_STRANDNESS}"
+             BISULFITE_OPTION=" --mode "cmet-${STRANDNESS}" -m 1 -i 100 --terminal-threshold=100    "
        fi
 
        # set the number of threads to the number of cores available on the server:
@@ -74,11 +75,11 @@ function plugin_align {
        if [  $? -eq 0 ]; then
            # aln worked, let's convert to BAM and sort on the fly:
 
-           nice ${SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}.sam  | ${SAMTOOLS_EXEC_PATH}  sort - ${BASENAME}
+           nice ${RESOURCES_SAMTOOLS_EXEC_PATH}  view -uS ${OUTPUT}.sam  | ${RESOURCES_SAMTOOLS_EXEC_PATH} sort - ${BASENAME}
 
            if [ $? -eq 0 ]; then
 
-              nice ${SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
+              nice ${RESOURCES_SAMTOOLS_EXEC_PATH} index ${BASENAME}.bam
               ls -lat
             else
               return 2

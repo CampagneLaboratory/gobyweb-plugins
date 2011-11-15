@@ -43,7 +43,7 @@
 # INDEX_DIRECTORY = directory that contains the indexed database
 # INDEX_PREFIX = name of the indexed database to search
 
-# RESOURCES_BWA_GOBY_EXEC_PATH = path to BWA, obtained from the BWA_GOBY resource
+# RESOURCES_BWA_WITH_GOBY_EXEC_PATH = path to BWA, obtained from the BWA_GOBY resource
 # BWA_GOBY_NUM_THREADS = number of threads to run with, obtained from environment.sh
 
 # ALIGNER_OPTIONS = any BWA options the end-user would like to set
@@ -65,24 +65,24 @@ function plugin_align {
                 # PAIRED END alignment, native aligner
                 SAI_FILE_0=${READS##*/}-0.sai
                 SAI_FILE_1=${READS##*/}-1.sai
-                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln -w 0 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                nice ${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln -w 0 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
                 dieUponError "bwa aln step failed for first read, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln -w 1 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                nice ${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln -w 1 ${PARALLEL_OPTION} ${COLOR_SPACE_OPTION} -f ${SAI_FILE_1} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
                 dieUponError "bwa aln step failed for second read, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
                 # aln worked, let's sampe
-                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -f pre-sort-${TAG} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS} ${READS}
+                nice ${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} sampe ${COLOR_SPACE_OPTION} -f pre-sort-${TAG} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${SAI_FILE_1} ${READS} ${READS}
                 dieUponError "bwa sampe step failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
     else
                 # Single end alignment, native aligner
                 SAI_FILE_0=${READS##*/}.sai
-                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} aln ${PARALLEL_OPTION}  ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
+                nice ${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln ${PARALLEL_OPTION}  ${COLOR_SPACE_OPTION} -f ${SAI_FILE_0} -l ${INPUT_READ_LENGTH} ${ALIGNER_OPTIONS} ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${READS}
                 dieUponError "bwa aln step failed (single end), sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
                 # aln worked, let's samse
-                nice ${RESOURCES_BWA_GOBY_EXEC_PATH} samse ${COLOR_SPACE_OPTION} -f pre-sort-${TAG}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS}
+                nice ${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} samse ${COLOR_SPACE_OPTION} -f pre-sort-${TAG}  ${INDEX_DIRECTORY}/${INDEX_PREFIX} ${SAI_FILE_0} ${READS}
                 dieUponError "bwa samse step failed (single end), sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
     fi
 

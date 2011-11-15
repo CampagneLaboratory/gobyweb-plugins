@@ -34,7 +34,8 @@
   PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
-<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>GSNAP (BAM output)</name>
     <id>GSNAP_BAM</id>
     <dbLegacyId>gsnap bam output</dbLegacyId>
@@ -51,6 +52,18 @@
     <supportsBAMAlignments>true</supportsBAMAlignments>
     <version>1.0</version>
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/gsnap</indexDirectory>
+    <requires>
+        <resource>
+            <!-- We point here to GSNAP_WITH_GOBY, but you can use a version of GSNAP of teh specified version number,
+            compiled without Goby support for this plugin. -->
+            <id>GSNAP_WITH_GOBY</id>
+            <versionAtLeast>2011.10.16</versionAtLeast>
+        </resource>
+        <resource>
+            <id>SAMTOOLS</id>
+            <versionAtLeast>0.1.14</versionAtLeast>
+        </resource>
+    </requires>
     <options>
         <option>
             <id>ALIGNER_OPTIONS</id>
@@ -76,6 +89,32 @@
             <flagFormat>-n %d</flagFormat>
             <includeSpaces>true</includeSpaces>
             <autoFormat>true</autoFormat>
+        </option>
+        <option>
+            <id>STRANDNESS</id>
+            <name>Standness option.</name>
+            <help>Determines whether --cmet-stranded of --cmet-nonstranded or --atoi-stranded or --atoi-nonstranded are
+                used.
+            </help>
+            <required>true</required>
+            <defaultsTo>stranded</defaultsTo>
+            <autoFormat>false</autoFormat>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>STRANDED</id>
+                    <name>stranded</name>
+                    <value>stranded</value>
+                    <help>Stranded version of the GSNAP algorithms.</help>
+                </category>
+                <category>
+                    <id>NON_STRANDED</id>
+                    <name>non-stranded</name>
+                    <value>nonstranded</value>
+                    <help>Stranded version of the GSNAP algorithms.</help>
+                </category>
+            </categories>
+
         </option>
     </options>
 </alignerConfig>

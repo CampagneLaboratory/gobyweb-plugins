@@ -107,10 +107,10 @@ function plugin_alignment_analysis_process {
 
    setupAnnotationTypes
 
-   setupAnnottionSource
+   setupAnnotationSource
 
    run-goby 3g alignment-to-annotation-counts \
-          --annotation ${ANNOTATION_FILE} \
+          --annotation ${ANNOTATION_SOURCE} \
           --write-annotation-counts false \
           --eval ${EVAL} \
           --stats ${OUT_FILENAME} \
