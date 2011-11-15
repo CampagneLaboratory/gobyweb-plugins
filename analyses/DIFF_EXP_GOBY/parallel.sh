@@ -57,10 +57,13 @@ function plugin_alignment_analysis_split {
   SPLICING_PLAN_RESULT=$2
   shift
   shift
+
+  setupAnnotationSource
+
   run-goby 4g suggest-position-slices \
           --number-of-slices ${NUMBER_OF_PARTS} \
           --output ${SPLICING_PLAN_RESULT} \
-          --annotations ${ANNOTATION_FILE} \
+          --annotations ${ANNOTATION_SOURCE} \
           $*
 }
 

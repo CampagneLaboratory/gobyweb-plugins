@@ -51,7 +51,6 @@
 function eval {
 EVAL=raw-counts
 }
-. ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
 function setupWeights {
 
@@ -76,18 +75,22 @@ function setupAnnotationTypes {
    ANNOTATION_TYPES=""
    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_GENE}" == "true" ]; then
 
-       ANNOTATION_TYPES="${ANNOTATION_TYPES},gene"
-
+       ANNOTATION_TYPES="${ANNOTATION_TYPES}gene"
+   fi
    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_EXON}" == "true" ]; then
-
-       ANNOTATION_TYPES="${ANNOTATION_TYPES},exon"
-
+       if [ "${ANNOTATION_TYPES}" != "" ]; then
+          ANNOTATION_TYPES="${ANNOTATION_TYPES},"
+       fi
+       ANNOTATION_TYPES="${ANNOTATION_TYPES}exon"
+   fi
    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_ESTIMATE_COUNTS_OTHER}" == "true" ]; then
-
-       ANNOTATION_TYPES="${ANNOTATION_TYPES},other"
+       if [ "${ANNOTATION_TYPES}" != "" ]; then
+          ANNOTATION_TYPES="${ANNOTATION_TYPES},"
+       fi
+       ANNOTATION_TYPES="${ANNOTATION_TYPES}other"
    fi
 
-   if [ "${ANNOTATION_TYPES} == "" ]; then
+   if [ "${ANNOTATION_TYPES}" == "" ]; then
      dieUponError "At least one annotation type must be selected to run a differential analysis."
    fi
 
@@ -104,6 +107,8 @@ function setupAnnotationSource {
     ANNOTATION_SOURCE="${REFERENCE_DIRECTORY}/cnv-annotations.tsv"
   fi
 }
+
+. ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_GOBY_FILES_PARALLEL_SCRIPT}
 
 function plugin_alignment_analysis_combine {
    set -x
