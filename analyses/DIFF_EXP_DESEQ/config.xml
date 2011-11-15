@@ -159,7 +159,7 @@
         </outputFile>
         <outputFile>
             <id>GENE_SCATTER_PLOT</id>
-            <required>true</required>
+            <required>false</required>
             <name>Gene scatter plot</name>
             <mimeType>image/png</mimeType>
             <filename>GENE.png</filename>
@@ -168,7 +168,7 @@
         <outputFile>
             <id>EXON_SCATTER_PLOT</id>
             <name>Exon scatter plot</name>
-            <required>true</required>
+            <required>false</required>
             <mimeType>image/png</mimeType>
             <filename>EXON.png</filename>
             <help>Scatter plot for exons.</help>
@@ -176,7 +176,7 @@
         <outputFile>
             <id>OTHER_SCATTER_PLOT</id>
             <name>Other scatter plot</name>
-            <required>true</required>
+            <required>false</required>
             <mimeType>image/png</mimeType>
             <filename>OTHER.png</filename>
             <help>Scatter plot for other (intergenic regions).</help>
