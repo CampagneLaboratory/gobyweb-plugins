@@ -70,14 +70,28 @@ function plugin_align {
       goby compact-to-fasta -i ${READS_FILE} --output reads.fastq -t fastq
       dieUponError "compact-reads to fastq conversion failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f reads.fastq > temp_f
-      dieUponError "Alignment to forward strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_r reads.fastq > temp_r
-      dieUponError "Alignment to reverse strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-      ${RESOURCES_LAST_MERGE_BATCHES_EXEC} temp_f temp_r | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_S} > alignments.maf
-      dieUponError "Combining forward and reverse strand alignments failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} \
+            -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f reads.fastq > temp_f.maf
 
-      goby last-to-compact -i alignments.maf -o ${OUTPUT} --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
-      dieUponError "Conversion of MAF file to Goby alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      dieUponError "Alignment to forward strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} \
+            -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_r reads.fastq > temp_r.maf
+
+      # Here, use Goby to merge because we need to flip the strand of the results searched against the reverse strand:
+      goby last-to-compact -i temp_f -o align_f --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
+      dieUponError "Conversion to compact format failed for forward strand, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+      goby last-to-compact --flip-strand -i temp_r -o align_r --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
+      dieUponError "Conversion to compact format failed for reverse strand, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+      goby merge  align_f align_r -o ${OUTPUT}
+      dieUponError "Merging forward and reverse strand results failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+      # dieUponError "Alignment to reverse strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      # ${RESOURCES_LAST_MERGE_BATCHES_EXEC} temp_f temp_r | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_S} > alignments.maf
+      # dieUponError "Combining forward and reverse strand alignments failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+      # goby last-to-compact -i alignments.maf -o ${OUTPUT} --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
+      # dieUponError "Conversion of MAF file to Goby alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 }
