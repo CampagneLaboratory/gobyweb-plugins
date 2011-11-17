@@ -58,6 +58,32 @@
             <importFromPlugin>SEQ_VAR_GOBY</importFromPlugin>
         </file>
     </files>
+    <outputSchema>
+        <outputFile>
+            <id>STATS_RESULTS_DB</id>
+            <name>Sqlite DB file</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>stats.db</filename>
+            <help>Sqlite DB file with results of called variations.</help>
+        </outputFile>
+        <outputFile>
+            <id>STATS_RESULTS</id>
+            <name>VCF file</name>
+            <required>true</required>
+            <mimeType>text/variant-calling-format</mimeType>
+            <filename>stats.vcf.gz</filename>
+            <help>VCF file with called methylation rates.</help>
+        </outputFile>
+        <outputFile>
+            <id>STATS_RESULTS_INDEX</id>
+            <name>VCF file index</name>
+            <required>true</required>
+            <mimeType>text/variant-calling-format-index</mimeType>
+            <filename>stats.vcf.gz.tbi</filename>
+            <help>VCF file index (produced with tabix).</help>
+        </outputFile>
+    </outputSchema>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>

@@ -156,6 +156,8 @@ function plugin_alignment_analysis_combine {
         ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
 
    else
+       Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_Q_VALUE_THRESHOLD}
+
         goby fdr \
           --vcf \
           --q-threshold ${Q_VALUE_THRESHOLD} \
