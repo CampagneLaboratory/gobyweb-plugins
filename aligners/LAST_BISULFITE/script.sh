@@ -84,7 +84,7 @@ function plugin_align {
       goby last-to-compact --flip-strand -i temp_r -o align_r --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
       dieUponError "Conversion to compact format failed for reverse strand, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-      goby merge  align_f align_r -o ${OUTPUT}
+      goby merge-compact-alignments  align_f align_r -o ${OUTPUT}
       dieUponError "Merging forward and reverse strand results failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       # dieUponError "Alignment to reverse strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
