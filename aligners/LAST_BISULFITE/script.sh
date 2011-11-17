@@ -72,7 +72,7 @@ function plugin_align {
 
       ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f reads.fastq > temp_f
       dieUponError "Alignment to forward strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_r reads.fastq > temp_f
+      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_r reads.fastq > temp_r
       dieUponError "Alignment to reverse strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
       ${RESOURCES_LAST_MAP_PROBS_EXEC} temp_f temp_r | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_S} > alignments.maf
       dieUponError "Combining forward and reverse strand alignments failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
