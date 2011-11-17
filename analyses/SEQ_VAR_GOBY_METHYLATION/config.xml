@@ -79,6 +79,17 @@
             <autoFormat>false</autoFormat>
         </option>
         <option>
+            <id>Q_VALUE_THRESHOLD</id>
+            <name>q-value threshold</name>
+            <help>Threshold on q-values to determine if the candidate result should be kept. A candidate is kept if any
+                q-value is lower than the threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>1.0</defaultsTo>
+            <type>DOUBLE</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
             <id>NUM_TOP_HITS</id>
             <name>Number of top hits</name>
             <help>Number of hits to report if no candidates has an adjusted p-value above the q-value threshold.</help>
