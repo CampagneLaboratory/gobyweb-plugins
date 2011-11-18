@@ -48,9 +48,9 @@
     <version>1.0</version>
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/bwa</indexDirectory>
     <runtime>
-        <need key="excl" value="false"/>
-        <need key="h_vmem" value="6g"/>
-        <need key="virtual_free" value="6g"/>
+        <need scope="ALIGN" key="excl" value="false"/>
+        <need scope="ALIGN" key="h_vmem" value="4g"/>
+        <need scope="ALIGN" key="virtual_free" value="6g"/>
     </runtime>
     <options>
 

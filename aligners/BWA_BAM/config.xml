@@ -41,6 +41,11 @@
     <help>BWA writing to BAM output. This aligner requests exclusive access to a server node and run parallel on this
         node against a single reads file.
     </help>
+    <runtime>
+        <need scope="ALIGN" key="excl" value="false"/>
+        <need scope="ALIGN" key="h_vmem" value="12g"/>
+        <need scope="ALIGN" key="virtual_free" value="16g"/>
+    </runtime>
     <requires>
         <resource>
             <id>BWA_WITH_GOBY</id>

@@ -34,7 +34,8 @@
   PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
-<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>BWA</name>
     <id>BWA_NON_GOBY</id>
     <dbLegacyId>bwa</dbLegacyId>
@@ -47,10 +48,10 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.0</version>
-     <runtime>
-        <need key="excl" value="true"/>
-        <need key="h_vmem" value="6g"/>
-        <need key="virtual_free" value="6g"/>
+    <runtime>
+        <need scope="ALIGN" key="excl" value="false"/>
+        <need scope="ALIGN" key="h_vmem" value="12g"/>
+        <need scope="ALIGN" key="virtual_free" value="16g"/>
     </runtime>
     <options>
         <option>
@@ -68,8 +69,8 @@
             <id>AMBIGUITY_THRESHOLD</id>
             <dbLegacyId>ambiguityThreshold</dbLegacyId>
             <name>Ambiguity threshold</name>
-            <help>The maximum number of locations a read can match in the reference to not be 
-                  considered ambiguous. Read is ambiguous if #hits>threshold.
+            <help>The maximum number of locations a read can match in the reference to not be
+                considered ambiguous. Read is ambiguous if #hits>threshold.
             </help>
             <required>true</required>
             <autoFormat>false</autoFormat>

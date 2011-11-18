@@ -50,10 +50,10 @@
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
-    <runtime>
-        <need key="excl" value="false"/>
-        <need key="h_vmem" value="10g"/>
-        <need key="virtual_free" value="12g"/>
+     <runtime>
+        <need scope="ALIGN" key="excl" value="false"/>
+        <need scope="ALIGN" key="h_vmem" value="10g"/>
+        <need scope="ALIGN" key="virtual_free" value="12g"/>
     </runtime>
     <version>1.0</version>
     <requires>
@@ -69,8 +69,8 @@
     <!-- This plugin assumes that forward and reverse strands have been indexed separately and put into the indexDirectory
     with the names index_f and index_r
     -->
-    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite
-    </indexDirectory>
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite</indexDirectory>
+
 
     <options>
         <option>
