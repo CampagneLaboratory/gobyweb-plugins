@@ -52,6 +52,11 @@
     <supportsBAMAlignments>true</supportsBAMAlignments>
     <version>1.0</version>
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/gsnap</indexDirectory>
+    <runtime>
+        <need key="excl" value="false"/>
+        <need key="h_vmem" value="12g"/>
+        <need key="virtual_free" value="16g"/>
+    </runtime>
     <requires>
         <resource>
             <!-- We point here to GSNAP_WITH_GOBY, but you can use a version of GSNAP of teh specified version number,

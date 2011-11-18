@@ -50,6 +50,11 @@
     <supportsBAMAlignments>false</supportsBAMAlignments>
     <version>1.1</version>
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/gsnap</indexDirectory>
+    <runtime>
+        <need key="excl" value="true"/>
+        <need key="h_vmem" value="25g"/>
+        <need key="virtual_free" value="28g"/>
+    </runtime>
     <requires>
         <resource>
             <id>GSNAP_WITH_GOBY</id>

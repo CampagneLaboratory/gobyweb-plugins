@@ -87,11 +87,4 @@ function plugin_align {
       goby merge-compact-alignments  align_f align_r -o ${OUTPUT}
       dieUponError "Merging forward and reverse strand results failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-      # dieUponError "Alignment to reverse strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-      # ${RESOURCES_LAST_MERGE_BATCHES_EXEC} temp_f temp_r | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_S} > alignments.maf
-      # dieUponError "Combining forward and reverse strand alignments failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-
-      # goby last-to-compact -i alignments.maf -o ${OUTPUT} --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
-      # dieUponError "Conversion of MAF file to Goby alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-
 }
