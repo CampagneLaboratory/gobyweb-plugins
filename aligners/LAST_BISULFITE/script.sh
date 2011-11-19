@@ -67,22 +67,12 @@ function plugin_align {
           dieUponError "split reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       fi
-      goby compact-to-fasta -i ${READS_FILE} --output reads.fastq -t fastq
-      dieUponError "compact-reads to fastq conversion failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      # Make sure the scripts we use are executable:
+      chmod +x ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_FORWARD}  ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_REVERSE} ${RESOURCES_PLAST_SCRIPT} ${RESOURCES_GOBY_SHELL_SCRIPT}
+      set -x
+      ${RESOURCES_PLAST_SCRIPT} ${JOB_DIR} ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_FORWARD} ${READS_FILE} align_f
 
-      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} \
-            -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f reads.fastq > temp_f.maf
-
-      dieUponError "Alignment to forward strand failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-      ${RESOURCES_LAST_EXEC_PATH} -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} \
-            -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_r reads.fastq > temp_r.maf
-
-      # Here, use Goby to merge because we need to flip the strand of the results searched against the reverse strand:
-      goby last-to-compact -i temp_f -o align_f --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
-      dieUponError "Conversion to compact format failed for forward strand, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-
-      goby last-to-compact --flip-strand -i temp_r -o align_r --third-party-input true --only-maf -q ${READS_FILE} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
-      dieUponError "Conversion to compact format failed for reverse strand, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+      ${RESOURCES_PLAST_SCRIPT} ${JOB_DIR} ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_REVERSE} ${READS_FILE} align_r
 
       goby merge-compact-alignments  align_f align_r -o ${OUTPUT}
       dieUponError "Merging forward and reverse strand results failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
