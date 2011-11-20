@@ -1,7 +1,7 @@
 
 JOB_DIR=$1
 ALIGN_COMMAND=$2
-READS=$3
+READS_FOR_SPLIT=$3
 OUTPUT=$4
 NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
 NUM_THREADS=$((${NUM_THREADS} - 2))
@@ -19,4 +19,4 @@ fi
 java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
                        -Dgoby.configuration=file:${TMPDIR}/goby.properties \
                        -jar ${RESOURCES_GOBY_GOBY_JAR} \
-                       --mode run-parallel -i "${READS}" -n "${NUM_THREADS}" -o "${OUTPUT}"  ${ALIGN_COMMAND} ${READS} %read.fastq% %tmp1% %output% ${JOB_DIR}
+                       --mode run-parallel -i "${READS_FOR_SPLIT}" -n "${NUM_THREADS}" -o "${OUTPUT}"  ${ALIGN_COMMAND} ${READS_FOR_SPLIT} %read.fastq% %tmp1% %output% ${JOB_DIR}
