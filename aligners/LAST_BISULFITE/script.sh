@@ -76,11 +76,7 @@ function plugin_align {
 
       ${RESOURCES_PLAST_SCRIPT} ${JOB_DIR} ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_REVERSE} ${READS_FILE} align_r
 
-      goby merge-compact-alignments  align_f align_r -o presort-${OUTPUT}
+      goby merge-compact-alignments  align_f align_r -o ${OUTPUT}
       dieUponError "Merging forward and reverse strand results failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
-
-      # sorting this chunk will use a lot of memory. We do this here because we can control the memory allocated to the JVM:
-      run-goby 20g sort presort-${OUTPUT} -o ${OUTPUT}
-      dieUponError "pre-sorting chunk failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 }
