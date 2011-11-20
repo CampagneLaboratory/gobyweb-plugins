@@ -5,7 +5,7 @@ READS=$3
 OUTPUT=$4
 NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
 NUM_THREADS=$((${NUM_THREADS} - 2))
-if [ ${NUM_THREADS}<=2 ]; then
+if [ ${NUM_THREADS} -lt 2 ]; then
    # Make sure we use at least two threads:
    NUM_THREADS=2
 fi
