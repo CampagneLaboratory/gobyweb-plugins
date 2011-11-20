@@ -67,6 +67,8 @@ function plugin_align {
           dieUponError "split reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       fi
+      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_ALIGN_STATUS} --description "Align, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, starting" --index ${CURRENT_PART} --job-type job-part
+
       # Make sure the scripts we use are executable:
       chmod +x ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_FORWARD}  ${PLUGINS_ALIGNER_LAST_BISULFITE_FILES_ALIGN_REVERSE} ${RESOURCES_PLAST_SCRIPT} ${RESOURCES_GOBY_SHELL_SCRIPT}
       set -x
