@@ -15,11 +15,6 @@ set -x
   java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
                        -Dgoby.configuration=file:${TMPDIR}/goby.properties \
                        -jar ${RESOURCES_GOBY_GOBY_JAR} \
-                       --mode  last-to-compact  --flip-strand -i r-${TEMP_FILENAME1} -o presort-${OUTPUT} --third-party-input true \
+                       --mode  last-to-compact  --flip-strand -i r-${TEMP_FILENAME1} -o ${OUTPUT} --third-party-input true \
                        --only-maf -q ${FULL_READS_INPUT} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
-
-  java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
-                       -Dgoby.configuration=file:${TMPDIR}/goby.properties \
-                       -jar ${RESOURCES_GOBY_GOBY_JAR} \
-                       --mode sort presort-${OUTPUT}  -o ${OUTPUT}
 
