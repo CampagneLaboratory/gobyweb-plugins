@@ -11,9 +11,16 @@ JOB_DIR=$5
 set -x
   ${RESOURCES_LAST_EXEC_PATH} -v -p ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} -s1 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_D} \
         -e${PLUGINS_ALIGNER_LAST_BISULFITE_E} ${INDEX_DIRECTORY}/index_f ${READS_FASTQ} -o f-${TEMP_FILENAME1}.maf
+
   java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
                        -Dgoby.configuration=file:${TMPDIR}/goby.properties \
                        -jar ${RESOURCES_GOBY_GOBY_JAR} \
                        --mode  last-to-compact -i f-${TEMP_FILENAME1} -o ${OUTPUT} --third-party-input true --only-maf \
                        -q ${FULL_READS_INPUT} -t ${REFERENCE} --quality-filter-parameters threshold=1.0
 
+  java ${GRID_JVM_FLAGS} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
+                       -Dgoby.configuration=file:${TMPDIR}/goby.properties \
+                       -jar ${RESOURCES_GOBY_GOBY_JAR} \
+                       --mode sort ${OUTPUT}  -o sorted-${OUTPUT}
+
+  mv sorted-${OUTPUT} ${OUTPUT}
