@@ -58,7 +58,7 @@
     <requires>
         <resource>
             <id>GSNAP_WITH_GOBY</id>
-            <versionAtLeast>2011.10.16</versionAtLeast>
+            <versionAtLeast>2011.11.17</versionAtLeast>
         </resource>
         <resource>
             <id>ILLUMINA_ADAPTERS</id>
