@@ -48,6 +48,8 @@
 
 # OTHER_ALIGNMENT_ANALYSIS_OPTIONS = any options defined by the end-user or assembled with the auto-format mechanism.
 
+. ${RESOURCES_GOBY_SHELL_SCRIPT}
+
 function plugin_alignment_analysis_split {
 
   NUMBER_OF_PARTS=$1
@@ -99,7 +101,7 @@ function plugin_alignment_analysis_process {
      fi
 
      # Note that we override the grid jvm flags to request only 4Gb:
-     goby_with_memory -Xmx4g discover-sequence-variants \
+     run-goby 4g discover-sequence-variants \
            ${WINDOW_LIMITS} \
            --groups ${GROUPS_DEFINITION} \
            --compare ${COMPARE_DEFINITION} \

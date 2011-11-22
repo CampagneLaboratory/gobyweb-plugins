@@ -48,6 +48,12 @@
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20111122122303</versionAtLeast>
+        </resource>
+    </requires>
     <runtime>
         <need scope="GLOBAL" key="h_vmem" value="18g"/>
         <need scope="GLOBAL" key="virtual_free" value="20g"/>
