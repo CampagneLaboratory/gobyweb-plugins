@@ -136,26 +136,26 @@ function plugin_alignment_analysis_combine {
    do
       echo -n "${groupName} "
    done
-    #GROUP1_NAME=A
-    #GROUP2_NAME=B
-    #NUM_GROUPS=2
+    #GROUP1_PAIR=A/B
+    #GROUP2_NAME=A/C
+    #NUM_COMPARISON_PAIRS=2
 
-    for ((i=1; i <= NUM_GROUPS ; i++))
+    for ((i=1; i <= NUM_COMPARISON_PAIRS ; i++))
     do
-     GROUP_NAME=`eval echo "$""GROUP"$i"_NAME"`
+     GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
      # More than one group, some P-values may need adjusting:
      if [ "${OUTPUT_FORMAT}" == "ALLELE_FREQUENCIES" ]; then
-                                       # note, allele frequency p-value should include group name.
-        COLUMNS="${COLUMNS} --column P"
+
+        COLUMNS="${COLUMNS} --column P[${GROUP_PAIR}]"
 
        elif [ "${OUTPUT_FORMAT}" == "GROUP_COMPARISONS" ]; then
 
-         COLUMNS="${COLUMNS} --column FisherP[${GROUP_NAME}]"
+         COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
 
        elif [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
-         COLUMNS="${COLUMNS} --column FisherP[${GROUP_NAME}]"
+         COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
        fi
     done
 
