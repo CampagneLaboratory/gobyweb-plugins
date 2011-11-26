@@ -131,25 +131,36 @@ function plugin_alignment_analysis_combine {
 
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_NUM_TOP_HITS}
+   COLUMNS=" "
+   for groupName in {1..${NUM_GROUPS}}
+   do
+      echo -n "${groupName} "
+   done
+    #GROUP1_NAME=A
+    #GROUP2_NAME=B
+    #NUM_GROUPS=2
 
-   if [ "${OUTPUT_FORMAT}" == "ALLELE_FREQUENCIES" ]; then
+    for ((i=1; i <= NUM_GROUPS ; i++))
+    do
+     GROUP_NAME=`eval echo "$""GROUP"$i"_NAME"`
 
-        COLUMNS="--column P"
+     # More than one group, some P-values may need adjusting:
+     if [ "${OUTPUT_FORMAT}" == "ALLELE_FREQUENCIES" ]; then
+                                       # note, allele frequency p-value should include group name.
+        COLUMNS="${COLUMNS} --column P"
 
        elif [ "${OUTPUT_FORMAT}" == "GROUP_COMPARISONS" ]; then
 
-         COLUMNS="--column FisherP[${COMPARE_DEFINITION}]"
+         COLUMNS="${COLUMNS} --column FisherP[${GROUP_NAME}]"
 
        elif [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
-         COLUMNS="--column FisherP[${COMPARE_DEFINITION}]"
-
-       else
-          COLUMNS=" "
-     fi
+         COLUMNS="${COLUMNS} --column FisherP[${GROUP_NAME}]"
+       fi
+    done
 
    echo "Adjusting P-value columns: $COLUMNS"
-   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" ]; then
+   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" || ${NUM_GROUPS} == 1 ]; then
 
         # Do not attempt FDR adjustment when there is no p-value, just concat the split files and sort:
 
