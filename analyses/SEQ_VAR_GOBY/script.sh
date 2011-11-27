@@ -160,7 +160,7 @@ function plugin_alignment_analysis_combine {
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
-   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" || ${NUM_GROUPS} == 1 ]; then
+   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 ]; then
 
         # Do not attempt FDR adjustment when there is no p-value, just concat the split files and sort:
 
