@@ -60,11 +60,11 @@
         <need scope="PROCESS" key="excl" value="false"/>
         <need scope="PROCESS" key="h_vmem" value="7g"/>
         <need scope="PROCESS" key="virtual_free" value="7g"/>
-        <need scope="PROCESS_JVM" key="-Xmx" value="6g"/>
+        <need scope="PROCESS_JVM" value="6g"/>
         <need scope="COMBINE" key="excl" value="false"/>
         <need scope="COMBINE" key="h_vmem" value="28g"/>
         <need scope="COMBINE" key="virtual_free" value="28g"/>
-        <need scope="COMBINE_JVM" key="-Xmx" value="25g"/>
+        <need scope="COMBINE_JVM" value="25g"/>
     </runtime>
     <files>
         <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
