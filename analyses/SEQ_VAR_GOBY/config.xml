@@ -48,7 +48,7 @@
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
-     <requires>
+    <requires>
         <resource>
             <id>GOBY</id>
             <versionAtLeast>20111021144833</versionAtLeast>
@@ -61,8 +61,9 @@
         <need scope="PROCESS" key="h_vmem" value="6g"/>
         <need scope="PROCESS" key="virtual_free" value="6g"/>
         <need scope="COMBINE" key="excl" value="false"/>
-        <need scope="COMBINE" key="h_vmem" value="20g"/>
+        <need scope="COMBINE" key="h_vmem" value="22g"/>
         <need scope="COMBINE" key="virtual_free" value="22g"/>
+        <need scope="COMBINE_JVM" value="20g"/>
     </runtime>
     <outputSchema>
         <outputFile>
@@ -130,7 +131,9 @@
             <id>REALIGN_AROUND_INDELS</id>
             <dbLegacyId>realignment_option</dbLegacyId>
             <name>Realign reads near indels</name>
-            <help>When this option is active, reads are realigned around indels and this can help prevent alignment artifacts.</help>
+            <help>When this option is active, reads are realigned around indels and this can help prevent alignment
+                artifacts.
+            </help>
             <required>true</required>
             <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
