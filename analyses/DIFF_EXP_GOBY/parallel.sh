@@ -60,7 +60,7 @@ function plugin_alignment_analysis_split {
 
   setupAnnotationSource
 
-  run-goby 4g suggest-position-slices \
+  run-goby ${PLUGIN_NEED_SPLIT_JVM} suggest-position-slices \
           --number-of-slices ${NUMBER_OF_PARTS} \
           --output ${SPLICING_PLAN_RESULT} \
           --annotations ${ANNOTATION_SOURCE} \
@@ -112,7 +112,7 @@ function plugin_alignment_analysis_process {
 
    setupAnnotationSource
 
-   run-goby 3g alignment-to-annotation-counts \
+   run-goby ${PLUGIN_NEED_PROCESS_JVM}  alignment-to-annotation-counts \
           --annotation ${ANNOTATION_SOURCE} \
           --write-annotation-counts false \
           --eval ${EVAL} \
@@ -140,7 +140,7 @@ function run_fdr() {
    PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
 
    OUT_FILENAME=combined-stats.tsv
-   run-goby 16g fdr \
+   run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --column-selection-filter t-test  \
           --column-selection-filter fisher-exact-R  \
           --q-threshold 1 \

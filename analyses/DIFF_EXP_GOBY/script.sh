@@ -130,7 +130,7 @@ function plugin_alignment_analysis_combine {
 
    setupWeights
 
-   run-goby 16g stats --info info.xml \
+   run-goby ${PLUGIN_NEED_COMBINE_JVM}  stats --info info.xml \
           ${OUT_FILENAME} \
           --parallel \
           --groups ${GROUPS_DEFINITION} \
