@@ -129,7 +129,7 @@
                 q-value is lower than the threshold.
             </help>
             <required>true</required>
-            <defaultsTo>1.0</defaultsTo>
+            <defaultsTo>0.05</defaultsTo>
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
