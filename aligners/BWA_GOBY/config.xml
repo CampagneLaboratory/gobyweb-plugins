@@ -40,6 +40,7 @@
     <dbLegacyId>bwa (Goby native)</dbLegacyId>
     <help>Version of BWA that supports Goby formats natively.</help>
     <supportsColorSpace>true</supportsColorSpace>
+    <supportsPairedEndAlignments>true</supportsPairedEndAlignments>
     <supportsGobyReads>true</supportsGobyReads>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <supportsFastqReads>false</supportsFastqReads>
