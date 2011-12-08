@@ -31,7 +31,7 @@
   RESEARCH FOUNDATION, INC. AND CORNELL UNIVERSITY MAKE NO REPRESENTATIONS AND
   EXTEND NO WARRANTIES OF ANY KIND, EITHER IMPLIED OR EXPRESS, INCLUDING, BUT
   NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A
-  PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
+  PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYSRA_GAIIX_RUN_namesorted_1.compact-readsRIGHTS
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
 <alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -50,8 +50,9 @@
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/bwa</indexDirectory>
     <runtime>
         <need scope="ALIGN" key="excl" value="false"/>
-        <need scope="ALIGN" key="h_vmem" value="4g"/>
-        <need scope="ALIGN" key="virtual_free" value="6g"/>
+        <need scope="ALIGN" key="h_vmem" value="5g"/>
+        <need scope="ALIGN" key="virtual_free" value="5g"/>
+        <need scope="ALIGN_JVM" value="3g"/>
     </runtime>
     <options>
 
