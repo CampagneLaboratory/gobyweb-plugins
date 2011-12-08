@@ -53,7 +53,8 @@
         <need scope="ALIGN" key="h_vmem" value="5g"/>
         <need scope="ALIGN" key="virtual_free" value="5g"/>
         <need scope="ALIGN_JVM" value="3g"/>
-        <need scope="ALIGNMENT_POST_PROCESSING" value="10g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="10g"/>
     </runtime>
     <options>
 
