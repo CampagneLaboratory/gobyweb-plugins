@@ -50,9 +50,9 @@
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/bwa</indexDirectory>
     <runtime>
         <need scope="ALIGN" key="excl" value="false"/>
-        <need scope="ALIGN" key="h_vmem" value="5g"/>
-        <need scope="ALIGN" key="virtual_free" value="5g"/>
-        <need scope="ALIGN_JVM" value="3g"/>
+        <need scope="ALIGN" key="h_vmem" value="6g"/>
+        <need scope="ALIGN" key="virtual_free" value="6g"/>
+        <need scope="ALIGN_JVM" value="4g"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="10g"/>
