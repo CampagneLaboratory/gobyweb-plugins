@@ -149,7 +149,7 @@ function plugin_alignment_analysis_combine {
 
         COLUMNS="${COLUMNS} --column P[${GROUP_PAIR}]"
 
-       elif [ "${OUTPUT_FORMAT}" == "GROUP_COMPARISONS" ]; then
+       elif [ "${OUTPUT_FORMAT}" == "COMPARE_GROUPS" ]; then
 
          COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
 
