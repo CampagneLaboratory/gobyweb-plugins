@@ -92,7 +92,7 @@ function plugin_alignment_analysis_process {
      echo "Discovering sequence variants for window limits: ${WINDOW_LIMITS} and statsFilename: ${STAT2_FILENAME}"
 
      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "Start discover-sequence-variations for part # ${CURRENT_PART}." --index ${CURRENT_PART} --job-type job-part
-
+     REALIGNMENT_OPTION=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_REALIGN_AROUND_INDELS}
      if [ "${REALIGNMENT_OPTION}" == "true" ]; then
 
             REALIGNMENT_ARGS=" --processor realign_near_indels "
