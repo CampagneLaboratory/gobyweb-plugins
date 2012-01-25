@@ -51,7 +51,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120123165352</versionAtLeast>
+            <versionAtLeast>20120125181554</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -136,6 +136,16 @@
                 artifacts.
             </help>
             <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>CALL_INDELS</id>
+            <name>Call indels</name>
+            <help>When this option is active, indels are called and reported in the VCF output file. Please be advised that the VCF output may become incompatible with various tools, as rules for reporting indels in VCF are far from clearly described and various tools are known to interpret the VCF specification differently.
+            </help>
+            <required>false</required>
             <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
