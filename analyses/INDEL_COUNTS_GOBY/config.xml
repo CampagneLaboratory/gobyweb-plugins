@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Copyright (c) 2011  by Cornell University and the Cornell Research
+  Foundation, Inc.  All Rights Reserved.
+
+  Permission to use, copy, modify and distribute any part of GobyWeb web
+  application for next-generation sequencing data alignment and analysis,
+  officially docketed at Cornell as D-5061 ("WORK") and its associated
+  copyrights for educational, research and non-profit purposes, without
+  fee, and without a written agreement is hereby granted, provided that
+  the above copyright notice, this paragraph and the following three
+  paragraphs appear in all copies.
+
+  Those desiring to incorporate WORK into commercial products or use WORK
+  and its associated copyrights for commercial purposes should contact the
+  Cornell Center for Technology Enterprise and Commercialization at
+  395 Pine Tree Road, Suite 310, Ithaca, NY 14850;
+  email:cctecconnect@cornell.edu; Tel: 607-254-4698;
+  FAX: 607-254-5454 for a commercial license.
+
+  IN NO EVENT SHALL THE CORNELL RESEARCH FOUNDATION, INC. AND CORNELL
+  UNIVERSITY BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+  OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF
+  WORK AND ITS ASSOCIATED COPYRIGHTS, EVEN IF THE CORNELL RESEARCH FOUNDATION,
+  INC. AND CORNELL UNIVERSITY MAY HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+
+  THE WORK PROVIDED HEREIN IS ON AN "AS IS" BASIS, AND THE CORNELL RESEARCH
+  FOUNDATION, INC. AND CORNELL UNIVERSITY HAVE NO OBLIGATION TO PROVIDE
+  MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.  THE CORNELL
+  RESEARCH FOUNDATION, INC. AND CORNELL UNIVERSITY MAKE NO REPRESENTATIONS AND
+  EXTEND NO WARRANTIES OF ANY KIND, EITHER IMPLIED OR EXPRESS, INCLUDING, BUT
+  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A
+  PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
+  WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
+-->
+<alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <name>Indel counts with Goby</name>
+    <id>INDEL_COUNTS_GOBY</id>
+
+    <help>Compares groups of samples and produce output about number of called indels in each sample and group. Implemented
+        with Goby.
+    </help>
+    <analysisType>SequenceVariants</analysisType>
+    <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
+    <splitProcessCombine>false</splitProcessCombine>
+    <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
+    <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <version>1.0</version>
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120125164354</versionAtLeast>
+        </resource>
+    </requires>
+    <runtime>
+        <need scope="GLOBAL" key="h_vmem" value="18g"/>
+        <need scope="GLOBAL" key="virtual_free" value="20g"/>
+        <need scope="PROCESS" key="excl" value="false"/>
+        <need scope="PROCESS" key="h_vmem" value="6g"/>
+        <need scope="PROCESS" key="virtual_free" value="6g"/>
+        <need scope="PROCESS_JVM" value="4g"/>
+        <need scope="COMBINE" key="excl" value="false"/>
+        <need scope="COMBINE" key="h_vmem" value="60g"/>
+        <need scope="COMBINE" key="virtual_free" value="60g"/>
+        <need scope="COMBINE_JVM" value="55g"/>
+    </runtime>
+    <outputSchema>
+        <outputFile>
+            <id>STATS_RESULTS_DB</id>
+            <name>Sqlite DB file</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>stats.db</filename>
+            <help>Sqlite DB file with results of called indels.</help>
+        </outputFile>
+        <outputFile>
+            <id>STATS_RESULTS</id>
+            <name>TSV file</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>stats.tsv</filename>
+            <help>Tab delimited file with counts for called indels.</help>
+        </outputFile>
+    </outputSchema>
+    <options>
+        <option>
+            <id>OUTPUT_FORMAT</id>
+            <name>Type of analysis and output format</name>
+            <help>Determines the type of sequence variation analysis to perform and the output format.</help>
+            <required>true</required>
+            <defaultsTo>genotypes</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>INDEL_COUNTS</id>
+                    <name>indel-counts</name>
+                    <value>INDEL_COUNTS</value>
+                    <help>Count called indels in samples and groups.</help>
+                </category>
+
+            </categories>
+            <autoFormat>true</autoFormat>
+            <flagFormat>--format=%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>REALIGN_AROUND_INDELS</id>
+            <dbLegacyId>realignment_option</dbLegacyId>
+            <name>Realign reads near indels</name>
+            <help>When this option is active, reads are realigned around indels and this can help prevent alignment
+                artifacts.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>MINIMUM_VARIATION_SUPPORT</id>
+            <name>Minimum variation support</name>
+            <help>Minimum number of reads that must have the variation for the variation to be reported in the output
+            </help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>THRESHOLD_DISTINCT_READ_INDICES</id>
+            <name>Minimum number of distinct read indices</name>
+            <help>Number of distinct read indices a position has to have to be reported in the output.</help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+
+    </options>
+    <minimumNumberOfGroups>1</minimumNumberOfGroups>
+    <maximumNumberOfGroups>10</maximumNumberOfGroups>
+</alignmentAnalysisConfig>
