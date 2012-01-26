@@ -117,7 +117,7 @@ function plugin_alignment_analysis_process {
            ${ENTRIES_FILES}
 
      dieUponError  "Failed to count indels in alignment files, sub-task ${CURRENT_PART} failed."
-     cp indel-counts.tsv  ${TAG}-indel-counts-${ARRAY_JOB_INDEX}.tsv
+     cp indel-counts.tsv  ${TAG}-ic-${ARRAY_JOB_INDEX}.tsv
      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
 
 }
