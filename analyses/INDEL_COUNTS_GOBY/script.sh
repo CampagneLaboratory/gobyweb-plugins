@@ -57,7 +57,7 @@ function plugin_alignment_analysis_split {
   shift
   shift
   goby suggest-position-slices \
-          --number-of-slices ${NUMBER_OF_PARTS} \
+          --number-of-slices 100 \
           --output ${SPLICING_PLAN_RESULT} \
           $*
 }
