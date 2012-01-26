@@ -112,7 +112,7 @@ function plugin_alignment_analysis_process {
            --genome ${REFERENCE_DIRECTORY}/random-access-genome \
            --minimum-variation-support ${MINIMUM_VARIATION_SUPPORT} \
            --threshold-distinct-read-indices ${THRESHOLD_DISTINCT_READ_INDICES} \
-           --output ignored-filename  \
+           --output indel-counts.tsv  \
            --call-indels true \
            ${ENTRIES_FILES}
 
@@ -157,7 +157,7 @@ function plugin_alignment_analysis_sequential {
    fi
 
      # Note that we override the grid jvm flags to request only 4Gb:
-     run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
+   run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
            --groups ${GROUPS_DEFINITION} \
            --compare ${COMPARE_DEFINITION} \
            --format ${OUTPUT_FORMAT} \
@@ -166,13 +166,13 @@ function plugin_alignment_analysis_sequential {
            --genome ${REFERENCE_DIRECTORY}/random-access-genome \
            --minimum-variation-support ${MINIMUM_VARIATION_SUPPORT} \
            --threshold-distinct-read-indices ${THRESHOLD_DISTINCT_READ_INDICES} \
-           --output this-is-ignored.tsv  \
+           --output indel-counts.tsv  \
            ${ENTRIES_FILES}
 
-      dieUponError  "Failed to count indels in alignment files, sub-task ${CURRENT_PART} failed."
-      RESULT_FILE=stats.tsv
-      cp indel-counts.tsv ${RESULT_FILE}
-      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
+   dieUponError  "Failed to count indels in alignment files, sub-task ${CURRENT_PART} failed."
+   RESULT_FILE=stats.tsv
+   cp indel-counts.tsv ${RESULT_FILE}
+   ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
 
 
 }
