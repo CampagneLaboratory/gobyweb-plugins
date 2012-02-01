@@ -112,6 +112,7 @@
             <dbLegacyId>weightAdjustment</dbLegacyId>
             <name>weight adjustment</name>
             <help>Type of count adjustment.</help>
+            <defaultsTo>NONE</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>

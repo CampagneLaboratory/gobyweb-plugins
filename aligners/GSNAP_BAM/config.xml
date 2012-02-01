@@ -103,7 +103,7 @@
                 used.
             </help>
             <required>true</required>
-            <defaultsTo>stranded</defaultsTo>
+            <defaultsTo>STRANDED</defaultsTo>
             <autoFormat>false</autoFormat>
             <type>CATEGORY</type>
             <categories>

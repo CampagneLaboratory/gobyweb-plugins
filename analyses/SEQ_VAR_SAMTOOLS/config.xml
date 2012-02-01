@@ -73,7 +73,7 @@
             <name>Type of analysis and output format</name>
             <help>Determines the type of sequence variation analysis to perform and the output format.</help>
             <required>true</required>
-            <defaultsTo>genotypes</defaultsTo>
+            <defaultsTo>GENOTYPES</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>

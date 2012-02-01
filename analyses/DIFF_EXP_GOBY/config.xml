@@ -90,7 +90,7 @@
             <name>Normalization</name>
             <help>Normalization method(s).</help>
             <required>true</required>
-            <defaultsTo>aligned_count</defaultsTo>
+            <defaultsTo>ALIGNED_COUNT</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>
@@ -149,6 +149,7 @@
             <dbLegacyId>weightAdjustment</dbLegacyId>
             <name>weight adjustment</name>
             <help>Type of count adjustment.</help>
+            <defaultsTo>NONE</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>
