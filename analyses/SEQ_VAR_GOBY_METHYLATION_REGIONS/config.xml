@@ -36,36 +36,46 @@
 -->
 <alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <name>Sequence Variation Analyses with Goby</name>
-    <id>SEQ_VAR_GOBY</id>
-    <dbLegacyId>Compare sequence variants</dbLegacyId>
-    <help>Compares groups of samples and produce output about sequence variants observed in the alignments. Implemented
-        with Goby. Specific analysis depends on selected output format.
+    <name>Methylation analysis over annotated regions</name>
+    <id>SEQ_VAR_GOBY_METHYLATION_REGIONS</id>
+    <dbLegacyId>GobyMethylationRegions</dbLegacyId>
+    <help>Compares groups of samples and produce methylation rate output and statistics for annotated regions of the
+        genome. Implemented with Goby 1.9.2.2+.
     </help>
-    <analysisType>SequenceVariants</analysisType>
+    <analysisType>Methylation</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.0</version>
+    <version>1.1</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120125181554</versionAtLeast>
+            <versionAtLeast>20120201192648</versionAtLeast>
         </resource>
     </requires>
     <runtime>
         <need scope="GLOBAL" key="h_vmem" value="18g"/>
         <need scope="GLOBAL" key="virtual_free" value="20g"/>
         <need scope="PROCESS" key="excl" value="false"/>
-        <need scope="PROCESS" key="h_vmem" value="8g"/>
-        <need scope="PROCESS" key="virtual_free" value="8g"/>
-        <need scope="PROCESS_JVM" value="6g"/>
+        <need scope="PROCESS" key="h_vmem" value="6g"/>
+        <need scope="PROCESS" key="virtual_free" value="6g"/>
+        <need scope="PROCESS_JVM" value="4g"/>
         <need scope="COMBINE" key="excl" value="false"/>
         <need scope="COMBINE" key="h_vmem" value="60g"/>
         <need scope="COMBINE" key="virtual_free" value="60g"/>
         <need scope="COMBINE_JVM" value="55g"/>
     </runtime>
+    <files>
+        <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
+        but the file format is methylation here. Please note that the special SCRIPT id is necessary to
+        override the default script file. -->
+        <file>
+            <id>SCRIPT</id>
+            <filename>script.sh</filename>
+            <importFromPlugin>SEQ_VAR_GOBY</importFromPlugin>
+        </file>
+    </files>
     <outputSchema>
         <outputFile>
             <id>STATS_RESULTS_DB</id>
@@ -79,77 +89,29 @@
             <id>STATS_RESULTS</id>
             <name>VCF file</name>
             <required>true</required>
-            <mimeType>text/variant-calling-format</mimeType>
-            <filename>stats.vcf.gz</filename>
-            <help>VCF file with results of called variations.</help>
-        </outputFile>
-        <outputFile>
-            <id>STATS_RESULTS_INDEX</id>
-            <name>VCF file index</name>
-            <required>true</required>
-            <mimeType>text/variant-calling-format-index</mimeType>
-            <filename>stats.vcf.gz.tbi</filename>
-            <help>VCF file index (produced with tabix).</help>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>stats.tsv</filename>
+            <help>Statistics of region methylation rates, in the IGV format (rename to .igv to view in IGV).</help>
         </outputFile>
     </outputSchema>
     <options>
         <option>
             <id>OUTPUT_FORMAT</id>
-            <dbLegacyId>analysisType_compare_sequence_variants</dbLegacyId>
+            <dbLegacyId>analysisType_gobymethylation</dbLegacyId>
             <name>Type of analysis and output format</name>
             <help>Determines the type of sequence variation analysis to perform and the output format.</help>
             <required>true</required>
-            <defaultsTo>GENOTYPES</defaultsTo>
+            <defaultsTo>METHYLATION</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>
-                    <id>GENOTYPES</id>
-                    <name>genotypes</name>
-                    <value>GENOTYPES</value>
-                    <help>Calls genotypes at observed bases.</help>
-                    <dbLegacyValue>genotypes</dbLegacyValue>
-                </category>
-                <category>
-                    <id>ALLELE_FREQUENCIES</id>
-                    <name>allele_frequencies</name>
-                    <value>ALLELE_FREQUENCIES</value>
-                    <help>Estimate allelic expression.</help>
-                    <dbLegacyValue>allele-frequencies</dbLegacyValue>
-                </category>
-                <category>
-                    <id>GROUP_COMPARISONS</id>
-                    <name>group_comparisons</name>
-                    <value>COMPARE_GROUPS</value>
-                    <help>Compare groups of samples with allelic association test.</help>
-                    <dbLegacyValue>group-comparison</dbLegacyValue>
+                    <id>METHYLATION_REGIONS</id>
+                    <name>methylation</name>
+                    <value>METHYLATION_REGIONS</value>
+                    <help>Estimate methylation rates over annotated regions of the genome.</help>
+                    <dbLegacyValue>methylation_regions</dbLegacyValue>
                 </category>
             </categories>
-            <autoFormat>true</autoFormat>
-            <flagFormat>--format=%s</flagFormat>
-            <includeSpaces>true</includeSpaces>
-        </option>
-        <option>
-            <id>REALIGN_AROUND_INDELS</id>
-            <dbLegacyId>realignment_option</dbLegacyId>
-            <name>Realign reads near indels</name>
-            <help>When this option is active, reads are realigned around indels and this can help prevent alignment
-                artifacts.
-            </help>
-            <required>true</required>
-            <defaultsTo>false</defaultsTo>
-            <type>BOOLEAN</type>
-            <autoFormat>false</autoFormat>
-        </option>
-        <option>
-            <id>CALL_INDELS</id>
-            <name>Call indels</name>
-            <help>When this option is active, indels are called and reported in the VCF output file. Please be advised
-                that the VCF output may become incompatible with various tools, as rules for reporting indels in VCF are
-                far from clearly described and various tools are known to interpret the VCF specification differently.
-            </help>
-            <required>false</required>
-            <defaultsTo>false</defaultsTo>
-            <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
         </option>
         <option>
@@ -159,7 +121,7 @@
                 q-value is lower than the threshold.
             </help>
             <required>true</required>
-            <defaultsTo>1.0</defaultsTo>
+            <defaultsTo>0.05</defaultsTo>
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
@@ -178,7 +140,7 @@
             <help>Minimum number of reads that must have the variation for the variation to be reported in the output
             </help>
             <required>true</required>
-            <defaultsTo>1</defaultsTo>
+            <defaultsTo>35</defaultsTo>
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
         </option>
@@ -192,21 +154,48 @@
             <autoFormat>false</autoFormat>
         </option>
         <option hiddenWhen="true">
+            <id>CALL_INDELS</id>
+            <name>Call indels</name>
+            <help>When this option is active, indels are called and reported in the VCF output file. Please be advised
+                that the VCF output may become incompatible with various tools, as rules for reporting indels in VCF are
+                far from clearly described and various tools are known to interpret the VCF specification differently.
+            </help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
             <id>ANNOTATIONS</id>
             <name>Annotations</name>
-            <help>The annotation file to use to define regions.
-            </help>
-            <required>false</required>
+            <help>The annotation file to use to define regions.            </help>
+            <required>true</required>
             <defaultsTo>NONE</defaultsTo>
-            <type>CATEGORY</type>
+            <dbLegacyId>something</dbLegacyId>
             <categories>
                 <category>
-                    <id>NONE</id>
-                    <name>NONE</name>
-                    <value>NONE</value>
-                    <help>No annotations</help>
+                    <id>GENES</id>
+                    <name>Genes</name>
+                    <value>path</value>
+                    <help>Regions over gene boundaries.</help>
+                    <dbLegacyValue>genes</dbLegacyValue>
+                </category>
+                <category>
+                    <id>EXONS</id>
+                    <name>Exons</name>
+                    <value>path</value>
+                    <help>Regions over exon boundaries.</help>
+                     <dbLegacyValue>exons</dbLegacyValue>
+                </category>
+                <category>
+                    <id>CPG_ISLANDS</id>
+                    <name>Cpg Islands</name>
+                    <value>path</value>
+                    <help>Regions over CpG island boundaries.</help>
+                    <dbLegacyValue>cpgs</dbLegacyValue>
                 </category>
             </categories>
+            <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
         </option>
     </options>

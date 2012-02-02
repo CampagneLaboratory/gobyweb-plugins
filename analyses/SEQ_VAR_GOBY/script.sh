@@ -82,6 +82,12 @@ function plugin_alignment_analysis_process {
    MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_MINIMUM_VARIATION_SUPPORT}
    THRESHOLD_DISTINCT_READ_INDICES=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_THRESHOLD_DISTINCT_READ_INDICES}
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}
+   ANNOTATIONS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_ANNOTATIONS}
+   if [ ! "${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_ANNOTATIONS}" == "NONE" ]; then
+     ANNOTATION_OPTION=" -x MethylationRegionsOutputFormat:annotations=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_ANNOTATIONS} "
+   else {
+     ANNOTATION_OPTION=" "
+   }
 
    # These variables are defined: SLICING_PLAN_FILENAME
      echo "Processing run_single_alignment_analysis_process for part ${SGE_TASK_ID}"
@@ -114,6 +120,7 @@ function plugin_alignment_analysis_process {
            --threshold-distinct-read-indices ${THRESHOLD_DISTINCT_READ_INDICES} \
            --output ${TAG}-dsv-${ARRAY_JOB_INDEX}.vcf  \
            --call-indels ${CALL_INDELS_OPTION} \
+           ${ANNOTATION_OPTION} \
            ${ENTRIES_FILES}
 
       dieUponError  "Compare sequence variations part, sub-task ${CURRENT_PART} failed."

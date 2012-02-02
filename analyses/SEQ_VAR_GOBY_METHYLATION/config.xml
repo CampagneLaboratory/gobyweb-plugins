@@ -164,11 +164,31 @@
         <option>
             <id>CALL_INDELS</id>
             <name>Call indels</name>
-            <help>When this option is active, indels are called and reported in the VCF output file. Please be advised that the VCF output may become incompatible with various tools, as rules for reporting indels in VCF are far from clearly described and various tools are known to interpret the VCF specification differently.
+            <help>When this option is active, indels are called and reported in the VCF output file. Please be advised
+                that the VCF output may become incompatible with various tools, as rules for reporting indels in VCF are
+                far from clearly described and various tools are known to interpret the VCF specification differently.
             </help>
             <required>true</required>
             <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option hiddenWhen="true">
+            <id>ANNOTATIONS</id>
+            <name>Annotations</name>
+            <help>The annotation file to use to define regions.
+            </help>
+            <required>false</required>
+            <defaultsTo>NONE</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>NONE</id>
+                    <name>NONE</name>
+                    <value>NONE</value>
+                    <help>No annotations</help>
+                </category>
+            </categories>
             <autoFormat>false</autoFormat>
         </option>
     </options>
