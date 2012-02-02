@@ -45,7 +45,8 @@
     <analysisType>Methylation</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
-    <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
+    <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
+    <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.1</version>
     <requires>
@@ -168,7 +169,7 @@
         <option>
             <id>ANNOTATIONS</id>
             <name>Annotations</name>
-            <help>The annotation file to use to define regions.            </help>
+            <help>The annotation file to use to define regions.</help>
             <required>true</required>
             <defaultsTo>NONE</defaultsTo>
             <dbLegacyId>something</dbLegacyId>
@@ -185,7 +186,7 @@
                     <name>Exons</name>
                     <value>%NODE_LOCAL_DATA_ROOT%/annotations/%ORGANISM%/methyl-exon-annotations.tsv</value>
                     <help>Regions over exon boundaries.</help>
-                     <dbLegacyValue>exons</dbLegacyValue>
+                    <dbLegacyValue>exons</dbLegacyValue>
                 </category>
                 <category>
                     <id>CPG_ISLANDS</id>
