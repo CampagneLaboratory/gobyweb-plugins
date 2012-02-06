@@ -169,7 +169,8 @@ function plugin_alignment_analysis_combine {
    echo "Adjusting P-value columns: $COLUMNS"
    
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_Q_VALUE_THRESHOLD}
-
+   # Remove this to filter by q-value threshold (when p-values have been added to the TSV)
+   Q_VALUE_THRESHOLD=1.0
    run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --q-threshold ${Q_VALUE_THRESHOLD} \
           --top-hits ${NUM_TOP_HITS} \
