@@ -68,13 +68,9 @@
         <need scope="COMBINE_JVM" value="55g"/>
     </runtime>
     <files>
-        <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
-        but the file format is methylation here. Please note that the special SCRIPT id is necessary to
-        override the default script file. -->
         <file>
             <id>SCRIPT</id>
             <filename>script.sh</filename>
-            <importFromPlugin>SEQ_VAR_GOBY</importFromPlugin>
         </file>
     </files>
     <outputSchema>
