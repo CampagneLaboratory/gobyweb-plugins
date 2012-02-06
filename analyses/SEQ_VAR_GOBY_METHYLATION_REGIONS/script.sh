@@ -171,7 +171,6 @@ function plugin_alignment_analysis_combine {
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_Q_VALUE_THRESHOLD}
 
    run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
-          --vcf \
           --q-threshold ${Q_VALUE_THRESHOLD} \
           --top-hits ${NUM_TOP_HITS} \
           ${PART_RESULT_FILES}  \
