@@ -106,7 +106,14 @@ function plugin_alignment_analysis_process {
             REALIGNMENT_ARGS="  "
      fi
      CALL_INDELS_OPTION=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_CALL_INDELS}
+     INDEL_RATE=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_INDEL_RATE}
 
+     EXTRA_ARGS=" "
+
+     if [ "${INDEL_RATE}" == "true" ]; then
+         CALL_INDELS_OPTION="true"
+         EXTRA_ARGS=" --diploid true -x MethylationRegionsOutputFormat:do-indel-rate=true "
+     fi
      # Note that we override the grid jvm flags to request only 4Gb:
      run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
            ${WINDOW_LIMITS} \
@@ -121,6 +128,7 @@ function plugin_alignment_analysis_process {
            --output ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv  \
            --call-indels ${CALL_INDELS_OPTION} \
            ${ANNOTATION_OPTION} \
+           ${EXTRA_ARGS} \
            ${ENTRIES_FILES}
 
       dieUponError  "Compare methylation region part, sub-task ${CURRENT_PART} failed."

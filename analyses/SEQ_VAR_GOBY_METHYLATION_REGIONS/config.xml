@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120206191743</versionAtLeast>
+            <versionAtLeast>20120207162531</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -193,6 +193,16 @@
                 </category>
             </categories>
             <type>CATEGORY</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>INDEL_RATE</id>
+            <name>Estimate indel rate</name>
+            <help>When this option is active, the rate of indels is estimated over each annotation. The percentage of sites where an indel is called is written in the MR field(s).
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
         </option>
     </options>
