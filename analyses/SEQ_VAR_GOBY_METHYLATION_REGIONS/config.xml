@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120207162531</versionAtLeast>
+            <versionAtLeast>20120208140126</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -158,6 +158,17 @@
                 far from clearly described and various tools are known to interpret the VCF specification differently.
             </help>
             <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>FORCE_DIPLOID</id>
+            <name>Diploid genome</name>
+            <help>When this option is active, genotype calls are forced to be diploid. Use when you know that the
+                genome the reads were generated from was diploid.
+            </help>
+            <required>false</required>
             <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>

@@ -107,6 +107,7 @@ function plugin_alignment_analysis_process {
      fi
      CALL_INDELS_OPTION=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_CALL_INDELS}
      INDEL_RATE=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_INDEL_RATE}
+     FORCE_DIPLOID=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_FORCE_DIPLOID}
 
      EXTRA_ARGS=" "
 
@@ -128,6 +129,7 @@ function plugin_alignment_analysis_process {
            --output ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv  \
            --call-indels ${CALL_INDELS_OPTION} \
            ${ANNOTATION_OPTION} \
+           --diploid ${FORCE_DIPLOID} \
            ${EXTRA_ARGS} \
            ${ENTRIES_FILES}
 

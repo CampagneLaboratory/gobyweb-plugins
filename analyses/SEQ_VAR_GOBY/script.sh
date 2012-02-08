@@ -106,6 +106,7 @@ function plugin_alignment_analysis_process {
             REALIGNMENT_ARGS="  "
      fi
      CALL_INDELS_OPTION=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_CALL_INDELS}
+     FORCE_DIPLOID=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_FORCE_DIPLOID}
 
      # Note that we override the grid jvm flags to request only 4Gb:
      run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
@@ -120,6 +121,7 @@ function plugin_alignment_analysis_process {
            --threshold-distinct-read-indices ${THRESHOLD_DISTINCT_READ_INDICES} \
            --output ${TAG}-dsv-${ARRAY_JOB_INDEX}.vcf  \
            --call-indels ${CALL_INDELS_OPTION} \
+           --diploid ${FORCE_DIPLOID}  \
            ${ANNOTATION_OPTION} \
            ${ENTRIES_FILES}
 
