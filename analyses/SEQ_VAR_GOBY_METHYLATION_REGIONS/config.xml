@@ -84,11 +84,11 @@
         </outputFile>
         <outputFile>
             <id>STATS_RESULTS</id>
-            <name>VCF file</name>
+            <name>TSV/IGV file</name>
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>stats.tsv</filename>
-            <help>Statistics of region methylation rates, in the IGV format (rename to .igv to view in IGV).</help>
+            <help>Statistics of region methylation rates, in the IGV format (Download file as .tsv, rename to .igv to view in IGV).</help>
         </outputFile>
     </outputSchema>
     <options>
