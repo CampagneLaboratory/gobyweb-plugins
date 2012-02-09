@@ -162,10 +162,7 @@ function plugin_alignment_analysis_combine {
      GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
      # More than one group, some P-values may need adjusting:
-     if [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
-
         COLUMNS="${COLUMNS} --column-selection-filter fisherP[${GROUP_PAIR}]"
-     fi
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
