@@ -164,7 +164,7 @@ function plugin_alignment_analysis_combine {
      # More than one group, some P-values may need adjusting:
      if [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
-        COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
+        COLUMNS="${COLUMNS} --column-selection-filter FisherP[${GROUP_PAIR}]"
      fi
     done
 
