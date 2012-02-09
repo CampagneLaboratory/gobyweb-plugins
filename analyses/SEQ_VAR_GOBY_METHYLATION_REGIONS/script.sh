@@ -162,26 +162,16 @@ function plugin_alignment_analysis_combine {
      GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
      # More than one group, some P-values may need adjusting:
-     if [ "${OUTPUT_FORMAT}" == "ALLELE_FREQUENCIES" ]; then
+     if [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
-        COLUMNS="${COLUMNS} --column P[${GROUP_PAIR}]"
-
-       elif [ "${OUTPUT_FORMAT}" == "COMPARE_GROUPS" ]; then
-
-         COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
-
-       elif [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
-
-         COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
-       fi
+        COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
+     fi
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
    
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_Q_VALUE_THRESHOLD}
-   # Remove the next two lines to filter by q-value threshold (when p-values have been added to the TSV)
-   Q_VALUE_THRESHOLD=1.0
-   NUM_TOP_HITS=1000000000
+
    run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --q-threshold ${Q_VALUE_THRESHOLD} \
           --top-hits ${NUM_TOP_HITS} \
