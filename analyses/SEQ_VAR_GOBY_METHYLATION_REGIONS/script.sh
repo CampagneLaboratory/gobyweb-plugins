@@ -113,7 +113,7 @@ function plugin_alignment_analysis_process {
 
      if [ "${INDEL_RATE}" == "true" ]; then
          CALL_INDELS_OPTION="true"
-         EXTRA_ARGS=" --diploid true -x MethylationRegionsOutputFormat:do-indel-rate=true "
+         EXTRA_ARGS=" -x MethylationRegionsOutputFormat:do-indel-rate=true "
      fi
      # Note that we override the grid jvm flags to request only 4Gb:
      run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
@@ -164,7 +164,7 @@ function plugin_alignment_analysis_combine {
      # More than one group, some P-values may need adjusting:
      if [ "${OUTPUT_FORMAT}" == "METHYLATION" ]; then
 
-        COLUMNS="${COLUMNS} --column-selection-filter FisherP[${GROUP_PAIR}]"
+        COLUMNS="${COLUMNS} --column-selection-filter fisherP[${GROUP_PAIR}]"
      fi
     done
 
