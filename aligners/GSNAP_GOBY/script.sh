@@ -51,7 +51,7 @@ function plugin_align {
      BASENAME=$2
 
      SPLICED_OPTION=""
-     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "true" ]; then
+     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
         SPLICED_OPTION="-s %GSNAP_SPLICE_FILE%"
      fi
 
