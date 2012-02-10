@@ -54,6 +54,10 @@
             <id>GOBY</id>
             <versionAtLeast>20120209181649</versionAtLeast>
         </resource>
+        <resource>
+            <id>IGVTOOLS</id>
+            <versionAtLeast>1.5.16</versionAtLeast>
+        </resource>
     </requires>
     <runtime>
         <need scope="GLOBAL" key="h_vmem" value="18g"/>
@@ -84,11 +88,19 @@
         </outputFile>
         <outputFile>
             <id>STATS_RESULTS</id>
-            <name>TSV/IGV file</name>
+            <name>TSV file</name>
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>stats.tsv</filename>
             <help>Statistics of region methylation rates, in the IGV format (Download file as .tsv, rename to .igv to view in IGV).</help>
+        </outputFile>
+        <outputFile>
+            <id>IGV_OUTPUT</id>
+            <name>IGV file</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>methyl-regions.igv</filename>
+            <help>Statistics of region methylation rates, in the IGV format. The file has been sorted and is ready to view in IGV. </help>
         </outputFile>
     </outputSchema>
     <options>

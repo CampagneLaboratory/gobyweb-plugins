@@ -49,6 +49,7 @@
 # OTHER_ALIGNMENT_ANALYSIS_OPTIONS = any options defined by the end-user or assembled with the auto-format mechanism.
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
+. ${RESOURCES_IGVTOOLS_SHELL_SCRIPT}
 
 function plugin_alignment_analysis_split {
 
@@ -175,4 +176,9 @@ function plugin_alignment_analysis_combine {
           ${PART_RESULT_FILES}  \
           ${COLUMNS} \
           --output ${RESULT_FILE}
+   cp ${RESULT_FILE} raw.igv
+
+   igvtools ${PLUGIN_NEED_COMBINE_JVM} sort raw.igv methyl-regions.igv
+   # We can't convert to tdf at this time because we don't know what genome build id to use in the following command line
+   # igvtools ${PLUGIN_NEED_COMBINE_JVM} tile methyl-regions.igv methyl-regions.tdf hg19
 }
