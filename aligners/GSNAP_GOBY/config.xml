@@ -120,7 +120,14 @@
                     <help>Stranded version of the GSNAP algorithms.</help>
                 </category>
             </categories>
-
+        </option>
+        <option>
+            <id>SPLICED_ALIGNMENT</id>
+            <!-- <dbLegacyId>analysisType_goby_gene</dbLegacyId> -->
+            <name>Spliced alignment</name>
+            <help>Search for splices during alignment</help>
+            <type>BOOLEAN</type>
+            <defaultsTo>false</defaultsTo>
         </option>
     </options>
 </alignerConfig>
