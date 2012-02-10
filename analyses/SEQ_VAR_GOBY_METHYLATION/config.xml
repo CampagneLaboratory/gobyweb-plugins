@@ -161,6 +161,17 @@
             <type>INTEGER</type>
             <autoFormat>false</autoFormat>
         </option>
+        <option hiddenWhen="true">
+            <id>FORCE_DIPLOID</id>
+            <name>Diploid genome</name>
+            <help>When this option is active, genotype calls are forced to be diploid. Use when you know that the
+                genome the reads were generated from was diploid.
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
         <option>
             <id>CALL_INDELS</id>
             <name>Call indels</name>
