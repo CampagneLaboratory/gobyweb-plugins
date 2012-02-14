@@ -214,6 +214,13 @@
                     <help>Regions over CpG island boundaries.</help>
                     <dbLegacyValue>cpgs</dbLegacyValue>
                 </category>
+                <category>
+                    <id>REFSEQ_PROMOTER</id>
+                    <name>Refseq Promoter</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-refseq-promoter-annotations.tsv</value>
+                    <help>Regions 2kb +/- from the transcription start site of refseq transcripts.</help>
+                    <dbLegacyValue>promoters</dbLegacyValue>
+                </category>
             </categories>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
