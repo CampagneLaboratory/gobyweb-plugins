@@ -80,7 +80,7 @@
     <outputSchema>
         <outputFile>
             <id>STATS_RESULTS_DB</id>
-            <name>View table of statistics</name>
+            <name>table of statistics</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>stats.db</filename>
