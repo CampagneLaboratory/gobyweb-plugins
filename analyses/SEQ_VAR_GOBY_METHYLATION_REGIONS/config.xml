@@ -48,7 +48,7 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.6.1</version>
+    <version>1.6.1.1</version>
     <requires>
         <resource>
             <id>GOBY</id>
