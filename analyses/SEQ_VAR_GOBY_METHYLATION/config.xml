@@ -79,11 +79,11 @@
     <outputSchema>
         <outputFile>
             <id>STATS_RESULTS_DB</id>
-            <name>Sqlite DB file</name>
+            <name>table of statistics</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>stats.db</filename>
-            <help>Sqlite DB file with results of called variations.</help>
+            <help>View the table of results in the interactive GobyWeb table browser.  Table contains methylation rates for individual genomic bases.</help>
         </outputFile>
         <outputFile>
             <id>STATS_RESULTS</id>

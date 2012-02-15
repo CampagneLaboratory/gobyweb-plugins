@@ -70,11 +70,11 @@
     <outputSchema>
         <outputFile>
             <id>STATS_RESULTS_DB</id>
-            <name>Sqlite DB file</name>
+            <name>table of statistics</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>stats.db</filename>
-            <help>Sqlite DB file with results of called indels.</help>
+            <help>View the table of results in the interactive GobyWeb table browser. Table contains indel counts generated with Goby discover-sequence-variants mode, indel-counts output format.</help>
         </outputFile>
         <outputFile>
             <id>STATS_RESULTS</id>
