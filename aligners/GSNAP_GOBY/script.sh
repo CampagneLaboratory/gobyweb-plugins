@@ -49,6 +49,9 @@ function plugin_align {
 
      OUTPUT=$1
      BASENAME=$2
+     # set the number of threads to the number of cores available on the server:
+     NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"
 
      SPLICED_OPTION=""
      if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
@@ -65,9 +68,6 @@ function plugin_align {
 
          STRANDNESS="${PLUGINS_ALIGNER_GSNAP_GOBY_STRANDNESS}"
          BISULFITE_OPTION=" --mode "cmet-${STRANDNESS}" -m 1 -i 100 --terminal-threshold=100    "
-         # set the number of threads to the number of cores available on the server:
-         NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
-         ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"
 
          # Trim the reads if they are bisulfite.
          goby trim  -i small-reads.compact-reads -o small-reads-trimmed.compact-reads --complement -a  ${RESOURCES_ILLUMINA_ADAPTERS_FILE_PATH}  --min-left-length 4
