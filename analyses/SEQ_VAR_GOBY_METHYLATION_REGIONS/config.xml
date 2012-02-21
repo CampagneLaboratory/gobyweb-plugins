@@ -48,7 +48,7 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.6.1.1</version>
+    <version>1.6.2</version>
     <requires>
         <resource>
             <id>GOBY</id>
@@ -229,6 +229,26 @@
             <id>INDEL_RATE</id>
             <name>Estimate indel rate</name>
             <help>When this option is active, the rate of indels is estimated over each annotation. The percentage of sites where an indel is called is written in the MR field(s).
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>WRITE_COUNTS</id>
+            <name>Write Cm C columns in output file</name>
+            <help>When this option is active, the output file includes C and Cm columns corresponding to the number of non-methylated and methylated cytosines respectively.
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY</id>
+            <name>Estimate density of intra-group differences</name>
+            <help>When this option is active, estimate the density of sample differences within groups.
             </help>
             <required>false</required>
             <defaultsTo>false</defaultsTo>

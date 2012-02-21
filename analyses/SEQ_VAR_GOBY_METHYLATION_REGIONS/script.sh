@@ -109,15 +109,35 @@ function plugin_alignment_analysis_process {
      CALL_INDELS_OPTION=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_CALL_INDELS}
      INDEL_RATE=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_INDEL_RATE}
      FORCE_DIPLOID=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_FORCE_DIPLOID}
-
+     WRITE_COUNTS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_WRITE_COUNTS}
+     ESTIMATE_DENSITY=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY}
      EXTRA_ARGS=" "
 
      if [ "${INDEL_RATE}" == "true" ]; then
          CALL_INDELS_OPTION="true"
          EXTRA_ARGS=" -x MethylationRegionsOutputFormat:do-indel-rate=true "
      fi
-     # Note that we override the grid jvm flags to request only 4Gb:
-     run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
+
+
+     if [ "${ESTIMATE_DENSITY}" == "true" ]; then
+         run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}
+         dieUponError  "Estimating density failed for part ${CURRENT_PART}."
+         cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/results/  .
+         dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
+     fi
+
+     run_methyl_regions ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv
+     dieUponError  "Compare methylation region part, sub-task ${CURRENT_PART} failed."
+
+     ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
+
+
+}
+function run_methyl_regions {
+    output="$1"
+    shift
+
+    run-goby ${PLUGIN_NEED_PROCESS_JVM} discover-sequence-variants \
            ${WINDOW_LIMITS} \
            --groups ${GROUPS_DEFINITION} \
            --compare ${COMPARE_DEFINITION} \
@@ -127,18 +147,13 @@ function plugin_alignment_analysis_process {
            --genome ${REFERENCE_DIRECTORY}/random-access-genome \
            --minimum-variation-support ${MINIMUM_VARIATION_SUPPORT} \
            --threshold-distinct-read-indices ${THRESHOLD_DISTINCT_READ_INDICES} \
-           --output ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv  \
+           --output ${output}  \
            --call-indels ${CALL_INDELS_OPTION} \
            ${ANNOTATION_OPTION} \
            --diploid ${FORCE_DIPLOID} \
+           -x AnnotationAveragingWriter:write-counts=${WRITE_COUNTS} \
            ${EXTRA_ARGS} \
-           ${ENTRIES_FILES}
-
-      dieUponError  "Compare methylation region part, sub-task ${CURRENT_PART} failed."
-
-      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
-
-
+           ${ENTRIES_FILES} $*
 }
 
 function plugin_alignment_analysis_combine {
