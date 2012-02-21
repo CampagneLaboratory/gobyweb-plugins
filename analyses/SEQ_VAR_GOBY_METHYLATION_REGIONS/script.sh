@@ -122,7 +122,7 @@ function plugin_alignment_analysis_process {
      if [ "${ESTIMATE_DENSITY}" == "true" ]; then
          run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}
          dieUponError  "Estimating density failed for part ${CURRENT_PART}."
-         cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/results/  .
+         cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/results/
          dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
      fi
 
