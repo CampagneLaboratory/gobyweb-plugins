@@ -187,11 +187,12 @@ function plugin_alignment_analysis_combine {
    echo "Adjusting P-value columns: $COLUMNS"
    
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_Q_VALUE_THRESHOLD}
-   if [ ${NUM_GROUPS} == 1 ]; then
+   if [ "${NUM_GROUPS}" == "1" ]; then
 
-        Q_VALUE_THRESHOLD=1.0
+       Q_VALUE_THRESHOLD=1.0
 
    fi
+
 
    run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --q-threshold ${Q_VALUE_THRESHOLD} \
