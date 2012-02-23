@@ -268,9 +268,9 @@
         <option hiddenWhen="NOT value(ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY)">
             <id>PVALUE_COMBINATOR</id>
             <name>P-value combination method</name>
-            <help>Method to combine evidence from multiple tests.            </help>
+            <help>Method to combine evidence from multiple tests.</help>
             <required>false</required>
-            <defaultsTo>sum</defaultsTo>
+            <defaultsTo>qfast</defaultsTo>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
             <categories>
