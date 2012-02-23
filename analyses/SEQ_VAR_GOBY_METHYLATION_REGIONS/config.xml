@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120210111515</versionAtLeast>
+            <versionAtLeast>20120223162224</versionAtLeast>
         </resource>
         <resource>
             <id>IGVTOOLS</id>
@@ -278,13 +278,13 @@
                     <id>SUM</id>
                     <name>Sum</name>
                     <value>sum</value>
-                    <help>Sum the p-values until the sum would exceed 1. Quite conservative, but less than max. Signal from different pairs is taken into account.</help>
+                    <help>Sum the p-values until the sum would exceed 1. most conservative approach. Signal from different pairs is taken into account.</help>
                 </category>
                   <category>
                     <id>MAX</id>
                     <name>Maximum</name>
                     <value>max</value>
-                    <help>Take the maximum of the p-values under test (most conservative approach, only one sample pair contributes to the final p-value).</help>
+                    <help>Take the maximum of the p-values under test (conservative approach, only one sample pair contributes to the final p-value).</help>
                 </category>
                 <category>
                     <id>QFAST</id>
