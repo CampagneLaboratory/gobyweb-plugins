@@ -48,7 +48,7 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.6.2</version>
+    <version>1.6.3</version>
     <requires>
         <resource>
             <id>GOBY</id>
@@ -92,7 +92,9 @@
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>stats.tsv</filename>
-            <help>Statistics of region methylation rates, in the IGV format (Download file as .tsv, rename to .igv to view in IGV).</help>
+            <help>Statistics of region methylation rates, in the IGV format (Download file as .tsv, rename to .igv to
+                view in IGV).
+            </help>
         </outputFile>
         <outputFile>
             <id>IGV_OUTPUT</id>
@@ -100,7 +102,9 @@
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>methyl-regions.igv</filename>
-            <help>Statistics of region methylation rates, in the IGV format. The file has been sorted and is ready to view in IGV. </help>
+            <help>Statistics of region methylation rates, in the IGV format. The file has been sorted and is ready to
+                view in IGV.
+            </help>
         </outputFile>
     </outputSchema>
     <options>
@@ -217,7 +221,8 @@
                 <category>
                     <id>REFSEQ_PROMOTER</id>
                     <name>Refseq Promoters</name>
-                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-refseq-promoter-annotations.tsv</value>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-refseq-promoter-annotations.tsv
+                    </value>
                     <help>Regions 2kb +/- from the transcription start site of refseq transcripts.</help>
                     <dbLegacyValue>promoters</dbLegacyValue>
                 </category>
@@ -228,7 +233,8 @@
         <option>
             <id>INDEL_RATE</id>
             <name>Estimate indel rate</name>
-            <help>When this option is active, the rate of indels is estimated over each annotation. The percentage of sites where an indel is called is written in the MR field(s).
+            <help>When this option is active, the rate of indels is estimated over each annotation. The percentage of
+                sites where an indel is called is written in the MR field(s).
             </help>
             <required>false</required>
             <defaultsTo>false</defaultsTo>
@@ -238,7 +244,8 @@
         <option>
             <id>WRITE_COUNTS</id>
             <name>Write Cm C columns in output file</name>
-            <help>When this option is active, the output file includes C and Cm columns corresponding to the number of non-methylated and methylated cytosines respectively.
+            <help>When this option is active, the output file includes C and Cm columns corresponding to the number of
+                non-methylated and methylated cytosines respectively.
             </help>
             <required>false</required>
             <defaultsTo>false</defaultsTo>
@@ -247,13 +254,52 @@
         </option>
         <option>
             <id>ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY</id>
-            <name>Estimate density of intra-group differences</name>
-            <help>When this option is active, estimate the density of sample differences within groups.
+            <name>Estimate empirical p-values</name>
+            <help>When this option is active, estimate an empirical p-value using observed distribution of intra-group
+                differences in each group under comparison.
+                The empirical p-value requires experimental replicates (i.e., more than one sample in at least one
+                group).
             </help>
             <required>false</required>
             <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
+        </option>
+        <option hiddenWhen="NOT value(ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY)">
+            <id>PVALUE_COMBINATOR</id>
+            <name>P-value combination method</name>
+            <help>Method to combine evidence from multiple tests.            </help>
+            <required>false</required>
+            <defaultsTo>sum</defaultsTo>
+            <type>CATEGORY</type>
+            <autoFormat>false</autoFormat>
+            <categories>
+                <category>
+                    <id>SUM</id>
+                    <name>Sum</name>
+                    <value>sum</value>
+                    <help>Sum the p-values until the sum would exceed 1. Quite conservative, but less than max. Signal from different pairs is taken into account.</help>
+                </category>
+                  <category>
+                    <id>MAX</id>
+                    <name>Maximum</name>
+                    <value>max</value>
+                    <help>Take the maximum of the p-values under test (most conservative approach, only one sample pair contributes to the final p-value).</help>
+                </category>
+                <category>
+                    <id>QFAST</id>
+                    <name>QFAST</name>
+                    <value>qfast</value>
+                    <help>QFAST approach, see Bailey TL and Gribskov M, Bioinformatics 1998, Vol 14 n 1 p 48-54. It is often sufficient for a few pairs to be significant to reach significance for the q-value.</help>
+                </category>
+                <category>
+                    <id>AVERAGE</id>
+                    <name>average</name>
+                    <value>average</value>
+                    <help>Takes the average of the p-values.</help>
+                </category>
+            </categories>
+
         </option>
     </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>

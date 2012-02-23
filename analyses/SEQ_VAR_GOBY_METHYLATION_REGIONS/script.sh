@@ -111,6 +111,7 @@ function plugin_alignment_analysis_process {
      FORCE_DIPLOID=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_FORCE_DIPLOID}
      WRITE_COUNTS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_WRITE_COUNTS}
      ESTIMATE_DENSITY=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY}
+     COMBINATOR=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_PVALUE_COMBINATOR}
      EXTRA_ARGS=" "
 
      if [ "${INDEL_RATE}" == "true" ]; then
@@ -122,8 +123,9 @@ function plugin_alignment_analysis_process {
      if [ "${ESTIMATE_DENSITY}" == "true" ]; then
          run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}
          dieUponError  "Estimating density failed for part ${CURRENT_PART}."
-         cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/results/
+         cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/split-results/
          dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
+         EXTRA_ARGS=" -x AnnotationAveragingWriter:estimate-empirical-P=true -x AnnotationAveragingWriter:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:combinator=${COMBINATOR} "
      fi
 
      run_methyl_regions ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv
@@ -179,6 +181,7 @@ function plugin_alignment_analysis_combine {
 
      # More than one group, some P-values may need adjusting:
         COLUMNS="${COLUMNS} --column-selection-filter fisherP[${GROUP_PAIR}]"
+        COLUMNS="${COLUMNS} --column-selection-filter empiricalP[${GROUP_PAIR}]"
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
