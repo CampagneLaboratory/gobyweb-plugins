@@ -180,8 +180,7 @@ function plugin_alignment_analysis_combine {
      GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
      # More than one group, some P-values may need adjusting:
-        COLUMNS="${COLUMNS} --column-selection-filter fisherP[${GROUP_PAIR}]"
-        COLUMNS="${COLUMNS} --column-selection-filter empiricalP[${GROUP_PAIR}]"
+        COLUMNS="${COLUMNS} --column-selection-filter P[${GROUP_PAIR}]"
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
