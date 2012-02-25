@@ -113,6 +113,7 @@ function plugin_alignment_analysis_process {
      ESTIMATE_DENSITY=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY}
      COMBINATOR=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_PVALUE_COMBINATOR}
      EXTRA_ARGS=" "
+     CONTEXTS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_REGIONS_CONTEXTS}
 
      if [ "${INDEL_RATE}" == "true" ]; then
          CALL_INDELS_OPTION="true"
@@ -154,6 +155,7 @@ function run_methyl_regions {
            --call-indels ${CALL_INDELS_OPTION} \
            ${ANNOTATION_OPTION} \
            --diploid ${FORCE_DIPLOID} \
+           -x AnnotationAveragingWriter:contexts:${CONTEXTS} \
            -x AnnotationAveragingWriter:write-counts=${WRITE_COUNTS} \
            ${EXTRA_ARGS} \
            ${ENTRIES_FILES} $*
@@ -181,7 +183,8 @@ function plugin_alignment_analysis_combine {
      GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
      # More than one group, some P-values may need adjusting:
-        COLUMNS="${COLUMNS} --column-selection-filter P[${GROUP_PAIR}]"
+     # only adjust fisher p values, because empirical p-values are already controlling FDR.
+        COLUMNS="${COLUMNS} --column-selection-filter FisherP[${GROUP_PAIR}]"
     done
 
    echo "Adjusting P-value columns: $COLUMNS"

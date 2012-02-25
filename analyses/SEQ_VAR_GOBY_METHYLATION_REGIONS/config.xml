@@ -48,11 +48,11 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.6.3.1</version>
+    <version>1.6.3.2</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120223184942</versionAtLeast>
+            <versionAtLeast>20120225172735</versionAtLeast>
         </resource>
         <resource>
             <id>IGVTOOLS</id>
@@ -293,13 +293,23 @@
                     <help>QFAST approach, see Bailey TL and Gribskov M, Bioinformatics 1998, Vol 14 n 1 p 48-54. It is often sufficient for a few pairs to be significant to reach significance for the q-value.</help>
                 </category>
                 <category>
-                    <id>AVERAGE</id>
-                    <name>average</name>
-                    <value>average</value>
-                    <help>Takes the average of the p-values.</help>
+                    <id>MEDIAN</id>
+                    <name>median</name>
+                    <value>median</value>
+                    <help>Takes the median of the p-values.</help>
                 </category>
             </categories>
 
+        </option>
+        <option>
+            <id>CONTEXTS</id>
+            <name>Cytosine contexts</name>
+            <help>A comma separated list of contexts, among CpG,CpA,CpC,CpT,CpN.
+            </help>
+            <required>true</required>
+            <defaultsTo>CpG</defaultsTo>
+            <type>STRING</type>
+            <autoFormat>false</autoFormat>
         </option>
     </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
