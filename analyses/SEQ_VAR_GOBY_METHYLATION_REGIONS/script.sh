@@ -184,7 +184,7 @@ function plugin_alignment_analysis_combine {
 
      # More than one group, some P-values may need adjusting:
      # only adjust fisher p values, because empirical p-values are already controlling FDR.
-        COLUMNS="${COLUMNS} --column-selection-filter FisherP[${GROUP_PAIR}]"
+        COLUMNS="${COLUMNS} --column-selection-filter fisherP[${GROUP_PAIR}]"
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
