@@ -122,14 +122,14 @@ function plugin_alignment_analysis_process {
 
 
      if [ "${ESTIMATE_DENSITY}" == "true" ]; then
-         run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}
+         run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}   -x AnnotationAveragingWriter:estimate-empirical-P=false
          dieUponError  "Estimating density failed for part ${CURRENT_PART}."
          mkdir -p ${SGE_O_WORKDIR}/split-results/
          cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/split-results/
          cp *-null-observations.tsv ${SGE_O_WORKDIR}/split-results/
 
          dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
-         EXTRA_ARGS=" -x AnnotationAveragingWriter:estimate-empirical-P=true -x AnnotationAveragingWriter:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:combinator=${COMBINATOR} "
+         EXTRA_ARGS=" -x AnnotationAveragingWriter:estimate-empirical-P=true -x AnnotationAveragingWriter:estimate-intra-group-differences=false -x AnnotationAveragingWriter:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:combinator=${COMBINATOR} "
      fi
 
      run_methyl_regions ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv
