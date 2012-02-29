@@ -122,7 +122,8 @@ function plugin_alignment_analysis_process {
 
 
      if [ "${ESTIMATE_DENSITY}" == "true" ]; then
-         run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY}   -x AnnotationAveragingWriter:estimate-empirical-P=false
+         run_methyl_regions ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:estimate-intra-group-differences=${ESTIMATE_DENSITY} -x AnnotationAveragingWriter:estimate-empirical-P=false -x AnnotationAveragingWriter:binning-strategy=fastslog10
+
          dieUponError  "Estimating density failed for part ${CURRENT_PART}."
          mkdir -p ${SGE_O_WORKDIR}/split-results/
          cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/split-results/
