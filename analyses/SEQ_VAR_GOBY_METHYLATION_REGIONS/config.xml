@@ -270,7 +270,7 @@
             <name>P-value combination method</name>
             <help>Method to combine evidence from multiple tests.</help>
             <required>false</required>
-            <defaultsTo>qfast</defaultsTo>
+            <defaultsTo>max</defaultsTo>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
             <categories>

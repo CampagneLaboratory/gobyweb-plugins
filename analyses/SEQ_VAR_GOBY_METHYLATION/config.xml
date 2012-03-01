@@ -36,10 +36,10 @@
 -->
 <alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <name>Methylation analysis with Goby</name>
+    <name>Methylation analysis at base-level resolution</name>
     <id>SEQ_VAR_GOBY_METHYLATION</id>
     <dbLegacyId>GobyMethylation</dbLegacyId>
-    <help>Compares groups of samples and produce methylation rate output and statistics of differential methylation.
+    <help>Compares groups of samples and produce methylation rate output and statistics of differential methylation at single base resolution.
         Implemented with Goby.
     </help>
     <analysisType>Methylation</analysisType>
@@ -47,11 +47,11 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.0</version>
+    <version>1.2</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120228115132</versionAtLeast>
+            <versionAtLeast>20120301125247</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -67,13 +67,9 @@
         <need scope="COMBINE_JVM" value="55g"/>
     </runtime>
     <files>
-        <!-- We obtain the script file for this plugin from SEQ_VAR_GOBY. All operations are the same,
-        but the file format is methylation here. Please note that the special SCRIPT id is necessary to
-        override the default script file. -->
         <file>
             <id>SCRIPT</id>
             <filename>script.sh</filename>
-            <importFromPlugin>SEQ_VAR_GOBY</importFromPlugin>
         </file>
     </files>
     <outputSchema>
@@ -200,6 +196,73 @@
                     <help>No annotations</help>
                 </category>
             </categories>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY</id>
+            <name>Estimate empirical p-values</name>
+            <help>When this option is active, estimate an empirical p-value using observed distribution of intra-group
+                differences in each group under comparison.
+                The empirical p-value requires experimental replicates (i.e., more than one sample in at least one
+                group).
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option hiddenWhen="NOT value(ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY)">
+            <id>PVALUE_COMBINATOR</id>
+            <name>P-value combination method</name>
+            <help>Method to combine evidence from multiple tests.</help>
+            <required>false</required>
+            <defaultsTo>max</defaultsTo>
+            <type>CATEGORY</type>
+            <autoFormat>false</autoFormat>
+            <categories>
+                <category>
+                    <id>SUM</id>
+                    <name>Sum</name>
+                    <value>sum</value>
+                    <help>Sum the p-values until the sum would exceed 1. most conservative approach. Signal from different pairs is taken into account.</help>
+                </category>
+                  <category>
+                    <id>MAX</id>
+                    <name>Maximum</name>
+                    <value>max</value>
+                    <help>Take the maximum of the p-values under test (conservative approach, only one sample pair contributes to the final p-value).</help>
+                </category>
+                <category>
+                    <id>QFAST</id>
+                    <name>QFAST</name>
+                    <value>qfast</value>
+                    <help>QFAST approach, see Bailey TL and Gribskov M, Bioinformatics 1998, Vol 14 n 1 p 48-54. It is often sufficient for a few pairs to be significant to reach significance for the q-value.</help>
+                </category>
+                <category>
+                    <id>MEDIAN</id>
+                    <name>median</name>
+                    <value>median</value>
+                    <help>Takes the median of the p-values.</help>
+                </category>
+            </categories>
+
+        </option>
+        <option hiddenWhen="NOT value(ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY)">
+            <id>WINDOW_LENGTH</id>
+            <name>Length of a fixed window.</name>
+            <help>A moving window is used to detect significant sites at the end of a DMR. This parameter indicates the length of the moving window.</help>
+            <required>false</required>
+            <defaultsTo>1000</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option hiddenWhen="NOT value(ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY)">
+            <id>SIGNIFICANCE_THRESHOLD_FOR_WINDOW</id>
+            <name>Significance threshold to consider a site significant in a window.</name>
+            <help>Sites with empirical p-values below this threshold are counted towards a DMR. Other sites are ignored.</help>
+            <required>false</required>
+            <defaultsTo>0.05</defaultsTo>
+            <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
     </options>
