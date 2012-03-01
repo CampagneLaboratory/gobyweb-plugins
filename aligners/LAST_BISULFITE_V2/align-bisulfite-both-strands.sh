@@ -18,7 +18,7 @@ set -x
   ${RESOURCES_LAST_EXEC_PATH} -v -p ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} -s0 -Q1 -d${PLUGINS_ALIGNER_LAST_BISULFITE_V2_D} \
               -e${PLUGINS_ALIGNER_LAST_BISULFITE_V2_E} ${INDEX_DIRECTORY}/index_r READS-${TEMP_FILENAME1}.fastq -o r-${TEMP_FILENAME1}.maf
 
-  ${RESOURCES_LAST_MERGE_BATCHES_EXEC} f-${TEMP_FILENAME1}.maf r-${TEMP_FILENAME1}.maf | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s150 > ${TEMP_FILENAME1}-both-strands.maf
+  ${RESOURCES_LAST_MERGE_BATCHES_EXEC} f-${TEMP_FILENAME1}.maf r-${TEMP_FILENAME1}.maf | ${RESOURCES_LAST_MAP_PROBS_EXEC} -s${PLUGINS_ALIGNER_LAST_BISULFITE_V2_S} > ${TEMP_FILENAME1}-both-strands.maf
 
   java -Xmx${PLUGIN_NEED_ALIGN_JVM} -Dlog4j.debug=true -Dlog4j.configuration=file:${JOB_DIR}/goby/log4j.properties \
                         -Dgoby.configuration=file:${TMPDIR}/goby.properties \
