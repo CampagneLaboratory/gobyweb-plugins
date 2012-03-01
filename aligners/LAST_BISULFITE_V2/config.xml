@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Copyright (c) 2011  by Cornell University and the Cornell Research
+  Foundation, Inc.  All Rights Reserved.
+
+  Permission to use, copy, modify and distribute any part of GobyWeb web
+  application for next-generation sequencing data alignment and analysis,
+  officially docketed at Cornell as D-5061 ("WORK") and its associated
+  copyrights for educational, research and non-profit purposes, without
+  fee, and without a written agreement is hereby granted, provided that
+  the above copyright notice, this paragraph and the following three
+  paragraphs appear in all copies.
+
+  Those desiring to incorporate WORK into commercial products or use WORK
+  and its associated copyrights for commercial purposes should contact the
+  Cornell Center for Technology Enterprise and Commercialization at
+  395 Pine Tree Road, Suite 310, Ithaca, NY 14850;
+  email:cctecconnect@cornell.edu; Tel: 607-254-4698;
+  FAX: 607-254-5454 for a commercial license.
+
+  IN NO EVENT SHALL THE CORNELL RESEARCH FOUNDATION, INC. AND CORNELL
+  UNIVERSITY BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+  OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF
+  WORK AND ITS ASSOCIATED COPYRIGHTS, EVEN IF THE CORNELL RESEARCH FOUNDATION,
+  INC. AND CORNELL UNIVERSITY MAY HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+
+  THE WORK PROVIDED HEREIN IS ON AN "AS IS" BASIS, AND THE CORNELL RESEARCH
+  FOUNDATION, INC. AND CORNELL UNIVERSITY HAVE NO OBLIGATION TO PROVIDE
+  MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.  THE CORNELL
+  RESEARCH FOUNDATION, INC. AND CORNELL UNIVERSITY MAKE NO REPRESENTATIONS AND
+  EXTEND NO WARRANTIES OF ANY KIND, EITHER IMPLIED OR EXPRESS, INCLUDING, BUT
+  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A
+  PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
+  WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
+-->
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <name>Last bisulfite v2</name>
+    <id>LAST_BISULFITE_V2</id>
+    <help>Version of Last (official release) that aligns bisulfite converted reads. This plugin uses the alignment
+        strategy discussed at http://last.cbrc.jp/doc/bisulfite.txt, updated to avoid biased methylation estimates
+        and to eliminate alignments that are top scoring but very close to the next best score (probabilistic model
+        implemented in last-map-probs.py.
+        Please note that this aligner does not generate TooManyHits information, and therefore is unable to distinguish
+        between reads that do not match and reads that match in too many locations.
+    </help>
+    <supportsColorSpace>false</supportsColorSpace>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+    <supportsBisulfiteConvertedReads>true</supportsBisulfiteConvertedReads>
+    <runtime>
+        <need scope="ALIGN" key="excl" value="true"/>
+        <!-- Since lastal uses shared memory, we trick SGE into keeping jobs alive even if they appear to use too much memory. -->
+        <need scope="ALIGN" key="h_vmem" value="800g"/>
+        <need scope="ALIGN" key="virtual_free" value="25g"/>
+        <need scope="ALIGN_JVM" value="4g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="12g" />
+        <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="12g" />
+    </runtime>
+    <version>1.1</version>
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120301165646</versionAtLeast>
+        </resource>
+        <resource>
+            <id>LAST</id>
+            <versionAtLeast>189</versionAtLeast>
+        </resource>
+        <resource>
+            <id>PLAST</id>
+            <versionAtLeast>1.1</versionAtLeast>
+        </resource>
+    </requires>
+    <!-- This plugin assumes that forward and reverse strands have been indexed separately and put into the indexDirectory
+    with the names index_f and index_r
+    -->
+    <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last-bisulfite</indexDirectory>
+     <files>
+        <file>
+            <id>ALIGN_BOTH_STRANDS</id>
+            <filename>align-bisulfite-both-strands.sh</filename>
+        </file>
+    </files>
+
+    <options>
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
+            <name>Other aligner options</name>
+            <help>Provide any additional Last option here following the syntax expected by the Goby align mode with last
+                aligner.
+            </help>
+            <required>false</required>
+            <defaultsTo></defaultsTo>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>D</id>
+            <name>d</name>
+            <help>Minimum score for gapless alignments.</help>
+            <required>true</required>
+            <defaultsTo>108</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>E</id>
+            <name>e</name>
+            <help>Minimum score for gapped alignments.</help>
+            <required>true</required>
+            <defaultsTo>120</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>S</id>
+            <name>s</name>
+            <help>Score threshold for last-map-probs.py. Should be high enough to
+                avoid random, spurious alignments: otherwise, the mismap probabilities
+                will not be reliable. A threshold of 150 is often reasonable. For
+                instance, if we compare 50 bp reads to the human genome, we expect a
+                random alignment with score >= 150 once every few thousand reads.
+            </help>
+            <required>true</required>
+            <defaultsTo>150</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>false</autoFormat>
+        </option>
+    </options>
+</alignerConfig>
