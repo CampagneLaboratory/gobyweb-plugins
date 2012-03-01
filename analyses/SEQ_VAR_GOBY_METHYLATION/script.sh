@@ -160,6 +160,8 @@ function plugin_alignment_analysis_combine {
 
    OUTPUT_FORMAT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_OUTPUT_FORMAT}
    NUM_TOP_HITS=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_NUM_TOP_HITS}
+   ESTIMATE_DENSITY=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY}
+
    COLUMNS=" "
    for groupName in {1..${NUM_GROUPS}}
    do
@@ -179,9 +181,9 @@ function plugin_alignment_analysis_combine {
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
-   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 ]; then
+   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 -o "${ESTIMATE_DENSITY}" == "true" ]; then
 
-        # Do not attempt FDR adjustment when there is no p-value, just concat the split files and sort:
+        # Do not attempt FDR adjustment when there is no p-value, or when using the empirical-Ps just concat the split files and sort:
 
         ${VCFTOOLS_BIN}/vcf-concat ${PART_RESULT_FILES} | \
         ${VCFTOOLS_BIN}/vcf-sort | \
