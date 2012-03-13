@@ -51,8 +51,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionExactly>20120302000000</versionExactly>  <!-- use version of Goby from subversion build 30984 patched to
-            print groups in DMR field (VCF methylation). Goby 2 is not ready yet. -->
+            <versionAtLeast>20120313173914</versionAtLeast>
         </resource>
     </requires>
     <runtime>
