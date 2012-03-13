@@ -109,6 +109,8 @@ function plugin_alignment_analysis_process {
      FORCE_DIPLOID=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_FORCE_DIPLOID}
      ESTIMATE_DENSITY=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_ESTIMATE_INTRA_GROUP_DIFFERENCE_DENSITY}
      COMBINATOR=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_PVALUE_COMBINATOR}
+     DMR_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_SIGNIFICANCE_THRESHOLD_FOR_WINDOW}
+
      EXTRA_ARGS=" "
 
      if [ "${ESTIMATE_DENSITY}" == "true" ]; then
@@ -119,7 +121,7 @@ function plugin_alignment_analysis_process {
          cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/split-results/
 
          dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
-         EXTRA_ARGS=" -x MethylationRateVCFOutputFormat:estimate-empirical-P=true -x MethylationRateVCFOutputFormat:estimate-intra-group-differences=false -x MethylationRateVCFOutputFormat:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x MethylationRateVCFOutputFormat:combinator=${COMBINATOR} "
+         EXTRA_ARGS="-x MethylationRateVCFOutputFormat:significance-threshold=${DMR_THRESHOLD} -x MethylationRateVCFOutputFormat:estimate-empirical-P=true -x MethylationRateVCFOutputFormat:estimate-intra-group-differences=false -x MethylationRateVCFOutputFormat:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x MethylationRateVCFOutputFormat:combinator=${COMBINATOR} "
      fi
      run_methyl_sites ${TAG}-dsv-${ARRAY_JOB_INDEX}.vcf
 
