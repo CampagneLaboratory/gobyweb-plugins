@@ -93,7 +93,7 @@
             <required>true</required>
             <defaultsTo>1</defaultsTo>
             <type>INTEGER</type>
-            <flagFormat>-n %d</flagFormat>
+            <flagFormat>-n %s</flagFormat>
             <includeSpaces>true</includeSpaces>
             <autoFormat>true</autoFormat>
         </option>
