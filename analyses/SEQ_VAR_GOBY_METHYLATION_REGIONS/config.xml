@@ -275,22 +275,29 @@
             <autoFormat>false</autoFormat>
             <categories>
                 <category>
-                    <id>SUM</id>
-                    <name>Sum</name>
-                    <value>sum</value>
-                    <help>Sum the p-values until the sum would exceed 1. most conservative approach. Signal from different pairs is taken into account.</help>
-                </category>
-                  <category>
                     <id>MAX</id>
                     <name>Maximum</name>
                     <value>max</value>
-                    <help>Take the maximum of the p-values under test (conservative approach, only one sample pair contributes to the final p-value).</help>
+                    <help>Take the maximum of the p-values under test (conservative approach, only one sample pair
+                        contributes to the final p-value).
+                    </help>
                 </category>
+                <category>
+                    <id>SUM</id>
+                    <name>Sum</name>
+                    <value>sum</value>
+                    <help>Sum the p-values until the sum would exceed 1. most conservative approach. Signal from
+                        different pairs is taken into account.
+                    </help>
+                </category>
+
                 <category>
                     <id>QFAST</id>
                     <name>QFAST</name>
                     <value>qfast</value>
-                    <help>QFAST approach, see Bailey TL and Gribskov M, Bioinformatics 1998, Vol 14 n 1 p 48-54. It is often sufficient for a few pairs to be significant to reach significance for the q-value.</help>
+                    <help>QFAST approach, see Bailey TL and Gribskov M, Bioinformatics 1998, Vol 14 n 1 p 48-54. It is
+                        often sufficient for a few pairs to be significant to reach significance for the q-value.
+                    </help>
                 </category>
                 <category>
                     <id>MEDIAN</id>
