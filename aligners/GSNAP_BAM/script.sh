@@ -47,6 +47,11 @@
 
 function plugin_align {
 
+       SPLICED_OPTION=""
+       if [ "${PLUGINS_ALIGNER_GSNAP_BAM_SPLICED_ALIGNMENT}" == "spliced" ]; then
+          SPLICED_OPTION="-s ${GSNAP_SPLICE_FILE}"
+       fi
+
        OUTPUT=$1
        BASENAME=$2
 
@@ -65,12 +70,12 @@ function plugin_align {
 
                    # PAIRED END alignment, with GSNAP to sam [this path not tested]
 
-                   nice ${GSNAP_BAM_EXEC_PATH}  ${BISULFITE_OPTION} ${PARALLEL_OPTION} -B 4 ${ALIGNER_OPTIONS}-A sam -j 64 -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READS_FILE} > ${BASENAME}.sam
+                   nice ${GSNAP_BAM_EXEC_PATH}  ${BISULFITE_OPTION} ${PARALLEL_OPTION} -B 4 ${SPLICED_OPTION} ${ALIGNER_OPTIONS}-A sam -j 64 -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READS_FILE} > ${BASENAME}.sam
 
        else
                    # Single end alignment, GSNAP sam output
 
-                   nice ${GSNAP_BAM_EXEC_PATH} ${BISULFITE_OPTION} ${PARALLEL_OPTION} ${ALIGNER_OPTIONS} -B 4 -A sam -j 64 -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX}  ${READS}  > ${OUTPUT}.sam
+                   nice ${GSNAP_BAM_EXEC_PATH} ${BISULFITE_OPTION} ${PARALLEL_OPTION} ${ALIGNER_OPTIONS} -B 4 ${SPLICED_OPTION} -A sam -j 64 -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX}  ${READS}  > ${OUTPUT}.sam
        fi
        if [  $? -eq 0 ]; then
            # aln worked, let's convert to BAM and sort on the fly:
