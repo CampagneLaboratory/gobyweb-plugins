@@ -127,7 +127,7 @@ function plugin_alignment_analysis_process {
          dieUponError  "Estimating density failed for part ${CURRENT_PART}."
          mkdir -p ${SGE_O_WORKDIR}/split-results/
          cp ${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin ${SGE_O_WORKDIR}/split-results/
-         cp *-null-observations.tsv ${SGE_O_WORKDIR}/split-results/
+         #cp *-null-observations.tsv ${SGE_O_WORKDIR}/split-results/
 
          dieUponError  "Could not copy estimated density to result directory for part ${CURRENT_PART}."
          EXTRA_ARGS=" -x AnnotationAveragingWriter:estimate-empirical-P=true -x AnnotationAveragingWriter:estimate-intra-group-differences=false -x AnnotationAveragingWriter:serialized-estimator-filename=${TAG}-intra-group-differences-estimate-${ARRAY_JOB_INDEX}.bin -x AnnotationAveragingWriter:combinator=${COMBINATOR} "
@@ -135,7 +135,7 @@ function plugin_alignment_analysis_process {
 
      run_methyl_regions ${TAG}-mr-${ARRAY_JOB_INDEX}.tsv
      dieUponError  "Compare methylation region part, sub-task ${CURRENT_PART} failed."
-     cp *-test-observations.tsv ${SGE_O_WORKDIR}/split-results/
+     #cp *-test-observations.tsv ${SGE_O_WORKDIR}/split-results/
 
      ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_DIFF_EXP_STATUS} --description "End discover-sequence-variations for part # ${ARRAY_JOB_INDEX}." --index ${CURRENT_PART} --job-type job-part
 
