@@ -226,6 +226,14 @@
                     <help>Regions 2kb +/- from the transcription start site of refseq transcripts.</help>
                     <dbLegacyValue>promoters</dbLegacyValue>
                 </category>
+            <category>
+                    <id>1KB_Tile</id>
+                    <name>1KB Genome Tiles</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-1kbtile-annotations.tsv
+                    </value>
+                    <help>1KB sliding windows across the genome</help>
+                    <dbLegacyValue>1kbTiles</dbLegacyValue>
+                </category>
             </categories>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
