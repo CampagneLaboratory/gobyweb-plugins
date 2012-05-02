@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120502125229</versionAtLeast>
+            <versionAtLeast>20120502135833</versionAtLeast>
         </resource>
         <resource>
             <id>IGVTOOLS</id>
