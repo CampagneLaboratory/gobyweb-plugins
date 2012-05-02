@@ -314,10 +314,16 @@
             <name>P-value combination method</name>
             <help>Method to combine evidence from multiple tests.</help>
             <required>false</required>
-            <defaultsTo>max</defaultsTo>
+            <defaultsTo>median</defaultsTo>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
             <categories>
+                <category>
+                    <id>MEDIAN</id>
+                    <name>median</name>
+                    <value>median</value>
+                    <help>Takes the median of the p-values.</help>
+                </category>
                 <category>
                     <id>MAX</id>
                     <name>Maximum</name>
@@ -343,12 +349,7 @@
                         often sufficient for a few pairs to be significant to reach significance for the q-value.
                     </help>
                 </category>
-                <category>
-                    <id>MEDIAN</id>
-                    <name>median</name>
-                    <value>median</value>
-                    <help>Takes the median of the p-values.</help>
-                </category>
+
             </categories>
 
         </option>
