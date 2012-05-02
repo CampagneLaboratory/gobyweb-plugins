@@ -248,6 +248,28 @@
                     <help>3' Untranslated Region.</help>
                     <dbLegacyValue>3utr</dbLegacyValue>
                 </category>
+                <category>
+                    <id>ENSEMBL_PROMOTER</id>
+                    <name>ENSEMBL PROMOTERS</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-ens-promoter-annotations.tsv</value>
+                    <help>Regions 2kb upstream of transcription start site of ensembl transcripts.</help>
+                    <dbLegacyValue>ENSpromoters</dbLegacyValue>
+                </category>
+                <category>
+                    <id>INTRONS</id>
+                    <name>Introns</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-intron-annotations.tsv</value>
+                    <help>Regions over intron boundaries.</help>
+                    <dbLegacyValue>introns</dbLegacyValue>
+                </category>
+                <category>
+                    <id>INTERGENIC</id>
+                    <name>intergenic</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-intergenic-annotations.tsv
+                    </value>
+                    <help>Intergenic regions of the genome. Complement of promoters, 5'UTRs, exons, introns and 3'UTRs.</help>
+                    <dbLegacyValue>intergenic</dbLegacyValue>
+                </category>
             </categories>
             <type>CATEGORY</type>
             <autoFormat>false</autoFormat>
