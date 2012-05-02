@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120314122818</versionAtLeast>
+            <versionAtLeast>20120502125229</versionAtLeast>
         </resource>
     </requires>
     <runtime>
