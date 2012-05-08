@@ -238,7 +238,8 @@
                     <id>5' UTR</id>
                     <name>5' Untranslated Region</name>
                     <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-
-                        5prime-annotations.tsv</value>
+                        5prime-annotations.tsv
+                    </value>
                     <help>5' Untranslated Region.</help>
                     <dbLegacyValue>5utr</dbLegacyValue>
                 </category>
@@ -251,7 +252,7 @@
                 </category>
                 <category>
                     <id>ENSEMBL_PROMOTER</id>
-                    <name>ENSEMBL PROMOTERS</name>
+                    <name>Ensembl Promoters</name>
                     <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-ens-promoter-annotations.tsv</value>
                     <help>Regions 2kb upstream of transcription start site of ensembl transcripts.</help>
                     <dbLegacyValue>ENSpromoters</dbLegacyValue>
@@ -268,8 +269,19 @@
                     <name>intergenic</name>
                     <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-intergenic-annotations.tsv
                     </value>
-                    <help>Intergenic regions of the genome. Complement of promoters, 5'UTRs, exons, introns and 3'UTRs.</help>
+                    <help>Intergenic regions of the genome. Complement of promoters, 5'UTRs, exons, introns and
+                        3'UTRs.
+                    </help>
                     <dbLegacyValue>intergenic</dbLegacyValue>
+                </category>
+                <category>
+                    <id>COMBINED</id>
+                    <name>combined</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-combined-annotations.tsv
+                    </value>
+                    <help>Combined annotations. Consists of all annotation types in one file.
+                    </help>
+                    <dbLegacyValue>combined</dbLegacyValue>
                 </category>
             </categories>
             <type>CATEGORY</type>
