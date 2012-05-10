@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Copyright (c) 2011  by Cornell University and the Cornell Research
+  Foundation, Inc.  All Rights Reserved.
+
+  Permission to use, copy, modify and distribute any part of GobyWeb web
+  application for next-generation sequencing data alignment and analysis,
+  officially docketed at Cornell as D-5061 ("WORK") and its associated
+  copyrights for educational, research and non-profit purposes, without
+  fee, and without a written agreement is hereby granted, provided that
+  the above copyright notice, this paragraph and the following three
+  paragraphs appear in all copies.
+
+  Those desiring to incorporate WORK into commercial products or use WORK
+  and its associated copyrights for commercial purposes should contact the
+  Cornell Center for Technology Enterprise and Commercialization at
+  395 Pine Tree Road, Suite 310, Ithaca, NY 14850;
+  email:cctecconnect@cornell.edu; Tel: 607-254-4698;
+  FAX: 607-254-5454 for a commercial license.
+
+  IN NO EVENT SHALL THE CORNELL RESEARCH FOUNDATION, INC. AND CORNELL
+  UNIVERSITY BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+  OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF
+  WORK AND ITS ASSOCIATED COPYRIGHTS, EVEN IF THE CORNELL RESEARCH FOUNDATION,
+  INC. AND CORNELL UNIVERSITY MAY HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
+  DAMAGE.
+
+  THE WORK PROVIDED HEREIN IS ON AN "AS IS" BASIS, AND THE CORNELL RESEARCH
+  FOUNDATION, INC. AND CORNELL UNIVERSITY HAVE NO OBLIGATION TO PROVIDE
+  MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.  THE CORNELL
+  RESEARCH FOUNDATION, INC. AND CORNELL UNIVERSITY MAKE NO REPRESENTATIONS AND
+  EXTEND NO WARRANTIES OF ANY KIND, EITHER IMPLIED OR EXPRESS, INCLUDING, BUT
+  NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A
+  PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYSRA_GAIIX_RUN_namesorted_1.compact-readsRIGHTS
+  WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
+-->
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <name>BWA Hi-C (Goby)</name>
+    <id>BWA_HI_C_GOBY</id>
+    <dbLegacyId>bwa for Hi-C data (Goby native)</dbLegacyId>
+    <help>Version of BWA to align Hi-C reads.</help>
+    <supportsColorSpace>true</supportsColorSpace>
+    <supportsPairedEndAlignments>true</supportsPairedEndAlignments>
+    <supportsGobyReads>true</supportsGobyReads>
+    <supportsGobyAlignments>true</supportsGobyAlignments>
+    <supportsFastqReads>false</supportsFastqReads>
+    <supportsFastaReads>false</supportsFastaReads>
+    <supportsBAMAlignments>false</supportsBAMAlignments>
+    <version>1.0.1</version>
+    <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/bwa</indexDirectory>
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120508185133</versionAtLeast>
+        </resource>
+    </requires>
+    <runtime>
+        <need scope="ALIGN" key="excl" value="false"/>
+        <need scope="ALIGN" key="h_vmem" value="6g"/>
+        <need scope="ALIGN" key="virtual_free" value="6g"/>
+        <need scope="ALIGN_JVM" value="4g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="10g"/>
+    </runtime>
+    <options>
+
+        <option>
+            <id>ALIGNER_OPTIONS</id>
+            <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
+            <name>Other aligner options</name>
+            <help>Provide any additional BWA option here following the syntax expected by BWA.</help>
+            <required>false</required>
+            <defaultsTo></defaultsTo>
+            <type>STRING</type>
+            <flagFormat>%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <dbLegacyId>ambiguityThreshold</dbLegacyId>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of reference sequence locations that can be matched for a read to be considered non-ambiguous.</help>
+            <required>true</required>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>-n %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>MAXIMUM_NUMBER_GAP_OPENS</id>
+            <dbLegacyId>bwaMaximumNumberGapOpens</dbLegacyId>
+            <name>Max Number Gap Opens</name>
+            <help>Maximum number of gap opens</help>
+            <required>true</required>
+            <autoFormat>true</autoFormat>
+            <defaultsTo>1</defaultsTo>
+            <type>INTEGER</type>
+            <flagFormat>-o %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>MAXIMUM_NUMBER_GAP_EXTENSIONS</id>
+            <dbLegacyId>bwaMaximumNumberGapExtensions</dbLegacyId>
+            <name>Max Number Gap Extensions</name>
+            <help>Maximum number of gap extensions, -1 for k-difference mode (disallowing long gaps)</help>
+            <required>true</required>
+            <autoFormat>true</autoFormat>
+            <defaultsTo>-1</defaultsTo>
+            <type>INTEGER</type>
+            <flagFormat>-e %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <!--option>
+            <id>align_type</id>
+            <name>Alignment type</name>
+            <help>Help text</help>
+            <required>false</required>
+            <type>CATEGORY</type>
+            <categories>
+                <category>cmet</category>
+                <category>other</category>
+            </categories>
+            <autoFormat>true</autoFormat>
+            <flagFormat>&dash;&dash;align-type=%s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>some_flag</id>
+            <name>Some flag</name>
+            <help>Help text</help>
+            <required>false</required>
+            <type>BOOLEAN</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>&dash;&dash;flag</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option-->
+    </options>
+</alignerConfig>
