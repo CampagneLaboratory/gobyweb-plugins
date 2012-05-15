@@ -48,11 +48,11 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.6.3.3</version>
+    <version>1.6.3.4</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120502135833</versionAtLeast>
+            <versionAtLeast>20120515104854</versionAtLeast>
         </resource>
         <resource>
             <id>IGVTOOLS</id>
