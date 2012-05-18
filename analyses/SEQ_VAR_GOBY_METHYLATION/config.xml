@@ -48,11 +48,11 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.2</version>
+    <version>1.3</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120502135833</versionAtLeast>
+            <versionAtLeast>20120518190511</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -99,6 +99,54 @@
             <mimeType>text/variant-calling-format-index</mimeType>
             <filename>stats.vcf.gz.tbi</filename>
             <help>VCF file index (produced with tabix).</help>
+        </outputFile>
+        <!--outputFile>
+            <id>DEPTH_RESULTS_DB</id>
+            <name>depths of coverage</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>depths.tsv</filename>
+            <help>Data in tab-delimited format about the depth of coverage of the measured cytosines.</help>
+        </outputFile>
+        <outputFile>
+            <id>CONVERSION_RATES_RESULTS_DB</id>
+            <name>bisulfite conversion rates</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>conversion-rates.tsv</filename>
+            <help>Data in tab-delimited format about rate of conversion of cytosines in a non-CpG context.</help>
+        </outputFile>
+        <outputFile>
+            <id>NON_CONVERSION_RESULTS_DB</id>
+            <name>non conversion context</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>non-conversion.tsv</filename>
+            <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
+        </outputFile-->
+        <outputFile>
+            <id>DEPTH_RESULTS_TSV</id>
+            <name>depths of coverage</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>depths.tsv</filename>
+            <help>Data in tab-delimited format about the depth of coverage of the measured cytosines.</help>
+        </outputFile>
+        <outputFile>
+            <id>CONVERSION_RATES_RESULTS_TSV</id>
+            <name>bisulfite conversion rates</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>conversion-rates.tsv</filename>
+            <help>Data in tab-delimited format about rate of conversion of cytosines in a non-CpG context.</help>
+        </outputFile>
+        <outputFile>
+            <id>NON_CONVERSION_RESULTS_TSV</id>
+            <name>non conversion context</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>non-conversion.tsv</filename>
+            <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
         </outputFile>
     </outputSchema>
     <options>

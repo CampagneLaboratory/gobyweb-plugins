@@ -183,7 +183,7 @@ function plugin_alignment_analysis_combine {
     done
 
    echo "Adjusting P-value columns: $COLUMNS"
-   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 -o "${ESTIMATE_DENSITY}" == "true" ]; then
+   if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 ]; then
 
         # Do not attempt FDR adjustment when there is no p-value, or when using the empirical-Ps just concat the split files and sort:
 
@@ -192,17 +192,32 @@ function plugin_alignment_analysis_combine {
         ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
 
    else
+       # Scan all sites to determine overall statistics:
+       MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_MINIMUM_VARIATION_SUPPORT}
+
+       run-goby ${PLUGIN_NEED_COMBINE_JVM} methyl-stats  ${PART_RESULT_FILES} -o ignore.tsv \
+           --min-coverage-threshold ${MINIMUM_VARIATION_SUPPORT} \
+           --depths-output depths.tsv                            \
+           --conversion-rates-output conversion-rates.tsv        \
+           --cytosine-frequencies-output cytosine-frequencies-output.tsv \
+           --non-conversion-per-context-output non-conversion.tsv         \
+           --genome ${REFERENCE_DIRECTORY}/random-access-genome
+       dieUponError  "Failed to calculate methyl-stats output."
+
+       # Keep only the subset of sites that pass the Q-threshold:
        Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_Q_VALUE_THRESHOLD}
 
-        run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
+       run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --vcf \
           --q-threshold ${Q_VALUE_THRESHOLD} \
           --top-hits ${NUM_TOP_HITS} \
           ${PART_RESULT_FILES}  \
           ${COLUMNS} \
           --output ${TMPDIR}/${TAG}-pre.vcf.gz
+       dieUponError  "Failed to FDR correct, sub-task ${CURRENT_PART} failed."
 
-        gunzip -c -d ${TMPDIR}/${TAG}-pre.vcf.gz | ${VCFTOOLS_BIN}/vcf-sort | ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
+       gunzip -c -d ${TMPDIR}/${TAG}-pre.vcf.gz | ${VCFTOOLS_BIN}/vcf-sort | ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
+       dieUponError  "Failed to bgzip VCF output."
    fi
 
    ${TABIX_EXEC_PATH} -f -p vcf ${RESULT_FILE}
