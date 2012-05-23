@@ -92,3 +92,15 @@ function plugin_align {
      fi
 
 }
+
+# This function is called after the alignment slices have been combined into one final output.
+# It is called with three arguments, the basename of the alignment (present in the directory where this function is
+# invoked), the reads filename (full path), the tag useful to create an output.
+
+function plugin_alignment_combine {
+TAG=$1
+READS=$2
+BASENAME=$3
+
+   echo "plugin_alignment_combine called with arguments BASENAME=${BASENAME} READS=${READS} TAG=${TAG}"
+}
