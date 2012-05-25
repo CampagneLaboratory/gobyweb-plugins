@@ -175,14 +175,28 @@ function plugin_alignment_analysis_combine {
 
     for ((i=1; i <= NUM_COMPARISON_PAIRS ; i++))
     do
-     GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
-     # More than one group, some P-values may need adjusting:
+      GROUP_PAIR=`eval echo "$""GROUP"$i"_COMPARISON_PAIR"`
 
-     COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
+      # More than one group, some P-values may need adjusting:
+
+      COLUMNS="${COLUMNS} --column FisherP[${GROUP_PAIR}]"
     done
 
+    # Scan all sites to determine overall statistics:
+    MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_MINIMUM_VARIATION_SUPPORT}
+
+    run-goby ${PLUGIN_NEED_COMBINE_JVM} methyl-stats  ${PART_RESULT_FILES} -o ignore.tsv \
+              --min-coverage-threshold ${MINIMUM_VARIATION_SUPPORT} \
+              --depths-output depths.tsv                            \
+              --conversion-rates-output conversion-rates.tsv        \
+              --cytosine-frequencies-output cytosine-frequencies-output.tsv \
+              --non-conversion-per-context-output non-conversion.tsv         \
+              --genome ${REFERENCE_DIRECTORY}/random-access-genome
+    dieUponError  "Failed to calculate methyl-stats output."
+
    echo "Adjusting P-value columns: $COLUMNS"
+
    if [ "${OUTPUT_FORMAT}" == "GENOTYPES" -o ${NUM_GROUPS} == 1 ]; then
 
         # Do not attempt FDR adjustment when there is no p-value, or when using the empirical-Ps just concat the split files and sort:
@@ -192,17 +206,6 @@ function plugin_alignment_analysis_combine {
         ${BGZIP_EXEC_PATH} -c > ${RESULT_FILE}
 
    else
-       # Scan all sites to determine overall statistics:
-       MINIMUM_VARIATION_SUPPORT=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_MINIMUM_VARIATION_SUPPORT}
-
-       run-goby ${PLUGIN_NEED_COMBINE_JVM} methyl-stats  ${PART_RESULT_FILES} -o ignore.tsv \
-           --min-coverage-threshold ${MINIMUM_VARIATION_SUPPORT} \
-           --depths-output depths.tsv                            \
-           --conversion-rates-output conversion-rates.tsv        \
-           --cytosine-frequencies-output cytosine-frequencies-output.tsv \
-           --non-conversion-per-context-output non-conversion.tsv         \
-           --genome ${REFERENCE_DIRECTORY}/random-access-genome
-       dieUponError  "Failed to calculate methyl-stats output."
 
        # Keep only the subset of sites that pass the Q-threshold:
        Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_Q_VALUE_THRESHOLD}
