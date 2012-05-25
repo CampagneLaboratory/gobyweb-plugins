@@ -104,7 +104,7 @@
             <filename>stats.vcf.gz.tbi</filename>
             <help>VCF file index (produced with tabix).</help>
         </outputFile>
-        <!--outputFile>
+        <outputFile>
             <id>DEPTH_RESULTS_DB</id>
             <name>depths of coverage</name>
             <required>true</required>
@@ -130,7 +130,7 @@
             <filename>non-conversion.tsv</filename>
             <tableName>non_conversion</tableName>
             <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
-        </outputFile-->
+        </outputFile>
         <outputFile>
             <id>DEPTH_RESULTS_TSV</id>
             <name>depths of coverage</name>
