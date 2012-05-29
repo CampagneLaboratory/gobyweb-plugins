@@ -275,6 +275,15 @@
                     <dbLegacyValue>intergenic</dbLegacyValue>
                 </category>
                 <category>
+                    <id>HELP</id>
+                    <name>HELP_assay</name>
+                    <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-HELP-annotations.tsv
+                    </value>
+                    <help>HELP low density Chip probeset windows, extended 1KB on either side.
+                        </help>
+                    <dbLegacyValue>HELP_assay</dbLegacyValue>
+                </category>
+                <category>
                     <id>COMBINED</id>
                     <name>combined</name>
                     <value>${NODE_LOCAL_DATA_ROOT}/annotations/${ORGANISM}/methyl-combined-annotations.tsv
