@@ -91,6 +91,31 @@ function plugin_align {
 
      fi
 
+
+
+#extra variables:
+
+#RESULT_DIR= directory on shared filesystem, send output files to $RESULT_DIR/split-results
+#CURRENT_PART= unique id associated with this part of the job
+
+
+#eventually need to change xml to output the final file, but that comes later
+#also make it able to handle errors
+
+
+
+
+     if [ "${NON_MATCHING}" == "true" ]; then
+         #export unmatched reads
+         #create filter file
+         goby alignment-to-read-set $OUTPUT --non-matching-reads --non-ambiguous-reads -s unmatched
+
+         #filter out unmatched reads and put them in OUTPUT-unmatched.compact-reads
+         goby reformat-compact-reads "$READS_FILE_SMALL" -f "${OUTPUT}-unmatched.filter" -o "${OUTPUT}-unmatched.compact-reads"
+
+         #copy slice to shared filesystem
+         cp "${OUTPUT}-unmatched.compact-reads" "${RESULT_DIR}/split-results/unmatched${CURRENT_PART}.compact-reads"
+     fi
 }
 
 # This function is called after the alignment slices have been combined into one final output.
@@ -98,9 +123,30 @@ function plugin_align {
 # invoked), the reads filename (full path), the tag useful to create an output.
 
 function plugin_alignment_combine {
-TAG=$1
-READS=$2
-BASENAME=$3
+    TAG=$1
+    READS=$2
+    BASENAME=$3
 
-   echo "plugin_alignment_combine called with arguments BASENAME=${BASENAME} READS=${READS} TAG=${TAG}"
+
+    #copy files to local file system
+
+    mkdir "unmatched-slices"
+    cp "${RESULT_DIR}/split-results/*-unmatched.compact-reads" "./unmatched-slices"
+
+    #concat files together
+
+    goby concatenate-compact-reads --quick-concat --output "${BASENAME}-unmatched.compact-reads" "unmatched-slices/*.compact-reads"
+
+
+    #send them to $RESULT_DIR with final filename
+
+    cp "${BASENAME}-unmatched.compact-reads" "${RESULT_DIR}/${BASENAME}-unmatched.compact-reads"
+
+    #edit xml to add file to output later
+
+
+
+
+
+
 }

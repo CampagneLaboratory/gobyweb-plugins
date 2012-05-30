@@ -69,6 +69,10 @@
             <id>ILLUMINA_ADAPTERS</id>
             <versionAtLeast>1.0</versionAtLeast>
         </resource>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120317083440</versionAtLeast>
+        </resource>
     </requires>
     <options>
         <option>
@@ -144,6 +148,15 @@
                     <help>Search for splicing during the alignment</help>
                 </category>
             </categories>
+        </option>
+        <option>
+            <id>NON_MATCHING</id>
+            <name>Export non-matching reads</name>
+            <help>Output unmatched reads after alignment is complete</help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
         </option>
     </options>
 </alignerConfig>
