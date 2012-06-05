@@ -105,16 +105,18 @@ function plugin_align {
 
 
 
-     if [ "${NON_MATCHING}" == "true" ]; then
+     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_NON_MATCHING}" == "true" ]; then
+     
+     	 . ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
+     	
          #export unmatched reads
-         #create filter file
-         goby alignment-to-read-set $OUTPUT --non-matching-reads --non-ambiguous-reads -s unmatched
-
-         #filter out unmatched reads and put them in OUTPUT-unmatched.compact-reads
-         goby reformat-compact-reads "$READS_FILE_SMALL" -f "${OUTPUT}-unmatched.filter" -o "${OUTPUT}-unmatched.compact-reads"
+         
+         extract_unmatched_reads "${READS}" "${OUTPUT}" "${OUTPUT}-unmatched.compact-reads"
 
          #copy slice to shared filesystem
-         cp "${OUTPUT}-unmatched.compact-reads" "${RESULT_DIR}/split-results/unmatched${CURRENT_PART}.compact-reads"
+         
+         mkdir -p ${SGE_O_WORKDIR}/unmatched-split
+         cp "${OUTPUT}-unmatched.compact-reads" "${SGE_O_WORKDIR}/unmatched-split/unmatched${CURRENT_PART}.compact-reads"
      fi
 }
 
@@ -127,23 +129,35 @@ function plugin_alignment_combine {
     READS=$2
     BASENAME=$3
 
+    if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_NON_MATCHING}" == "true" ]; then
+    
+    	. ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 
-    #copy files to local file system
+        #copy files to local file system
 
-    mkdir "unmatched-slices"
-    cp "${RESULT_DIR}/split-results/*-unmatched.compact-reads" "./unmatched-slices"
+        mkdir "unmatched-slices"
+        cp ${SGE_O_WORKDIR}/unmatched-split/unmatched*.compact-reads "./unmatched-slices"
 
-    #concat files together
-
-    goby concatenate-compact-reads --quick-concat --output "${BASENAME}-unmatched.compact-reads" "unmatched-slices/*.compact-reads"
+        #concat files together
 
 
-    #send them to $RESULT_DIR with final filename
+		local UNMATCHED_SLICE_FILENAMES=""
+        for file in unmatched-slices/*
+        do
+            UNMATCHED_SLICE_FILENAMES="${UNMATCHED_SLICE_FILENAMES} $file"
+        done
 
-    cp "${BASENAME}-unmatched.compact-reads" "${RESULT_DIR}/${BASENAME}-unmatched.compact-reads"
+        combine_unmatched_reads "${BASENAME}-unmatched.compact-reads" ${UNMATCHED_SLICE_FILENAMES}
 
-    #edit xml to add file to output later
+        #send them to $RESULT_DIR with final filename
 
+        cp "${BASENAME}-unmatched.compact-reads" "${RESULT_DIR}/${BASENAME}-unmatched.compact-reads"
+
+        #edit xml to add file to output later
+
+
+
+    fi
 
 
 

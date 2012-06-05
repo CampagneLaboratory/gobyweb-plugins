@@ -70,8 +70,8 @@
             <versionAtLeast>1.0</versionAtLeast>
         </resource>
         <resource>
-            <id>GOBY</id>
-            <versionAtLeast>20120317083440</versionAtLeast>
+        	<id>EXTRACT_NONMATCHED</id>
+        	<versionAtLeast>2012.06.05</versionAtLeast>
         </resource>
     </requires>
     <options>
