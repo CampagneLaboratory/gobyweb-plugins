@@ -39,7 +39,12 @@
     <id>TRINITY</id>
     <help>Trinity de novo assembler. See http://trinityrnaseq.sourceforge.net/.</help>
     <version>20120518</version>
-    
+    <requires>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120605173944</versionAtLeast>
+        </resource>
+    </requires>
     <files>
         <file>
             <id>TRINITY_TAR</id>
