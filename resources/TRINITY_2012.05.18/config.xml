@@ -38,7 +38,8 @@
     <name>Trinity</name>
     <id>TRINITY</id>
     <help>Trinity de novo assembler. See http://trinityrnaseq.sourceforge.net/.</help>
-    <version>2012.05.18</version>
+    <version>20120518</version>
+    
     <files>
         <file>
             <id>TRINITY_TAR</id>

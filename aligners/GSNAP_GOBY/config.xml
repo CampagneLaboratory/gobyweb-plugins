@@ -71,7 +71,11 @@
         </resource>
         <resource>
         	<id>EXTRACT_NONMATCHED</id>
-        	<versionAtLeast>2012.06.05</versionAtLeast>
+        	<versionAtLeast>20120605</versionAtLeast>
+        </resource>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120605173944</versionAtLeast>
         </resource>
     </requires>
     <options>
