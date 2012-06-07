@@ -327,5 +327,5 @@ Categories=["FORMULA1", "FORMULA2", "FORMULA3", FORMULA4", "false:None]
         </outputFile>
     </outputSchema>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
-    <maximumNumberOfGroups>10</maximumNumberOfGroups>
+    <maximumNumberOfGroups>50</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

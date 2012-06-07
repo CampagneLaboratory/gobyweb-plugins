@@ -387,5 +387,5 @@
         </option>
     </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
-    <maximumNumberOfGroups>10</maximumNumberOfGroups>
+    <maximumNumberOfGroups>50</maximumNumberOfGroups>
 </alignmentAnalysisConfig>
