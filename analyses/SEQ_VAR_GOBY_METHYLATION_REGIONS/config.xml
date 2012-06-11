@@ -84,6 +84,7 @@
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>stats.db</filename>
+            <tableName>stats</tableName>
             <help>View the table of results in the interactive GobyWeb table browser.</help>
         </outputFile>
         <outputFile>

@@ -73,6 +73,7 @@
             <name>table of statistics</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
+            <tableName>stats</tableName>
             <filename>stats.db</filename>
             <help>View the table of results in the interactive GobyWeb table browser. Table contains indel counts generated with Goby discover-sequence-variants mode, indel-counts output format.</help>
         </outputFile>
