@@ -109,7 +109,7 @@
             <name>depths of coverage</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
-            <filename>depths.tsv</filename>
+            <filename>depths.db</filename>
             <tableName>depths</tableName>
             <help>Data in tab-delimited format about the depth of coverage of the measured cytosines.</help>
         </outputFile>
@@ -118,7 +118,7 @@
             <name>bisulfite conversion rates</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
-            <filename>conversion-rates.tsv</filename>
+            <filename>conversion-rates.db</filename>
             <tableName>conversion_rates</tableName>
             <help>Data in tab-delimited format about rate of conversion of cytosines in a non-CpG context.</help>
         </outputFile>
@@ -127,7 +127,7 @@
             <name>non conversion context</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
-            <filename>non-conversion.tsv</filename>
+            <filename>non-conversion.db</filename>
             <tableName>non_conversion</tableName>
             <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
         </outputFile>
