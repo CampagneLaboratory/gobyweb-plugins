@@ -82,6 +82,7 @@
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>contaminants.db</filename>
+            <tableName>contaminants</tableName>
             <help>View the table of results in the interactive GobyWeb table browser. Table contains found contaminants.</help>
         </outputFile>
         <outputFile>
