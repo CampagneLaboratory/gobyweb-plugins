@@ -50,7 +50,8 @@ function plugin_align {
      BASENAME=$2
      # set the number of threads to the number of cores available on the server:
      NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
-     ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -t ${NUM_THREADS}"
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS} --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
+     # Porbably will need to use ${INDEX_PREFIX} to put each genome in its own directory.
 
      SPLICED_OPTION=""
      if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
@@ -67,17 +68,20 @@ function plugin_align {
          goby compact-to-fasta  -i small-reads.compact-reads -o 1.fastq -p 2.fastq --format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
-
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
+         dieUponError "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
      else
          # Convert the compact-reads slice to FASTQ for single-end data:
-         goby compact-to-fasta  -i small-reads.compact-reads -o small-reads-trimmed.fastq --format fastq
+         goby compact-to-fasta  -i small-reads.compact-reads -o reads.fastq --format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn reads.fastq
+         dieUponError "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
      fi
 
-     # TODO: convert BAM output to Goby:
-
-
+     # Convert SAM output to Goby:
+     goby sam-to-compact Aligned.out.sam -o ${OUTPUT}
+     dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
 #extra variables:
