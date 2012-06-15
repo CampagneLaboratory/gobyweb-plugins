@@ -52,8 +52,8 @@
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/star/index</indexDirectory>
     <runtime>
         <need scope="ALIGN" key="excl" value="true"/>
-        <need scope="ALIGN" key="h_vmem" value="25g"/>
-        <need scope="ALIGN" key="virtual_free" value="28g"/>
+        <need scope="ALIGN" key="h_vmem" value="40g"/>
+        <need scope="ALIGN" key="virtual_free" value="40g"/>
         <need scope="ALIGN" key="os" value="rhel5.4"/>
         <need scope="ALIGN_JVM" value="4g"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
@@ -64,6 +64,10 @@
         <resource>
             <id>STAR</id>
             <versionAtLeast>2.1.1</versionAtLeast>
+        </resource>
+        <resource>
+            <id>GOBY</id>
+            <versionAtLeast>20120608105135</versionAtLeast>
         </resource>
     </requires>
     <options>

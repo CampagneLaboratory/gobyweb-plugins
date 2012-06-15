@@ -44,14 +44,16 @@
 
 # ALIGNER_OPTIONS = any STAR options the end-user would like to set
 
+. ${RESOURCES_GOBY_SHELL_SCRIPT}
+
 function plugin_align {
 
      OUTPUT=$1
      BASENAME=$2
      # set the number of threads to the number of cores available on the server:
      NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
-     ALIGNER_OPTIONS="${ALIGNER_OPTIONS} --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
-
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory   --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
+                           #        --genomeLoad LoadAndRemove
      SPLICED_OPTION=""
      if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
         SPLICED_OPTION="-s ${GSNAP_SPLICE_FILE}"
@@ -64,31 +66,43 @@ function plugin_align {
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
 
          # Convert the compact-reads slice to FASTQ for paired-end data:
-         goby compact-to-fasta  -i small-reads.compact-reads -o 1.fastq -p 2.fastq --format fastq
+         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o 1.fastq -p 2.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
-         dieUponError "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+         RETURN_STATUS=$?
      else
          # Convert the compact-reads slice to FASTQ for single-end data:
-         goby compact-to-fasta  -i small-reads.compact-reads -o reads.fastq --format fastq
+         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o reads.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn reads.fastq
-         dieUponError "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+         RETURN_STATUS=$?
      fi
+     cat Log.out
+     cat Log.progress.out
+     echo "STARR Finished with status code=${RETURN_STATUS}"
+
+     if [ ! ${RETURN_STATUS} -eq 0 ]; then
+            # Failed, no result to copy
+            copy_logs align ${CURRENT_PART} ${NUMBER_OF_PARTS}
+            ${QUEUE_WRITER} --tag ${TAG} --index ${CURRENT_PART} --job-type job-part --status ${JOB_PART_FAILED_STATUS} --description "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+            exit
+     fi
+
      #RESULT_DIR= directory on shared filesystem, send output files to $RESULT_DIR/split-results
      #CURRENT_PART= unique id associated with this part of the job
-
-     cp  SJ.out.tab ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv
+     mkdir -p ${SGE_O_WORKDIR}/split-results/
+     cp  SJ.out.tab ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-${CURRENT_PART}.tsv
+     cp  Aligned.out.sam ${SGE_O_WORKDIR}/split-results/aligned-${CURRENT_PART}.sam
      # Convert SAM output to Goby:
-     goby sam-to-compact Aligned.out.sam -o ${OUTPUT}
+     run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.sam -o ${OUTPUT}
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
 #extra variables:
 
-#RESULT_DIR= directory on shared filesystem, send output files to $RESULT_DIR/split-results
+#${SGE_O_WORKDIR}= directory on shared filesystem, send output files to $RESULT_DIR/split-results
 #CURRENT_PART= unique id associated with this part of the job
 
 
@@ -102,6 +116,6 @@ function plugin_alignment_combine {
     TAG=$1
     READS=$2
     BASENAME=$3
-    cat ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv  > ${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+    cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-${CURRENT_PART}.tsv  > ${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
     rm ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv
 }
