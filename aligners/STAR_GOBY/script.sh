@@ -51,7 +51,6 @@ function plugin_align {
      # set the number of threads to the number of cores available on the server:
      NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
      ALIGNER_OPTIONS="${ALIGNER_OPTIONS} --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
-     # Porbably will need to use ${INDEX_PREFIX} to put each genome in its own directory.
 
      SPLICED_OPTION=""
      if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
@@ -78,7 +77,10 @@ function plugin_align {
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn reads.fastq
          dieUponError "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
      fi
+     #RESULT_DIR= directory on shared filesystem, send output files to $RESULT_DIR/split-results
+     #CURRENT_PART= unique id associated with this part of the job
 
+     cp  SJ.out.tab ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv
      # Convert SAM output to Goby:
      goby sam-to-compact Aligned.out.sam -o ${OUTPUT}
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
@@ -100,5 +102,6 @@ function plugin_alignment_combine {
     TAG=$1
     READS=$2
     BASENAME=$3
-
+    cat ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv  > ${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+    rm ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv
 }
