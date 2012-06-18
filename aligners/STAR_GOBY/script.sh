@@ -59,7 +59,7 @@ function plugin_align {
          MIN_SCORE=$((${MIN_SCORE}*2))
      fi
      echo "Aligning with minScore= ${MIN_SCORE}"
-     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory --sjdbOverhang 49 --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
                            #        --genomeLoad LoadAndRemove
 
 
