@@ -54,12 +54,18 @@ function plugin_align {
      BASENAME=$2
      # set the number of threads to the number of cores available on the server:
      NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
-     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory   --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
+     MIN_SCORE=$((${INPUT_READ_LENGTH}*70/100))
+     if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
+         MIN_SCORE=$((${MIN_SCORE}*2))
+     fi
+     echo "Aligning with minScore= ${MIN_SCORE}"
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory --sjdbOverhang 49 --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
                            #        --genomeLoad LoadAndRemove
 
 
      goby reformat-compact-reads  --start-position=${START_POSITION} --end-position=${END_POSITION}  ${READS_FILE} -o small-reads.compact-reads
      dieUponError "reformat reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
+
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
 
@@ -92,9 +98,14 @@ function plugin_align {
      #CURRENT_PART= unique id associated with this part of the job
      mkdir -p ${SGE_O_WORKDIR}/split-results/
      cp  SJ.out.tab ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-${CURRENT_PART}.tsv
-     cp  Aligned.out.sam ${SGE_O_WORKDIR}/split-results/aligned-${CURRENT_PART}.sam
+     #cp  Aligned.out.sam ${SGE_O_WORKDIR}/split-results/aligned-${CURRENT_PART}.sam
+
+     # ADD MD tags to the sam file with samtools: NB: we sort the BAM file because calmd is terribly slow on non-sorted input
+     ${RESOURCES_SAMTOOLS_EXEC_PATH} view -S -b -u Aligned.out.sam |${RESOURCES_SAMTOOLS_EXEC_PATH} sort - sam_sorted
+     ${RESOURCES_SAMTOOLS_EXEC_PATH} calmd -u sam_sorted.bam ${REFERENCE_DIRECTORY}/*.fa >Aligned.out.bam
+
      # Convert SAM output to Goby:
-     run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.sam -o ${OUTPUT}
+     run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.bam -o ${OUTPUT}
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
