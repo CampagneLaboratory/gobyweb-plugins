@@ -1,3 +1,4 @@
+#!/bin/sh
 # Copyright (c) 2011  by Cornell University and the Cornell Research
 # Foundation, Inc.  All Rights Reserved.
 #
@@ -45,7 +46,8 @@
 # ALIGNER_OPTIONS = any STAR options the end-user would like to set
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
-
+#. constants.sh
+#. auto-options.sh
 function plugin_align {
 
      OUTPUT=$1
@@ -54,10 +56,6 @@ function plugin_align {
      NUM_THREADS=`grep physical  /proc/cpuinfo |grep id|wc -l`
      ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory   --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} "
                            #        --genomeLoad LoadAndRemove
-     SPLICED_OPTION=""
-     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_SPLICED_ALIGNMENT}" == "spliced" ]; then
-        SPLICED_OPTION="-s ${GSNAP_SPLICE_FILE}"
-     fi
 
 
      goby reformat-compact-reads  --start-position=${START_POSITION} --end-position=${END_POSITION}  ${READS_FILE} -o small-reads.compact-reads
@@ -69,14 +67,14 @@ function plugin_align {
          run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o 1.fastq -p 2.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
          RETURN_STATUS=$?
      else
          # Convert the compact-reads slice to FASTQ for single-end data:
          run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o reads.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_ALL_OTHER_OPTIONS}  --readFilesIn reads.fastq
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn reads.fastq
          RETURN_STATUS=$?
      fi
      cat Log.out
