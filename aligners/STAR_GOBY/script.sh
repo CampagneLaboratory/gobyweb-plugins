@@ -104,7 +104,7 @@ function plugin_align {
      # ADD MD tags to the sam file with samtools: NB: we sort the BAM file because calmd is terribly slow on non-sorted input
      ${RESOURCES_SAMTOOLS_EXEC_PATH} view -S -b -u Aligned.out.sam |${RESOURCES_SAMTOOLS_EXEC_PATH} sort - sam_sorted
      ${RESOURCES_SAMTOOLS_EXEC_PATH} calmd -u sam_sorted.bam ${REFERENCE_DIRECTORY}/*.fa >Aligned.out.bam
-
+     cp Aligned.out.bam ${SGE_O_WORKDIR}/split-results/Aligned-${CURRENT_PART}.bam
      # Convert SAM output to Goby:
      run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.bam -o ${OUTPUT}
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
@@ -150,4 +150,8 @@ EOT
 
     cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv | \
         awk -v sample=${BASENAME} -e script.awk tmp-file.tsv >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+    ${RESOURCES_SAMTOOLS_EXEC_PATH} merge out.bam ${SGE_O_WORKDIR}/split-results/*.bam
+    ${RESOURCES_SAMTOOLS_EXEC_PATH} sort out.bam sorted
+    ${RESOURCES_SAMTOOLS_EXEC_PATH} index sorted
+    cp sorted.bam*  ${RESULT_DIR}/
 }
