@@ -59,7 +59,9 @@ function plugin_align {
          MIN_SCORE=$((${MIN_SCORE}*2))
      fi
      echo "Aligning with minScore= ${MIN_SCORE}"
-     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
+     local SHARED_MEM=NoSharedMemory
+     local SHARED_MEM=LoadAndRemove
+     ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad ${SHARED_MEM} --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
                            #        --genomeLoad LoadAndRemove
 
      cd ${TMPDIR}
@@ -150,7 +152,7 @@ cat > script.awk <<EOT
 EOT
 
     cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv | \
-        awk -v sample=${BASENAME} -f script.awk tmp-file.tsv >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+        awk -v sample=${BASENAME} -f script.awk >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
     #${RESOURCES_SAMTOOLS_EXEC_PATH} merge out.bam ${SGE_O_WORKDIR}/split-results/*.bam
     #${RESOURCES_SAMTOOLS_EXEC_PATH} sort out.bam sorted
     #${RESOURCES_SAMTOOLS_EXEC_PATH} index sorted
