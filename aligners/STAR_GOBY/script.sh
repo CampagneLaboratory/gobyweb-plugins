@@ -105,7 +105,7 @@ function plugin_align {
 
      # ADD MD tags to the sam file with samtools: NB: we sort the BAM file because calmd is terribly slow on non-sorted input
      ${RESOURCES_SAMTOOLS_EXEC_PATH} view -S -b -u Aligned.out.sam |${RESOURCES_SAMTOOLS_EXEC_PATH} sort - sam_sorted
-     ${RESOURCES_SAMTOOLS_EXEC_PATH} calmd -u sam_sorted.bam ${REFERENCE_DIRECTORY}/*.fa >Aligned.out.bam
+     ${RESOURCES_SAMTOOLS_EXEC_PATH} calmd -u sam_sorted.bam ${REFERENCE_DIRECTORY}/*.fa.gz >Aligned.out.bam
     # cp Aligned.out.bam ${SGE_O_WORKDIR}/split-results/Aligned-${CURRENT_PART}.bam
 
      # Convert SAM output to Goby:
