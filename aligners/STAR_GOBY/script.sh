@@ -150,7 +150,7 @@ cat > script.awk <<EOT
 EOT
 
     cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv | \
-        awk -v sample=${BASENAME} -e script.awk tmp-file.tsv >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+        awk -v sample=${BASENAME} -f script.awk tmp-file.tsv >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
     #${RESOURCES_SAMTOOLS_EXEC_PATH} merge out.bam ${SGE_O_WORKDIR}/split-results/*.bam
     #${RESOURCES_SAMTOOLS_EXEC_PATH} sort out.bam sorted
     #${RESOURCES_SAMTOOLS_EXEC_PATH} index sorted
