@@ -62,22 +62,22 @@ function plugin_align {
      ALIGNER_OPTIONS="${ALIGNER_OPTIONS}  --genomeLoad NoSharedMemory --genomeDir ${INDEX_DIRECTORY} --runThreadN ${NUM_THREADS} --outFilterScoreMin ${MIN_SCORE} --outFilterMatchNmin ${MIN_SCORE}"
                            #        --genomeLoad LoadAndRemove
 
-
+     cd ${TMPDIR}
      goby reformat-compact-reads  --start-position=${START_POSITION} --end-position=${END_POSITION}  ${READS_FILE} -o small-reads.compact-reads
      dieUponError "reformat reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
 
-         # Convert the compact-reads slice to FASTQ for paired-end data:
-         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o 1.fastq -p 2.fastq --output-format fastq
+         # Convert the compact-reads slice to FASTQ for paired-end data:  (note that STAR 2.1.1 requires the sequence on one line, so we use a max 10,000 bp per line!)
+         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -n 10000 -i small-reads.compact-reads -o 1.fastq -p 2.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
          RETURN_STATUS=$?
      else
          # Convert the compact-reads slice to FASTQ for single-end data:
-         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -i small-reads.compact-reads -o reads.fastq --output-format fastq
+         run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta -n 10000 -i small-reads.compact-reads -o reads.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn reads.fastq
@@ -88,6 +88,7 @@ function plugin_align {
      echo "STARR Finished with status code=${RETURN_STATUS}"
 
      if [ ! ${RETURN_STATUS} -eq 0 ]; then
+            cp reads.fastq ${SGE_O_WORKDIR}/split-results/reads-${CURRENT_PART}.fastq
             # Failed, no result to copy
             copy_logs align ${CURRENT_PART} ${NUMBER_OF_PARTS}
             ${QUEUE_WRITER} --tag ${TAG} --index ${CURRENT_PART} --job-type job-part --status ${JOB_PART_FAILED_STATUS} --description "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
@@ -125,6 +126,28 @@ function plugin_alignment_combine {
     TAG=$1
     READS=$2
     BASENAME=$3
-    cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-${CURRENT_PART}.tsv  > ${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
-    rm ${RESULT_DIR}/SpliceJunctionCoverage-${CURRENT_PART}.tsv
+cat > script.awk <<EOT
+        BEGIN{
+            print("sample\tchromosome\tfirst base of the intron (1-based)\tlast base of the intron (1-based)\tstrand\tintron motif\tannotation\tnumber of uniquely mapping reads crossing the junction\treserved\tmaximum left/right overhang");
+            split("non-canonical,GT/AG,CT/AC,GC/AG,CT/GC,AT/AC,GT/AT",motifs,",")
+        }
+        {
+            printf("%s\t",sample)
+            for (i=1; i<=NF ;i++) {
+                token=\$i
+                if (i!=5) {
+                    printf("%s",token);
+                } else {
+                   code=token;
+                   # Awk arrays are one-based:
+                   printf("%s",motifs[code+1])
+                }
+                if (i!=NF) printf("\t")
+            }
+            print("")
+        }
+EOT
+
+    cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv | \
+        awk -v sample=${BASENAME} -e script.awk tmp-file.tsv >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
 }
