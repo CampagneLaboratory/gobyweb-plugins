@@ -109,7 +109,7 @@ function plugin_align {
     # cp Aligned.out.bam ${SGE_O_WORKDIR}/split-results/Aligned-${CURRENT_PART}.bam
 
      # Convert SAM output to Goby:
-     run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.bam -o ${OUTPUT}
+     run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.bam -o ${OUTPUT} --read-names-are-query-indices
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
 
