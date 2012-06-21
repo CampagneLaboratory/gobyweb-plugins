@@ -76,7 +76,7 @@
         <need scope="SPLIT_JVM" value="6g"/>
     </runtime>
     <execute>
-        <script phase="pre-deployment" language="groovy" filename="alignments-to-reads.groovy"/>
+        <script phase="pre-deployment" language="groovy" filename="alignmentsToReads.groovy"/>
     </execute>
     <outputSchema>
         <outputFile>
