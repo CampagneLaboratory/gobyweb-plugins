@@ -84,11 +84,12 @@ function plugin_align {
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
          # PAIRED END alignment, native aligner
          nice ${RESOURCES_GSNAP_WITH_GOBY_EXEC_PATH} ${WINDOW_OPTIONS} -B 4 ${SPLICED_OPTION} ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_GSNAP_GOBY_ALL_OTHER_OPTIONS} -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} -o ${PAIRED_END_DIRECTIONS} ${READ_FILE_SMALL}
+         dieUponError "GSNAP alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
      else
          # Single end alignment, native aligner
          nice ${RESOURCES_GSNAP_WITH_GOBY_EXEC_PATH} ${WINDOW_OPTIONS} -B 4 ${SPLICED_OPTION} ${BISULFITE_OPTION} ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_GSNAP_GOBY_ALL_OTHER_OPTIONS}  -A goby --goby-output="${OUTPUT}" -D ${INDEX_DIRECTORY} -d ${INDEX_PREFIX} ${READ_FILE_SMALL}
-
+         dieUponError "GSNAP alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
      fi
 
 
