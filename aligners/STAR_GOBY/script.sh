@@ -90,7 +90,7 @@ function plugin_align {
      echo "STARR Finished with status code=${RETURN_STATUS}"
 
      if [ ! ${RETURN_STATUS} -eq 0 ]; then
-            cp reads.fastq ${SGE_O_WORKDIR}/split-results/reads-${CURRENT_PART}.fastq
+            #cp reads.fastq ${SGE_O_WORKDIR}/split-results/reads-${CURRENT_PART}.fastq
             # Failed, no result to copy
             copy_logs align ${CURRENT_PART} ${NUMBER_OF_PARTS}
             ${QUEUE_WRITER} --tag ${TAG} --index ${CURRENT_PART} --job-type job-part --status ${JOB_PART_FAILED_STATUS} --description "STAR alignment failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
