@@ -53,12 +53,12 @@
             <versionAtLeast>20120125181554</versionAtLeast>
         </resource>
         <resource>
-        	<id>TRINITY</id>
-        	<versionAtLeast>20120518</versionAtLeast>
+            <id>TRINITY</id>
+            <versionAtLeast>20120518</versionAtLeast>
         </resource>
         <resource>
-        	<id>LAST</id>
-        	<versionAtLeast>230</versionAtLeast>
+            <id>LAST</id>
+            <versionAtLeast>230</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -75,6 +75,9 @@
         <need scope="COMBINE_JVM" value="2g"/>
         <need scope="SPLIT_JVM" value="6g"/>
     </runtime>
+    <execute>
+        <script phase="pre-deployment" language="groovy" filename="alignments-to-reads.groovy"/>
+    </execute>
     <outputSchema>
         <outputFile>
             <id>CONTAMINANT_RESULTS_DB</id>
@@ -83,7 +86,9 @@
             <mimeType>application/x-sqlite3</mimeType>
             <filename>contaminants.db</filename>
             <tableName>contaminants</tableName>
-            <help>View the table of results in the interactive GobyWeb table browser. Table contains found contaminants.</help>
+            <help>View the table of results in the interactive GobyWeb table browser. Table contains found
+                contaminants.
+            </help>
         </outputFile>
         <outputFile>
             <id>CONTAMINANT_RESULTS</id>
