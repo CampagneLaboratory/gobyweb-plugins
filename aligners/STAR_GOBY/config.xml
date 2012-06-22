@@ -59,6 +59,7 @@
         <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="12g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING_JVM" value="8g"/>
     </runtime>
     <requires>
         <resource>
@@ -72,6 +73,10 @@
         <resource>
             <id>SAMTOOLS</id>
             <versionAtLeast>0.1.14</versionAtLeast>
+        </resource>
+        <resource>
+            <id>SCALA</id>
+            <versionAtLeast>2.9.2</versionAtLeast>
         </resource>
     </requires>
     <options>

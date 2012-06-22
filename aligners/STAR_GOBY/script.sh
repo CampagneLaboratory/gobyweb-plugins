@@ -46,8 +46,9 @@
 # ALIGNER_OPTIONS = any STAR options the end-user would like to set
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
-#. constants.sh
-#. auto-options.sh
+. ${RESOURCES_SCALA_SHELL_SCRIPT}
+# . constants.sh
+# . auto-options.sh
 function plugin_align {
 
      OUTPUT=$1
@@ -151,8 +152,11 @@ cat > script.awk <<EOT
         }
 EOT
 
-    cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv | \
-        awk -v sample=${BASENAME} -f script.awk >${RESULT_DIR}/SpliceJunctionCoverage-all.tsv
+    cat ${SGE_O_WORKDIR}/split-results/SpliceJunctionCoverage-*.tsv |  \
+        awk -v sample=${BASENAME} -f script.awk >combined.tsv
+   #cp combined.tsv ${SGE_O_WORKDIR}/
+    scala ${PLUGIN_NEED_ALIGNMENT_POST_PROCESSING_JVM} goby.jar ${SGE_O_WORKDIR}/CombineSpliceData.scala combined.tsv \
+     > ${RESULT_DIR}/${TAG}-SpliceJunctionCoverage-all.tsv
     #${RESOURCES_SAMTOOLS_EXEC_PATH} merge out.bam ${SGE_O_WORKDIR}/split-results/*.bam
     #${RESOURCES_SAMTOOLS_EXEC_PATH} sort out.bam sorted
     #${RESOURCES_SAMTOOLS_EXEC_PATH} index sorted
