@@ -8,9 +8,7 @@
 
 import it.unimi.dsi.io.{FastBufferedReader, LineIterator}
 import it.unimi.dsi.io.{LineIterator, FastBufferedReader}
-import it.unimi.dsi.lang.MutableString
-import java.io.{FileReader, File}
-import scala.collection.mutable.Set
+import java.io.FileReader
 
 
 //println("Executing with arguments: " + args.mkString(","))
@@ -58,13 +56,10 @@ for (file <- args) {
 }
 val headerColumns: List[String] = header.split("[\t]").toList
 
-/*for (sample: String <- sampleMap.keys) {
-           println("Sample: "+sample+" "+sampleMap(sample))
-}
-  */
 
 println((headerColumns.slice(0, 6) ::: List("junctionCount") ::: List("log2normalizedCount")).mkString("\t"))
 val LOG2: Double = StrictMath.log(2)
+var i=0;
 for (key: String <- junctionMap.keys) {
 
   val keys: Array[String] = key.split("[|]")
@@ -74,7 +69,6 @@ for (key: String <- junctionMap.keys) {
   val motifList: scala.collection.mutable.Set[String] = intronMotifs(key)
   val normalizedCount: Double = StrictMath.log(junctionCount.toDouble / sampleCount.toFloat) / LOG2
   println(keys.mkString("\t") + "\t" +  motifList.mkString(",")+"\t" +junctionCount + "\t" + normalizedCount)
-
+  //if (i>2) System.exit(1)
+  //i+=1
 }
-
-
