@@ -6,6 +6,10 @@
 
  */
 
+import it.unimi.dsi.io.{FastBufferedReader, LineIterator}
+import it.unimi.dsi.io.{LineIterator, FastBufferedReader}
+import it.unimi.dsi.lang.MutableString
+import java.io.{FileReader, File}
 import scala.collection.mutable.Set
 
 
@@ -16,18 +20,19 @@ val intronMotifs = scala.collection.mutable.Map[String, scala.collection.mutable
 var header: String = ""
 val COUNT_COL_INDEX = 7
 for (file <- args) {
-  // it: LineIterator = new LineIterator(new FastBufferedReader(file))
-  val lines: Iterator[String] = scala.io.Source.fromFile(file).getLines()
+  val lines: LineIterator= new LineIterator(new FastBufferedReader(new FileReader(file)))
+  //val lines: Iterator[String] = scala.io.Source.fromFile(file).getLines()
   // ignore the header line:
-  header = lines.next()
-  for (line <- lines) {
+  header = lines.next().toString
+  while (lines.hasNext) {
+    val line=lines.next()
     //println(line)
     var countToken: Int = 0
     var key: String = ""
     var value: Int = 0
     var cumulativeJunction: Int = 0
     var cumulativeSample: Int = 0
-    val tokens = line.split("\t")
+    val tokens = line.toString.split("\t")
 
     val sample = tokens(0)
     val intronMotif = tokens(5)
@@ -58,7 +63,7 @@ val headerColumns: List[String] = header.split("[\t]").toList
 }
   */
 
-println((headerColumns.slice(0, 5) ::: List("junctionCount") ::: List("log2normalizedCount")).mkString("\t"))
+println((headerColumns.slice(0, 6) ::: List("junctionCount") ::: List("log2normalizedCount")).mkString("\t"))
 val LOG2: Double = StrictMath.log(2)
 for (key: String <- junctionMap.keys) {
 
