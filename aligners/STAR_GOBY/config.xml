@@ -91,7 +91,11 @@
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
         </option>
-
-
     </options>
+    <files>
+        <file>
+            <id>COMBINE_SPLICE_SCRIPT</id>
+            <filename>CombineSpliceData.scala</filename>
+        </file>
+    </files>
 </alignerConfig>
