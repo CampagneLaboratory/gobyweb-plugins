@@ -37,8 +37,8 @@
 <resourceConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Samtools</name>
     <id>SAMTOOLS</id>
-    <help>Samtools distribution. Tools for working with alignments in the SAM/BAM formats.</help>
-    <version>0.1.18</version>
+    <help>Samtools distribution. Tools for alignments in the SAM format.</help>
+    <version>0.1.14</version>
     <files>
         <file>
             <id>EXEC_PATH</id>
