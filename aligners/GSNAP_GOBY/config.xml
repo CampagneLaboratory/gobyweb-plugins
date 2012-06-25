@@ -71,7 +71,7 @@
         </resource>
         <resource>
         	<id>EXTRACT_NONMATCHED</id>
-        	<versionAtLeast>20120605</versionAtLeast>
+        	<versionAtLeast>2012.06.05</versionAtLeast>
         </resource>
     </requires>
     <options>

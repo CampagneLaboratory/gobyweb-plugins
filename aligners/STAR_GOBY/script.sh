@@ -47,6 +47,7 @@
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
 . ${RESOURCES_SCALA_SHELL_SCRIPT}
+. ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 # . constants.sh
 # . auto-options.sh
 function plugin_align {
@@ -113,7 +114,10 @@ function plugin_align {
      run-goby ${PLUGIN_NEED_ALIGN_JVM} sam-to-compact -i Aligned.out.bam -o ${OUTPUT} --read-names-are-query-indices
      dieUponError "SAM conversion to Goby output failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
+     if [ "${PLUGINS_ALIGNER_STAR_GOBY_NON_MATCHING}" == "true" ]; then
 
+     	 extract_unmatched_in_plugin_align ${READS} ${OUTPUT} ${NUMBER_OF_PARTS} ${CURRENT_PART} ${SGE_O_WORKDIR}/split-results
+     fi
 #extra variables:
 
 #${SGE_O_WORKDIR}= directory on shared filesystem, send output files to $RESULT_DIR/split-results
@@ -161,4 +165,10 @@ EOT
     #${RESOURCES_SAMTOOLS_EXEC_PATH} sort out.bam sorted
     #${RESOURCES_SAMTOOLS_EXEC_PATH} index sorted
     #cp sorted.bam*  ${RESULT_DIR}/
+
+    if [ "${PLUGINS_ALIGNER_STAR_GOBY_NON_MATCHING}" == "true" ]; then
+
+            combine_splits  ${SGE_O_WORKDIR}/unmatched-split/ ${RESULT_DIR}/ ${BASENAME}
+    fi
+
 }

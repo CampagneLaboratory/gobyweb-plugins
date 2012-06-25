@@ -48,7 +48,7 @@
     <supportsFastqReads>true</supportsFastqReads>
     <supportsFastaReads>true</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
-    <version>1.0</version>
+    <version>1.1</version>
     <indexDirectory>%NODE_LOCAL_DATA_ROOT%/%VERSION%/%ORGANISM%/%SPACE%/star/index</indexDirectory>
     <runtime>
         <need scope="ALIGN" key="excl" value="true"/>
@@ -78,6 +78,10 @@
             <id>SCALA</id>
             <versionAtLeast>2.9.2</versionAtLeast>
         </resource>
+        <resource>
+            <id>EXTRACT_NONMATCHED</id>
+            <versionAtLeast>2012.06.25</versionAtLeast>
+        </resource>
     </requires>
     <options>
         <option>
@@ -90,6 +94,15 @@
             <type>STRING</type>
             <flagFormat>%s</flagFormat>
             <includeSpaces>true</includeSpaces>
+        </option>
+        <option>
+            <id>NON_MATCHING</id>
+            <name>Export non-matching reads</name>
+            <help>Output unmatched reads after alignment is complete</help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
         </option>
     </options>
     <files>

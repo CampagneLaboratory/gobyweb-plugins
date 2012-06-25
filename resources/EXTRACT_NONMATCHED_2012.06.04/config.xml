@@ -35,7 +35,7 @@
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
 <resourceConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <name>Extract Non-matched Reads</name>
+    <name>Extract Non-matching Reads</name>
     <id>EXTRACT_NONMATCHED</id>
     <requires>
         <resource>
@@ -44,7 +44,7 @@
         </resource>
     </requires>
     <help>Script that uses goby to extract unmapped reads from a reads/alignment pair</help>
-    <version>20120605</version>
+    <version>2012.06.25</version>
     <files>
          <file>
             <id>SHELL_SCRIPT</id>

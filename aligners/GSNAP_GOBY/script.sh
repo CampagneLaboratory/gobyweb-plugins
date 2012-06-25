@@ -45,6 +45,8 @@
 
 # ALIGNER_OPTIONS = any GSNAP options the end-user would like to set
 
+. ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
+
 function plugin_align {
 
      OUTPUT=$1
@@ -103,21 +105,9 @@ function plugin_align {
 #eventually need to change xml to output the final file, but that comes later
 #also make it able to handle errors
 
-
-
-
      if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_NON_MATCHING}" == "true" ]; then
      
-     	 . ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
-     	
-         #export unmatched reads
-         
-         extract_unmatched_reads "${READS}" "${OUTPUT}" "${OUTPUT}-unmatched.compact-reads"
-
-         #copy slice to shared filesystem
-         
-         mkdir -p ${SGE_O_WORKDIR}/unmatched-split
-         cp "${OUTPUT}-unmatched.compact-reads" "${SGE_O_WORKDIR}/unmatched-split/unmatched${CURRENT_PART}.compact-reads"
+     	 extract_unmatched_in_plugin_align ${READS} ${OUTPUT} ${NUMBER_OF_PARTS} ${CURRENT_PART} ${SGE_O_WORKDIR}/split-results
      fi
 }
 
@@ -131,37 +121,9 @@ function plugin_alignment_combine {
     BASENAME=$3
 
     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_NON_MATCHING}" == "true" ]; then
-    
-    	. ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 
-        #copy files to local file system
-
-        mkdir "unmatched-slices"
-        cp ${SGE_O_WORKDIR}/unmatched-split/unmatched*.compact-reads "./unmatched-slices"
-
-        #concat files together
-
-
-		local UNMATCHED_SLICE_FILENAMES=""
-        for file in unmatched-slices/*
-        do
-            UNMATCHED_SLICE_FILENAMES="${UNMATCHED_SLICE_FILENAMES} $file"
-        done
-
-        combine_unmatched_reads "${BASENAME}-unmatched.compact-reads" ${UNMATCHED_SLICE_FILENAMES}
-
-        #send them to $RESULT_DIR with final filename
-
-        cp "${BASENAME}-unmatched.compact-reads" "${RESULT_DIR}/${BASENAME}-unmatched.compact-reads"
-
-        #edit xml to add file to output later
-
-
+        combine_splits  ${SGE_O_WORKDIR}/unmatched-split/ ${RESULT_DIR}/ ${BASENAME}
 
     fi
-
-
-
-
 
 }
