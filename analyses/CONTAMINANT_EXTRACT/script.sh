@@ -35,7 +35,7 @@
 
 # This script expects the following variables to be defined:
 
-# IS_TRANSCRIPT = whether alignments were done against a cDNA reference.
+
 # GROUPS_DEFINITION = description of the groups, in the format group-1=sample_i,sample_j/group-2=sample_k,..
 # COMPARE_DEFINITION
 # ANNOTATION_FILE = file describing annotations in the Goby annotation format.

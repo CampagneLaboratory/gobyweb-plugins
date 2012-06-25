@@ -59,7 +59,7 @@ function combine_splits {
     # concat files together
 
     local UNMATCHED_SLICE_FILENAMES=""
-    for file in unmatched-slices/*
+    for file in `ls ./unmatched-slices/*`
     do
         UNMATCHED_SLICE_FILENAMES="${UNMATCHED_SLICE_FILENAMES} $file"
     done

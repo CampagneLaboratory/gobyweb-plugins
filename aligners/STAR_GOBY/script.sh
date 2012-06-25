@@ -168,7 +168,7 @@ EOT
 
     if [ "${PLUGINS_ALIGNER_STAR_GOBY_NON_MATCHING}" == "true" ]; then
 
-            combine_splits  ${SGE_O_WORKDIR}/unmatched-split/ ${RESULT_DIR}/ ${BASENAME}
+            combine_splits  ${SGE_O_WORKDIR}/split-results ${RESULT_DIR}/ ${BASENAME}
     fi
 
 }

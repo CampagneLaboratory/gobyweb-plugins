@@ -122,7 +122,7 @@ function plugin_alignment_combine {
 
     if [ "${PLUGINS_ALIGNER_GSNAP_GOBY_NON_MATCHING}" == "true" ]; then
 
-        combine_splits  ${SGE_O_WORKDIR}/unmatched-split/ ${RESULT_DIR}/ ${BASENAME}
+        combine_splits  ${SGE_O_WORKDIR}/split-results ${RESULT_DIR}/ ${BASENAME}
 
     fi
 
