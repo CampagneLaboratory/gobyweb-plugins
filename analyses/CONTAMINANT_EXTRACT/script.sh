@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright (c) 2011  by Cornell University and the Cornell Research
 # Foundation, Inc.  All Rights Reserved.
 #
@@ -56,7 +57,6 @@ function plugin_alignment_analysis_split {
 	local SPLICING_PLAN_RESULT=$2
 	
 	echo "${SOURCE_ALIGNMENT_FULL_PATH_BASENAMES}" | tr " " "\n" | sed '/^$/d' > ${SPLICING_PLAN_RESULT}
-
 	
 }
 
