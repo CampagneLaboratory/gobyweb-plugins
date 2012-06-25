@@ -76,9 +76,11 @@ function plugin_alignment_analysis_process {
 	local SPLICING_PLAN_FILENAME=$1
 	local CURRENT_PART=$2
 	
+	#get basenames for this part
 	local SOURCE_BASENAME=`sed -n ${CURRENT_PART}p < ${SPLICING_PLAN_FILENAME}`
-
+	local REDUCED_BASENAME=`basename ${SOURCE_BASENAME}`
 	
+	#copy over unmatched reads
 	rsync -t "${SOURCE_BASENAME}-unmatched.compact-reads" "unmatched${CURRENT_PART}.compact-reads"
 	
 	dieUponError "Could not retrieve unmapped reads"
@@ -88,40 +90,54 @@ function plugin_alignment_analysis_process {
 	
 	dieUponError "Could not assemble with trinity."
 	
+	#create index of assembled file for E-value computation
 	${RESOURCES_LAST_INDEXER} -x assembled "assembled${CURRENT_PART}.fasta"
 	
 	dieUponError "Could not index assembled file"
 	
-	local REF_BASENAME="${REFERENCE_DIRECTORY}/lastindex"
+	#extract viral ref tarball
+	tar -zxvf ${SGE_O_WORKDIR}/viralref.tar.gz
 	
-	REF_BASENAME='/home/zmz2/viral/viralref'
-	
+	local REF_BASENAME="viralref"
 	
 	#run alignment and print results into tsv format
 	${RESOURCES_LAST_EXEC_PATH} -f 0 ${REF_BASENAME} "assembled${CURRENT_PART}.fasta" | \
   		${RESOURCES_LAST_EXPECT} ${REF_BASENAME}.prj assembled.prj - | \
   		sed '/^#/ d' | \
-  		awk '{print $2, "\t", $7, "\t", $1, "\t", $13}' > "${TAG}-results-${CURRENT_PART}.tsv"
+  		awk '{print $2, "\t", "'${REDUCED_BASENAME}'", "\t", $7, "\t", $9, "\t", $1, "\t", $13}' > "${TAG}-results-${CURRENT_PART}.tsv"
   		
   	ls
   	
   	dieUponError "Could not align assembled file"
+  	
+  	mkdir -p ${SGE_O_WORKDIR}/contigs
+  	cp "assembled${CURRENT_PART}.fasta" "${SGE_O_WORKDIR}/contigs/${TAG}-assembled-${REDUCED_BASENAME}.fasta"
 }
 
 function plugin_alignment_analysis_combine {
 
-	local OUTPUT_FILE="contaminants.tsv"
+	local OUTPUT_FILE_FULL="contaminants.tsv"
+	local OUTPUT_FILE_SUMM="summary.tsv"
 	shift
 	local PART_RESULT_FILES=$*
 	
+	ls
+	pwd
 	
-	local COLUMNS="Contaminant\tRead\tScore\tE-value"
+	#copy trinity output files here
+	mkdir assembled
+	cp ${SGE_O_WORKDIR}/contigs/*-assembled-*.fasta assembled
 	
-	echo -e $COLUMNS > ${OUTPUT_FILE}
-
-	cat ${PART_RESULT_FILES} >> ${OUTPUT_FILE}
-
-
+	#tarball them
+	tar -zvcf assembled-reads.tar.gz assembled/*
+	
+	local TEMPFILE=`mktemp readsXXXX`
+	cat ${PART_RESULT_FILES} > ${TEMPFILE}
+	
+	ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
+	
+	${SGE_O_WORKDIR}/OutputFormatter.groovy ${ACCESSION_NAME_MAP} ${TEMPFILE} ${OUTPUT_FILE_FULL} ${OUTPUT_FILE_SUMM}
+	
 	
 
 }

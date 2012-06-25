@@ -47,6 +47,20 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <version>1.0</version>
+    <files>
+        <file>
+            <id>OUTPUT_FORMATTER</id>
+            <filename>OutputFormatter.groovy</filename>
+        </file>
+        <file>
+        	<id>VIRAL_REF</id>
+        	<filename>viralref.tar.gz</filename>
+        </file>
+        <file>
+        	<id>VIRAL_NAMES</id>
+        	<filename>viral-names.map</filename>
+        </file>
+    </files>
     <requires>
         <resource>
             <id>GOBY</id>
@@ -81,7 +95,7 @@
     <outputSchema>
         <outputFile>
             <id>CONTAMINANT_RESULTS_DB</id>
-            <name>table of contaminants</name>
+            <name>table with full results of analysis</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>contaminants.db</filename>
@@ -92,11 +106,36 @@
         </outputFile>
         <outputFile>
             <id>CONTAMINANT_RESULTS</id>
-            <name>TSV file</name>
+            <name>TSV file with full results of analysis</name>
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>contaminants.tsv</filename>
             <help>TSV file with results of contaminant extraction.</help>
+        </outputFile>
+        <outputFile>
+            <id>CONTAMINANT_SUMMARY_DB</id>
+            <name>table with summary of analysis</name>
+            <required>true</required>
+            <mimeType>application/x-sqlite3</mimeType>
+            <filename>summary.db</filename>
+            <tableName>summary</tableName>
+            <help>View the table of results in the interactive GobyWeb table browser. Table contains summary of found contaminants.</help>
+        </outputFile>
+        <outputFile>
+            <id>CONTAMINANT_SUMMARY</id>
+            <name>TSV file with summary results of analysis</name>
+            <required>true</required>
+            <mimeType>text/tab-separated-values</mimeType>
+            <filename>summary.tsv</filename>
+            <help>TSV file with a summary of contaminant extraction.</help>
+        </outputFile>
+        <outputFile>
+            <id>ASSEMBLED_READS</id>
+            <name>Assembled Reads</name>
+            <required>true</required>
+            <mimeType>application/x-tar</mimeType>
+            <filename>assembled-reads.tar.gz</filename>
+            <help>GZIP archive with the assembled reads from each sample</help>
         </outputFile>
     </outputSchema>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
