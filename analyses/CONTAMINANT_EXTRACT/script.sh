@@ -98,7 +98,7 @@ function plugin_alignment_analysis_process {
 	dieUponError "Could not retrieve unmapped reads"
 	
 	#assemble reads into longer contigs
-	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}" -eq "MINIA" ]; then
+	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_ASSEMBLER}" == "MINIA" ]; then
 		echo "using minia to assemble reads"
 		run_minia "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
 	else

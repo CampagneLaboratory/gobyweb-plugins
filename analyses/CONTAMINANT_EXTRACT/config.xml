@@ -85,8 +85,8 @@
     </requires>
     <runtime>
         <need scope="PROCESS" key="excl" value="false"/>
-        <need scope="PROCESS" key="h_vmem" value="35g"/>
-        <need scope="PROCESS" key="virtual_free" value="35g"/>
+        <need scope="PROCESS" key="h_vmem" value="20g"/>
+        <need scope="PROCESS" key="virtual_free" value="20g"/>
         <need scope="PROCESS_JVM" value="10g"/>
         <need scope="GLOBAL" key="excl" value="false"/>
         <need scope="GLOBAL" key="h_vmem" value="8g"/>
