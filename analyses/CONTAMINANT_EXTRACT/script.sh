@@ -51,6 +51,7 @@
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
 . ${RESOURCES_TRINITY_SHELL_SCRIPT}
+. ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 
 
 function plugin_alignment_analysis_split {
@@ -80,8 +81,19 @@ function plugin_alignment_analysis_process {
 	local SOURCE_BASENAME=`sed -n ${CURRENT_PART}p < ${SPLICING_PLAN_FILENAME}`
 	local REDUCED_BASENAME=`basename ${SOURCE_BASENAME}`
 	
-	#copy over unmatched reads
-	rsync -t "${SOURCE_BASENAME}-unmatched.compact-reads" "unmatched${CURRENT_PART}.compact-reads"
+	#copy over unmatched reads 
+	scp "${SOURCE_BASENAME}-unmatched.compact-reads" "unmatched${CURRENT_PART}.compact-reads"
+	if [ $? -eq 0 ]; then
+		echo "found the unmapped reads"
+	else
+	
+		echo "unmapped reads not found, running extraction now"
+		
+		local READS_FILE=`grep "$REDUCED_BASENAME" "${SGE_O_WORKDIR}/alignmentsToReads.tsv" | awk '{print $2}'`
+		
+		extract_unmatched_reads "${READS_FILE}" "${ENTRIES_DIRECTORY}/${REDUCED_BASENAME}" "unmatched${CURRENT_PART}.compact-reads"
+		
+	fi
 	
 	dieUponError "Could not retrieve unmapped reads"
 	
@@ -120,9 +132,6 @@ function plugin_alignment_analysis_combine {
 	local OUTPUT_FILE_SUMM="summary.tsv"
 	shift
 	local PART_RESULT_FILES=$*
-	
-	ls
-	pwd
 	
 	#copy trinity output files here
 	mkdir assembled

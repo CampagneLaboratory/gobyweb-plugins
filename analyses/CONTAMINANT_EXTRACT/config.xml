@@ -74,6 +74,10 @@
             <id>LAST</id>
             <versionAtLeast>230</versionAtLeast>
         </resource>
+        <resource>
+        	<id>EXTRACT_NONMATCHED</id>
+        	<versionAtLeast>2012.06.04</versionAtLeast>
+        </resource>
     </requires>
     <runtime>
         <need scope="PROCESS" key="excl" value="false"/>
