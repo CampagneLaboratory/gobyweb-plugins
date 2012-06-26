@@ -94,17 +94,14 @@ function plugin_alignment_analysis_process {
 		extract_unmatched_reads "${READS_FILE}" "${ENTRIES_DIRECTORY}/${REDUCED_BASENAME}" "unmatched${CURRENT_PART}.compact-reads"
 		
 	fi
-	
 	dieUponError "Could not retrieve unmapped reads"
 	
 	#use Trinity to assemble unmatched reads into larger groups
 	run_trinity "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
-	
 	dieUponError "Could not assemble with trinity."
 	
 	#create index of assembled file for E-value computation
 	${RESOURCES_LAST_INDEXER} -x assembled "assembled${CURRENT_PART}.fasta"
-	
 	dieUponError "Could not index assembled file"
 	
 	#extract viral ref tarball

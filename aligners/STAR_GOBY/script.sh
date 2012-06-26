@@ -70,6 +70,7 @@ function plugin_align {
      goby reformat-compact-reads  --start-position=${START_POSITION} --end-position=${END_POSITION}  ${READS_FILE} -o small-reads.compact-reads
      dieUponError "reformat reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
+     local ambiguityOption="--outFilterMultimapNmax ${PLUGINS_ALIGNER_STAR_GOBY_AMBIGUITY_THRESHOLD}"
 
      if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
 
@@ -77,14 +78,14 @@ function plugin_align {
          run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta  -n 10000 -i small-reads.compact-reads -o 1.fastq -p 2.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn 1.fastq 2.fastq
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS} ${ambiguityOption} --readFilesIn 1.fastq 2.fastq
          RETURN_STATUS=$?
      else
          # Convert the compact-reads slice to FASTQ for single-end data:
          run-goby ${PLUGIN_NEED_ALIGN_JVM} compact-to-fasta -n 10000 -i small-reads.compact-reads -o reads.fastq --output-format fastq
          dieUponError "Convert compact-reads to fastq failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
-         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS}  --readFilesIn reads.fastq
+         nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS} ${ambiguityOption} --readFilesIn reads.fastq
          RETURN_STATUS=$?
      fi
      cat Log.out

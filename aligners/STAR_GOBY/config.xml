@@ -84,6 +84,34 @@
         </resource>
     </requires>
     <options>
+        <!--option>
+            <id>OUT_FILTER_MISMATCH_N_MAX</id>
+            <dbLegacyId>outFilterMismatchNmax</dbLegacyId>
+            <name>outFilterMismatchNmax</name>
+            <help>alignment will be output only if it has fewer mismatches than this value
+            </help>
+            <required>true</required>
+            <defaultsTo>10</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>&dash;&dash;outFilterMismatchNmax %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option-->
+        <option>
+            <id>AMBIGUITY_THRESHOLD</id>
+            <dbLegacyId>ambiguityThreshold</dbLegacyId>
+            <name>Ambiguity threshold</name>
+            <help>The maximum number of reference sequence locations that can be matched for a read to be considered
+                non-ambiguous. Please note that STAR currently discards/does not output alignments found to strictly
+                match more than the specified ambiguity threshold.
+            </help>
+            <required>true</required>
+            <defaultsTo>10</defaultsTo>
+            <type>INTEGER</type>
+            <autoFormat>true</autoFormat>
+            <flagFormat>-n %s</flagFormat>
+            <includeSpaces>true</includeSpaces>
+        </option>
         <option>
             <id>ALIGNER_OPTIONS</id>
             <dbLegacyId>alignerAdvancedOptions</dbLegacyId>
