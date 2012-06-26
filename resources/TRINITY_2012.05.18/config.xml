@@ -35,10 +35,10 @@
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
 <resourceConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <name>Trinity</name>
-    <id>TRINITY</id>
-    <help>Trinity de novo assembler. See http://trinityrnaseq.sourceforge.net/.</help>
-    <version>20120518</version>
+    <name>Minia</name>
+    <id>MINIA</id>
+    <help>Minia De Novo Assembler. See http://minia.genouest.org/.</help>
+    <version>20120626</version>
     <requires>
         <resource>
             <id>GOBY</id>
@@ -47,12 +47,12 @@
     </requires>
     <files>
         <file>
-            <id>TRINITY_TAR</id>
-            <filename>trinity.tar</filename>
+            <id>EXEC_PATH</id>
+            <filename>minia</filename>
         </file>
          <file>
             <id>SHELL_SCRIPT</id>
-            <filename>script-trinity.sh</filename>
+            <filename>script-minia.sh</filename>
         </file>
     </files>
 </resourceConfig>
