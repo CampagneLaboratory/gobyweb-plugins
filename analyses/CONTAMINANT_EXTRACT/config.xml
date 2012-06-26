@@ -73,6 +73,7 @@
         <resource>
         	<id>TRINITY</id>
         	<versionAtLeast>20120518</versionAtLeast>
+        </resource>
         <resource>
             <id>LAST</id>
             <versionAtLeast>230</versionAtLeast>
@@ -165,6 +166,7 @@
     				<name>Trinity</name>
     				<value>TRINITY</value>
     				<help>http://trinityrnaseq.sourceforge.net/</help>
+    			</category>
     		</categories>
     	</option>
     </options>
