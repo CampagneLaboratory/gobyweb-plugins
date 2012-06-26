@@ -53,11 +53,11 @@
             <id>EXPECT</id>
             <filename>lastex</filename>
         </file>
-        <!-- Directory that contains additional files. -->
-        <file>
+        <!-- Directory that contains additional files. DISABLED FOR NOW -->
+        <!--file>
             <id>SCRIPTS</id>
             <filename>scripts</filename>
             <isDirectory>true</isDirectory>
-        </file>
+        </file-->
     </files>
 </resourceConfig>
