@@ -50,8 +50,14 @@
             <filename>lastdb</filename>
         </file>
         <file>
-        	<id>EXPECT</id>
-        	<filename>lastex</filename>
+            <id>EXPECT</id>
+            <filename>lastex</filename>
+        </file>
+        <!-- Directory that contains additional files. -->
+        <file>
+            <id>SCRIPTS</id>
+            <filename>scripts</filename>
+            <isDirectory>true</isDirectory>
         </file>
     </files>
 </resourceConfig>
