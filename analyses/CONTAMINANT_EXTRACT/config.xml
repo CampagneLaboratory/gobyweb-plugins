@@ -46,7 +46,7 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.0</version>
+    <version>1.1</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>
@@ -67,9 +67,12 @@
             <versionAtLeast>20120125181554</versionAtLeast>
         </resource>
         <resource>
-            <id>TRINITY</id>
-            <versionAtLeast>20120518</versionAtLeast>
+            <id>MINIA</id>
+            <versionAtLeast>20120626</versionAtLeast>
         </resource>
+        <resource>
+        	<id>TRINITY</id>
+        	<versionAtLeast>20120518</versionAtLeast>
         <resource>
             <id>LAST</id>
             <versionAtLeast>230</versionAtLeast>
@@ -142,6 +145,29 @@
             <help>GZIP archive with the assembled reads from each sample</help>
         </outputFile>
     </outputSchema>
+    <options>
+    	<option>
+    		<id>ASSEMBLER</id>
+    		<name>Assembler</name>
+    		<help>The assembler to use when combining reads into contigs</help>
+    		<required>true</required>
+    		<defaultsTo>MINIA</defaultsTo>
+    		<type>CATEGORY</type>
+    		<categories>
+    			<category>
+    				<id>MINIA</id>
+    				<name>Minia</name>
+    				<value>MINIA</value>
+    				<help>http://minia.genouest.org/</help>
+    			</category>
+    			<category>
+    				<id>TRINITY</id>
+    				<name>Trinity</name>
+    				<value>TRINITY</value>
+    				<help>http://trinityrnaseq.sourceforge.net/</help>
+    		</categories>
+    	</option>
+    </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>10</maximumNumberOfGroups>
 </alignmentAnalysisConfig>

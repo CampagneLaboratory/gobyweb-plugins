@@ -15,7 +15,7 @@ function run_minia {
 
 	#minia doesnt support compact-reads, convert to fasta
 	local TEMPFILE=`mktemp readsXXXX`
-	run-goby 4g compact-to-fasta --output-format fasta --input ${INPUT} --output ${TEMPFILE}
+	run-goby 4g compact-to-fasta --output-format fasta --fasta-line-length 10000 --input ${INPUT} --output ${TEMPFILE}
 	
 	
 	#run minia on converted file

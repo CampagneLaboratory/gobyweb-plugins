@@ -50,6 +50,7 @@
 # OTHER_ALIGNMENT_ANALYSIS_OPTIONS = any options defined by the end-user or assembled with the auto-format mechanism.
 
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
+. ${RESOURCES_MINIA_SHELL_SCRIPT}
 . ${RESOURCES_TRINITY_SHELL_SCRIPT}
 . ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 
@@ -96,11 +97,18 @@ function plugin_alignment_analysis_process {
 	fi
 	dieUponError "Could not retrieve unmapped reads"
 	
-	#use Trinity to assemble unmatched reads into larger groups
-	run_trinity "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
-	dieUponError "Could not assemble with trinity."
+	#assemble reads into longer contigs
+	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_OUTPUT_FORMAT}" -eq "MINIA" ]; then
+		echo "using minia to assemble reads"
+		run_minia "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
+	else
+		echo "using trinity to assemble reads"
+		run_trinity "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
+	fi
 	
-	#create index of assembled file for E-value computation
+	dieUponError "Could not assemble reads."
+	
+	#create counts index of assembled file for E-value computation
 	${RESOURCES_LAST_INDEXER} -x assembled "assembled${CURRENT_PART}.fasta"
 	dieUponError "Could not index assembled file"
 	
@@ -130,7 +138,7 @@ function plugin_alignment_analysis_combine {
 	shift
 	local PART_RESULT_FILES=$*
 	
-	#copy trinity output files here
+	#copy assembler output files here
 	mkdir assembled
 	cp ${SGE_O_WORKDIR}/contigs/*-assembled-*.fasta assembled
 	
