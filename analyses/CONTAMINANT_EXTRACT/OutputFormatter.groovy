@@ -1,16 +1,21 @@
 #!/usr/bin/env groovy
 
-def ARGS_LENGTH = 4
+def ARGS_LENGTH = 6
 //arg 1: path to accession-name map file
 //arg 2: path to input file
 //arg 3: path to full output file
 //arg 4: path to summary output file
+//arg 5: E-value threshold
+//arg 6: Identity threshold
 
 println args
 
+def eValueThreshold = args[4].toDouble()
+def identityThreshold = args[5].toDouble()
+
 def printUsage(){
     println "Incorrect Syntax"
-    println "./OutputFormatter.groovy map_file input full_out summ_out"
+    println "./OutputFormatter.groovy map_file input full_out summ_out e_value_thresh ident_thresh"
 }
 
 if(args.length != ARGS_LENGTH){
@@ -28,21 +33,28 @@ new File(args[0]).splitEachLine("\t"){
 def outFull = new File(args[2])
 def sampleMap = [:]
 
-outFull.write("Contaminant Species\tAccession Number\tSample\tContig\tAlignment Size\tScore\tE-value\n")
+outFull.write("Contaminant Species\tAccession Number\tSample\tContig\tAlignment Size\tScore\tPercent Identity\tE-value\n")
 
 new File(args[1]).splitEachLine("\t"){
-    outFull << nameMap[it[0].trim()] << "\t" << it.join("\t") << "\n"; //add organism name to full table
+
+    def percentIdentity = (it[4].toDouble() / it[3].toDouble()) * 100
+    outFull << nameMap[it[0].trim()] << "\t" <<
+            it[0..4].join("\t") << "\t" <<
+            percentIdentity << "\t" <<
+            it[5] << "\n";
 
     //get existing organism list for sample, or make empty one if it doesnt exist yet
     def orgList = sampleMap[it[1]] ?: (sampleMap[it[1]] = [])
 
-    //add organism to list
-    orgList << nameMap[it[0].trim()]
+    //add organism to list if it passes filter
+    if(it[5].toDouble() < eValueThreshold && percentIdentity > identityThreshold){
+        orgList << nameMap[it[0].trim()]
+    }
 }
 
 
 def outsumm = new File(args[3])
-outsumm.write("Sample\tOrganism\tNum Matched Contigs\n")
+outsumm.write("Sample\tOrganism\tNum Significant Matches\n")
 //this is where I will make the summary output
 
 sampleMap.collect { sample, List orgList ->

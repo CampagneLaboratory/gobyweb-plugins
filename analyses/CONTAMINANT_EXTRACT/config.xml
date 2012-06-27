@@ -169,6 +169,22 @@
     			</category>
     		</categories>
     	</option>
+    	<option>
+    		<id>EVALUETHRESHOLD</id>
+    		<name>E-value Threshold</name>
+    		<help>Matches with an E-value above the threshold will not be considered significant</help>
+    		<required>true</required>
+    		<defaultsTo>1e-6</defaultsTo>
+    		<type>DOUBLE</type>
+    	</option>
+    	<option>
+    		<id>IDENTITYTHRESHOLD</id>
+    		<name>Percent Identity Threshold</name>
+    		<help>Matches with a percent identity below the threshold will not be considered significant</help>
+    		<required>true</required>
+    		<defaultsTo>95</defaultsTo>
+    		<type>DOUBLE</type>
+    	</option>
     </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>10</maximumNumberOfGroups>
