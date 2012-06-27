@@ -36,17 +36,17 @@
 -->
 <alignmentAnalysisConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <name>Contaminant Extraction with Goby</name>
+    <name>Contaminant identification</name>
     <id>CONTAMINANT_EXTRACT</id>
     <dbLegacyId>Extract Contaminants</dbLegacyId>
-    <help>Finds potential contaminants based on the unmapped reads in the alignments.
+    <help>Finds potential contaminants based on the unmapped reads in the alignments. This plugin will create contigs from unmapped reads, and try to align these contigs to viral and bacterial nucleotide sequences to identify potential sample contaminants.
     </help>
     <analysisType>SequenceVariants</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.1</version>
+    <version>1.2</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>
