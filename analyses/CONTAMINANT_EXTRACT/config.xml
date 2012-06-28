@@ -46,7 +46,7 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.2</version>
+    <version>1.3</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>

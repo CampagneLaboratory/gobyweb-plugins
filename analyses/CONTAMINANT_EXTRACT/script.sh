@@ -143,7 +143,7 @@ function plugin_alignment_analysis_process {
   	
   	goby alignment-to-transcript-counts --parallel "realignment${CURRENT_PART}" -o "realignment${CURRENT_PART}"
   	
-  	awk 'NR > 1 { print $2, "\t", int($3), "\t", (int($3) * 100) / '${NUM_UNMATCHED_READS}' }' < "realignment${CURRENT_PART}-transcript-counts.txt" > "${TAG}-realignment-${CURRENT_PART}.tsv"
+  	awk 'NR > 1 { print "'${REDUCED_BASENAME}'", \t, $2, "\t", int($3), "\t", (int($3) * 100) / '${NUM_UNMATCHED_READS}' }' < "realignment${CURRENT_PART}-transcript-counts.txt" > "${TAG}-realignment-${CURRENT_PART}.tsv"
   	
   	mkdir -p ${SGE_O_WORKDIR}/tempoutput
   	cp *realignment* ${SGE_O_WORKDIR}/tempoutput
@@ -190,7 +190,7 @@ function plugin_alignment_analysis_combine {
 			${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_IDENTITYTHRESHOLD}
 	
 	
-	echo -e 'Contig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
+	echo -e 'Sample\tContig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
 	
 	cat $TEMPFILE_REALIGN >> $OUTPUT_FILE_REALIGN
 	
