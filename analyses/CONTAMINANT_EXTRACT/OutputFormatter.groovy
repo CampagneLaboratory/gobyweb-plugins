@@ -44,7 +44,7 @@ new File(args[1]).splitEachLine("\t"){
             it[5] << "\n";
 
     //get existing organism list for sample, or make empty one if it doesnt exist yet
-    def orgList = sampleMap[it[1]] ?: (sampleMap[it[1]] = [])
+    def orgList = sampleMap.get(it[1], [])
 
     //add organism to list if it passes filter
     if(it[5].toDouble() < eValueThreshold && percentIdentity > identityThreshold){

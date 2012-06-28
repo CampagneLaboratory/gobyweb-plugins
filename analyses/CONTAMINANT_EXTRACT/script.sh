@@ -97,6 +97,8 @@ function plugin_alignment_analysis_process {
 	fi
 	dieUponError "Could not retrieve unmapped reads"
 	
+	NUM_UNMATCHED_READS=`goby compact-file-stats unmatched1.compact-reads | grep 'Number of entries' | awk 'BEGIN{FS=" = "} {print $2}' | tr -d ','`
+	
 	#assemble reads into longer contigs
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_ASSEMBLER}" == "MINIA" ]; then
 		echo "using minia to assemble reads"
@@ -127,6 +129,28 @@ function plugin_alignment_analysis_process {
   	
   	dieUponError "Could not align assembled file"
   	
+  	#index contigs for realignment with reads
+  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} index "assembled${CURRENT_PART}.fasta"
+  	dieUponError "Could not index assembled file with bwa"
+  	
+  	
+  	#align unmapped reads onto contigs
+  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln -t 4 -f "realignment${CURRENT_PART}.sai" "assembled${CURRENT_PART}.fasta" "unmatched${CURRENT_PART}.compact-reads"
+  	dieUponError "realignment 'aln' part failed"
+  	
+  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} samse -F goby -f "realignment${CURRENT_PART}" "assembled${CURRENT_PART}.fasta" "realignment${CURRENT_PART}.sai" "unmatched${CURRENT_PART}.compact-reads"
+  	dieUponError "realignment 'samse' part failed"
+  	
+  	goby alignment-to-transcript-counts --parallel "realignment${CURRENT_PART}" -o "realignment${CURRENT_PART}"
+  	
+  	awk 'NR > 1 { print $2, "\t", int($3), "\t", (int($3) * 100) / '${NUM_UNMATCHED_READS}' }' < "realignment${CURRENT_PART}-transcript-counts.txt" > "${TAG}-realignment-${CURRENT_PART}.tsv"
+  	
+  	mkdir -p ${SGE_O_WORKDIR}/tempoutput
+  	cp *realignment* ${SGE_O_WORKDIR}/tempoutput
+  	
+  	ls
+  	
+  	#copy assembled files back
   	mkdir -p ${SGE_O_WORKDIR}/contigs
   	cp "assembled${CURRENT_PART}.fasta" "${SGE_O_WORKDIR}/contigs/${TAG}-assembled-${REDUCED_BASENAME}.fasta"
 }
@@ -135,6 +159,7 @@ function plugin_alignment_analysis_combine {
 
 	local OUTPUT_FILE_FULL="contaminants.tsv"
 	local OUTPUT_FILE_SUMM="summary.tsv"
+	local OUTPUT_FILE_REALIGN="realigned.tsv"
 	shift
 	local PART_RESULT_FILES=$*
 	
@@ -145,14 +170,29 @@ function plugin_alignment_analysis_combine {
 	#tarball them
 	tar -zvcf assembled-reads.tar.gz assembled/*
 	
-	local TEMPFILE=`mktemp readsXXXX`
-	cat ${PART_RESULT_FILES} > ${TEMPFILE}
+	local TEMPFILE_FULL=`mktemp readsXXXX`
+	local TEMPFILE_REALIGN=`mktemp readsXXXX`
+	
+	PART_FULL_FILES=`echo "$PART_RESULT_FILES" | tr ' ' '\n' | grep '-results-' | tr '\n' ' '`
+	PART_REALIGN_FILES=`echo "$PART_RESULT_FILES" | tr ' ' '\n' | grep '-realignment-' | tr '\n' ' '`
+	
+	cat $PART_FULL_FILES > $TEMPFILE_FULL
+	
+	cat $PART_REALIGN_FILES > $TEMPFILE_REALIGN
+	
 	
 	ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
 	
-	${SGE_O_WORKDIR}/OutputFormatter.groovy ${ACCESSION_NAME_MAP} ${TEMPFILE} ${OUTPUT_FILE_FULL} \
+	#create full output and output summary tsv files
+	
+	${SGE_O_WORKDIR}/OutputFormatter.groovy ${ACCESSION_NAME_MAP} ${TEMPFILE_FULL} ${OUTPUT_FILE_FULL} \
 			${OUTPUT_FILE_SUMM} ${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_EVALUETHRESHOLD} \
 			${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_IDENTITYTHRESHOLD}
+	
+	
+	echo -e 'Contig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
+	
+	cat $TEMPFILE_REALIGN >> $OUTPUT_FILE_REALIGN
 	
 	
 
