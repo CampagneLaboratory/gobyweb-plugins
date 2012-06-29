@@ -70,7 +70,7 @@
         </resource>
         <resource>
             <id>LAST</id>
-            <versionAtLeast>189</versionAtLeast>
+            <versionExactly>189</versionExactly>
         </resource>
         <resource>
             <id>PLAST</id>
