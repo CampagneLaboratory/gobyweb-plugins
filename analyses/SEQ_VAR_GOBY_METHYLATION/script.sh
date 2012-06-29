@@ -48,8 +48,8 @@
 # IMAGE_OUTPUT_PNG = name of an optional image file output (must be written in PNG format)
 
 # OTHER_ALIGNMENT_ANALYSIS_OPTIONS = any options defined by the end-user or assembled with the auto-format mechanism.
-. constants.sh
-. auto-options.sh
+#. constants.sh
+#. auto-options.sh
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
 
 function plugin_alignment_analysis_split {
