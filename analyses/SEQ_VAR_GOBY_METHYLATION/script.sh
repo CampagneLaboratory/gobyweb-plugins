@@ -1,3 +1,4 @@
+#!/bin/sh
 # Copyright (c) 2011  by Cornell University and the Cornell Research
 # Foundation, Inc.  All Rights Reserved.
 #
@@ -47,7 +48,8 @@
 # IMAGE_OUTPUT_PNG = name of an optional image file output (must be written in PNG format)
 
 # OTHER_ALIGNMENT_ANALYSIS_OPTIONS = any options defined by the end-user or assembled with the auto-format mechanism.
-
+. constants.sh
+. auto-options.sh
 . ${RESOURCES_GOBY_SHELL_SCRIPT}
 
 function plugin_alignment_analysis_split {
@@ -194,6 +196,12 @@ function plugin_alignment_analysis_combine {
               --non-conversion-per-context-output non-conversion.tsv         \
               --genome ${REFERENCE_DIRECTORY}/random-access-genome
     dieUponError  "Failed to calculate methyl-stats output."
+
+    # Add QC plots of methyl stats output
+    SUMMARY_PLOTS_INPUT="depthsFile=depths.tsv conversionFile=conversion-rates.tsv"
+    SUMMARY_PLOTS_OUTPUT="coverageGraphOutput=coverage.png conversionGraphOutput=conversion.png"
+    R -f ${PLUGINS_ALIGNMENT_ANALYSIS_SEQ_VAR_GOBY_METHYLATION_FILES_R_SCRIPT} \
+        --slave --quiet --no-restore --no-save --args ${SUMMARY_PLOTS_INPUT} ${SUMMARY_PLOTS_OUTPUT}
 
    echo "Adjusting P-value columns: $COLUMNS"
 

@@ -72,6 +72,10 @@
             <id>SCRIPT</id>
             <filename>script.sh</filename>
         </file>
+         <file>
+            <id>R_SCRIPT</id>
+            <filename>generateSummaryPlots.R</filename>
+        </file>
     </files>
     <outputSchema>
         <outputFile>
@@ -154,6 +158,22 @@
             <mimeType>text/tab-separated-values</mimeType>
             <filename>non-conversion.tsv</filename>
             <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
+        </outputFile>
+          <outputFile>
+            <id>SAMPLE_COVERAGE_PLOT</id>
+            <required>true</required>
+            <name>Sample coverage plot</name>
+            <mimeType>image/png</mimeType>
+            <filename>coverage.png</filename>
+            <help>QC plots showing read coverage density across samples.</help>
+        </outputFile>
+        <outputFile>
+            <id>BISULFITE_CONVERSION_PLOT</id>
+            <name>Bisulfite conversion plot</name>
+            <required>true</required>
+            <mimeType>image/png</mimeType>
+            <filename>conversion.png</filename>
+            <help>Histogram showing Non CpG bisulfite conversion rates across all samples in the analysis.</help>
         </outputFile>
     </outputSchema>
     <options>
