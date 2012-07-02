@@ -41,12 +41,12 @@
     <dbLegacyId>Extract Contaminants</dbLegacyId>
     <help>Finds potential contaminants based on the unmapped reads in the alignments. This plugin will create contigs from unmapped reads, and try to align these contigs to viral and bacterial nucleotide sequences to identify potential sample contaminants.
     </help>
-    <analysisType>SequenceVariants</analysisType>
+    <analysisType>DiffExp</analysisType>
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.3</version>
+    <version>1.4</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>
@@ -85,6 +85,10 @@
         <resource>
             <id>BWA_WITH_GOBY</id>
             <versionAtLeast>0.5.9.16</versionAtLeast>
+        </resource>
+        <resource>
+        	<id>ILLUMINA_ADAPTERS</id>
+        	<versionAtLeast>1.0</versionAtLeast>
         </resource>
     </requires>
     <runtime>
@@ -191,6 +195,28 @@
     		</categories>
     	</option>
     	<option>
+    		<id>ALIGNER</id>
+    		<name>Aligner</name>
+    		<help>The aligner to use for realigning reads to contigs</help>
+    		<required>true</required>
+    		<defaultsTo>LAST</defaultsTo>
+    		<type>CATEGORY</type>
+    		<categories>
+    			<category>
+    				<id>LAST</id>
+    				<name>Last</name>
+    				<value>LAST</value>
+    				<help>http://last.cbrc.jp/</help>
+    			</category>
+    			<category>
+    				<id>BWA</id>
+    				<name>BWA</name>
+    				<value>BWA</value>
+    				<help>http://bio-bwa.sourceforge.net/</help>
+    			</category>
+    		</categories>
+    	</option>
+    	<option>
     		<id>EVALUETHRESHOLD</id>
     		<name>E-value Threshold</name>
     		<help>Matches with an E-value above the threshold will not be considered significant</help>
@@ -206,6 +232,15 @@
     		<defaultsTo>90</defaultsTo>
     		<type>DOUBLE</type>
     	</option>
+    	<option>
+            <id>TRIM_ADAPTERS</id>
+            <name>Trim Illumina Adapters</name>
+            <help>Illumina Adapters will be trimmed from unmatched reads before assembly</help>
+            <required>true</required>
+            <defaultsTo>true</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
     </options>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>10</maximumNumberOfGroups>

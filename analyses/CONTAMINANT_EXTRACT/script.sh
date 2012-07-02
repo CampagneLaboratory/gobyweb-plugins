@@ -97,15 +97,24 @@ function plugin_alignment_analysis_process {
 	fi
 	dieUponError "Could not retrieve unmapped reads"
 	
-	NUM_UNMATCHED_READS=`goby compact-file-stats unmatched1.compact-reads | grep 'Number of entries' | awk 'BEGIN{FS=" = "} {print $2}' | tr -d ','`
+	NUM_UNMATCHED_READS=`goby compact-file-stats unmatched${CURRENT_PART}.compact-reads | grep 'Number of entries' | awk 'BEGIN{FS=" = "} {print $2}' | tr -d ','`
+	
+	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_TRIM_ADAPTERS}" == "true" ]; then
+		echo "trimming illumina adapters off of reads"
+		run-goby 4g trim --adapters "${RESOURCES_ILLUMINA_ADAPTERS_FILE_PATH}" --input "unmatched${CURRENT_PART}.compact-reads" --output "unmatched${CURRENT_PART}-trimmed.compact-reads"
+	else
+		ln -s "unmatched${CURRENT_PART}.compact-reads" "unmatched${CURRENT_PART}-trimmed.compact-reads"
+	fi
+	
+	dieUponError "Could not trim reads"
 	
 	#assemble reads into longer contigs
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_ASSEMBLER}" == "MINIA" ]; then
 		echo "using minia to assemble reads"
-		run_minia "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
+		run_minia "unmatched${CURRENT_PART}-trimmed.compact-reads" "assembled${CURRENT_PART}.fasta"
 	else
 		echo "using trinity to assemble reads"
-		run_trinity "unmatched${CURRENT_PART}.compact-reads" "assembled${CURRENT_PART}.fasta"
+		run_trinity "unmatched${CURRENT_PART}-trimmed.compact-reads" "assembled${CURRENT_PART}.fasta"
 	fi
 	
 	dieUponError "Could not assemble reads."
@@ -129,30 +138,51 @@ function plugin_alignment_analysis_process {
   	
   	dieUponError "Could not align assembled file"
   	
-  	#index contigs for realignment with reads
-  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} index "assembled${CURRENT_PART}.fasta"
-  	dieUponError "Could not index assembled file with bwa"
+  	
+  	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_ALIGNER}" == "BWA" ]; then
+		echo "using BWA to realign reads to contigs"
+		
+		#index contigs for realignment with reads
+  		${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} index "assembled${CURRENT_PART}.fasta"
+ 	 	dieUponError "Could not index assembled file with bwa"
+ 		
+  		#align unmapped reads onto contigs
+  		${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln -t 4 -f "realignment${CURRENT_PART}.sai" "assembled${CURRENT_PART}.fasta" "unmatched${CURRENT_PART}.compact-reads"
+  		dieUponError "realignment 'aln' part failed"
+  		
+  		${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} samse -F goby -f "realignment${CURRENT_PART}" "assembled${CURRENT_PART}.fasta" "realignment${CURRENT_PART}.sai" "unmatched${CURRENT_PART}.compact-reads"
+  		dieUponError "realignment 'samse' part failed"
+		
+	else
+		echo "using LAST to realign reads to contigs"
+		
+		${RESOURCES_LAST_INDEXER} "assembled${CURRENT_PART}" "assembled${CURRENT_PART}.fasta"
+		dieUponError "Could not index assembled file with last"
+		
+		run-goby 4g compact-to-fasta --input "unmatched${CURRENT_PART}.compact-reads" --output "unmatched${CURRENT_PART}.fasta"
+		
+		${RESOURCES_LAST_EXEC_PATH} "assembled${CURRENT_PART}" "unmatched${CURRENT_PART}.fasta" > "realignment${CURRENT_PART}.maf"
+		
+		run-goby 4g last-to-compact --only-maf --input "realignment${CURRENT_PART}" --output "realignment${CURRENT_PART}"
+	fi
   	
   	
-  	#align unmapped reads onto contigs
-  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} aln -t 4 -f "realignment${CURRENT_PART}.sai" "assembled${CURRENT_PART}.fasta" "unmatched${CURRENT_PART}.compact-reads"
-  	dieUponError "realignment 'aln' part failed"
+  	run-goby 2g alignment-to-transcript-counts --parallel "realignment${CURRENT_PART}" -o "realignment${CURRENT_PART}"
   	
-  	${RESOURCES_BWA_WITH_GOBY_EXEC_PATH} samse -F goby -f "realignment${CURRENT_PART}" "assembled${CURRENT_PART}.fasta" "realignment${CURRENT_PART}.sai" "unmatched${CURRENT_PART}.compact-reads"
-  	dieUponError "realignment 'samse' part failed"
+  	#format output
+  	awk 'NR > 1 { print "'${REDUCED_BASENAME}'", "\t", $2, "\t", int($3), "\t", (int($3) * 100) / '${NUM_UNMATCHED_READS}' }' \
+  	   < "realignment${CURRENT_PART}-transcript-counts.txt" > "${TAG}-realignment-${CURRENT_PART}.tsv"
   	
-  	goby alignment-to-transcript-counts --parallel "realignment${CURRENT_PART}" -o "realignment${CURRENT_PART}"
+  	dieUponError "Formatting output failed"
   	
-  	awk 'NR > 1 { print "'${REDUCED_BASENAME}'", \t, $2, "\t", int($3), "\t", (int($3) * 100) / '${NUM_UNMATCHED_READS}' }' < "realignment${CURRENT_PART}-transcript-counts.txt" > "${TAG}-realignment-${CURRENT_PART}.tsv"
-  	
-  	mkdir -p ${SGE_O_WORKDIR}/tempoutput
-  	cp *realignment* ${SGE_O_WORKDIR}/tempoutput
-  	
-  	ls
+  	#copy working dir files to a temp folder so i can look at them
+  	mkdir -p ${SGE_O_WORKDIR}/tempoutput/part${CURRENT_PART}
+  	cp * ${SGE_O_WORKDIR}/tempoutput/part${CURRENT_PART}
   	
   	#copy assembled files back
   	mkdir -p ${SGE_O_WORKDIR}/contigs
   	cp "assembled${CURRENT_PART}.fasta" "${SGE_O_WORKDIR}/contigs/${TAG}-assembled-${REDUCED_BASENAME}.fasta"
+  	dieUponError "Could not copy back assembled reads"
 }
 
 function plugin_alignment_analysis_combine {
@@ -170,6 +200,8 @@ function plugin_alignment_analysis_combine {
 	#tarball them
 	tar -zvcf assembled-reads.tar.gz assembled/*
 	
+	dieUponError "Could not tarball assembled reads"
+	
 	local TEMPFILE_FULL=`mktemp readsXXXX`
 	local TEMPFILE_REALIGN=`mktemp readsXXXX`
 	
@@ -177,8 +209,10 @@ function plugin_alignment_analysis_combine {
 	PART_REALIGN_FILES=`echo "$PART_RESULT_FILES" | tr ' ' '\n' | grep '-realignment-' | tr '\n' ' '`
 	
 	cat $PART_FULL_FILES > $TEMPFILE_FULL
+	dieUponError "Could not combine full output files"
 	
 	cat $PART_REALIGN_FILES > $TEMPFILE_REALIGN
+	dieUponError "Could not combine realigned output files"
 	
 	
 	ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
@@ -189,6 +223,7 @@ function plugin_alignment_analysis_combine {
 			${OUTPUT_FILE_SUMM} ${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_EVALUETHRESHOLD} \
 			${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_IDENTITYTHRESHOLD}
 	
+	dieUponError "Failed formatting output"
 	
 	echo -e 'Sample\tContig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
 	
