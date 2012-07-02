@@ -55,6 +55,16 @@ function plugin_align {
            dieUponError "Plugin LAST_BISULFITE does not support paired-end read files, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
       fi
 
+      if [ ! -e ${RESOURCES_LAST_BISULFITE_REVERSE_MATRIX} ]; then
+       dieUponError "Last Resource is missing a required file (BISULFITE_REVERSE_MATRIX). Aborting."
+      fi
+      if [ ! -e ${RESOURCES_LAST_BISULFITE_FORWARD_MATRIX} ]; then
+       dieUponError "Last Resource is missing a required file (BISULFITE_FORWARD_MATRIX). Aborting."
+      fi
+      if [ ! -e ${RESOURCES_LAST_MAP_PROBS_EXEC} ]; then
+       dieUponError "Last Resource is missing a required file (MAP_PROBS_EXEC). Aborting."
+      fi
+
       # Extract the reads if a split is needed
       if [ ! -z ${SGE_TASK_ID} ] && [ "${SGE_TASK_ID}" != "undefined" ] && [ "${SGE_TASK_ID}" != "unknown" ]; then
           ${QUEUE_WRITER} --tag ${TAG} --status ${JOB_PART_SPLIT_STATUS} --description "Split, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, starting" --index ${CURRENT_PART} --job-type job-part
