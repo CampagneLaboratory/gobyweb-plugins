@@ -8,7 +8,7 @@ require("Cairo")
 # This version of the script is designed for running manually.
 # Supply the command line options
 #   depthsFile   - tsv input file for genes, optional
-#   conversionFilea   - tsv input file for genes, optional
+#   conversionFile   - tsv input file for genes, optional
 #   coverageGraphOutput  - png output file
 #   conversionGraphOutput - png output file
 #
@@ -59,8 +59,9 @@ drawSamplesDepthPlots <- function(dataTable, title){
   # Change x and y axis labels
   p <- p + xlab("Coverage") + ylab("Density")
   p <- formatPlotAppearance(p, title) 
-  p <- p + facet_wrap(~ sample , drop=FALSE, shrink=FALSE, scales="free_x", ncol=3)
-  p <- p + opts(strip.text.x= theme_text(size=6))
+  p <- p + facet_wrap(~ sample, scales="free_x", ncol=6)
+  p <- p + opts(strip.text.x= theme_text(size=7))
+               # strip.background = theme_rect(colour="white", fill="lightgrey"))
   return(p)
 }
 #--------------------------------------------------------------------------
@@ -128,11 +129,22 @@ if ((depthsFile == "") || (conversionFile == "") || coverageGraphOutput == "" ||
 #--------------------------------------------------------------------------
 
 depths <- read.table(depthsFile, header=TRUE, stringsAsFactors=TRUE, sep="\t", check.names=FALSE)
-#num.depth.bins <- dim(table(depthsFile[,3]))
-#num.samples <- (dim(depthsFile)[1]/num.depth.bins)/2
+num.depth.bins <- dim(table(depths[,3]))
+num.samples <- (dim(depths)[1]/num.depth.bins)/2
 sampleDepths <- average.densities.per.sample(depths)
 colnames(sampleDepths) <- c("sample","depth-bin", "depthMidPoint", "log2OfDepthMidpoint", "density")
-CairoPNG("coverage.png", width=700, height=1400)
+plot.width=0
+plot.height=0
+if(num.samples >= 3){
+  plot.width=700
+  num.rows=ceiling(num.samples/3)
+  plot.height=num.rows*233
+}else{
+  plot.width=num.samples*233
+  plot.height=233
+  }
+
+CairoPNG("coverage.png", width=plot.width, height=plot.height)
 drawSamplesDepthPlots(sampleDepths, "Read Coverage Across Samples")  
 dev.off()
 
@@ -140,6 +152,6 @@ dev.off()
 conversionRates <- read.table(conversionFile, header=TRUE, stringsAsFactors=TRUE, sep="\t", check.names=FALSE)
 sampleConversionRates <- average.non.cpg.conversion(conversionRatesFile=conversionRates)
 colnames(sampleConversionRates) <- c("sample","numConvertedNotInCpGcontext", "numNotInCpGcontext", "percentConvertedInNonCpGcontext")
-CairoPNG("conversion.png", width=700, height=700)
+CairoPNG("conversion.png", width=350, height=350)
 drawConversionPlot(sampleConversionRates, "Bisulfite Conversion Rates")
 dev.off()
