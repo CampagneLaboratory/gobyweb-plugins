@@ -46,6 +46,7 @@
 # ALIGNER_OPTIONS = any lastag options the end-user would like to set
 
 # Please note that Goby must be configured with appropriate path to Last aligner executable.
+. ${RESOURCES_GOBY_SHELL_SCRIPT}
 
 function plugin_align {
 
@@ -64,24 +65,24 @@ function plugin_align {
           READS_FILE=${READS##*/}
 
 
-          goby reformat-compact-reads --output ${READS_FILE} \
+          run-goby ${PLUGIN_NEED_ALIGN_JVM} reformat-compact-reads --output ${READS_FILE} \
               --start-position ${START_POSITION} --end-position ${END_POSITION} ${READS}
 
           dieUponError "split reads failed, sub-task ${CURRENT_PART} of ${NUMBER_OF_PARTS}, failed"
 
       fi
 
-       ALIGNER_OPTIONS_COMPLETE="matchQuality="${PLUGINS_LASTAG_GOBY_MATCH_QUALITY}","\
-"maxGapsAllowed="${PLUGINS_LASTAG_GOBY_MAX_GAPS_ALLOWED}","\
-"gapOpeningCost="${PLUGINS_LASTAG_GOBY_GAP_EXISTENCE_COST}","\
-"gapExtensionCost="${PLUGINS_LASTAG_GOBY_GAP_EXTENSION_COST}","\
+       ALIGNER_OPTIONS_COMPLETE="matchQuality="${PLUGINS_ALIGNER_LASTAG_GOBY_MATCH_QUALITY}","\
+"maxGapsAllowed="${PLUGINS_ALIGNER_LASTAG_GOBY_MAX_GAPS_ALLOWED}","\
+"gapOpeningCost="${PLUGINS_ALIGNER_LASTAG_GOBY_GAP_EXISTENCE_COST}","\
+"gapExtensionCost="${PLUGINS_ALIGNER_LASTAG_GOBY_GAP_EXTENSION_COST}","\
 ${ALIGNER_OPTIONS}
 
       # This Goby wrapper detects automatically if the reads file is paired end:
 
-      goby align --reference ${REFERENCE} --aligner lastag ${COLOR_SPACE} --search \
-           --ambiguity-threshold ${AMBIGUITY_THRESHOLD} --quality-filter-parameters "${QUALITY_FILTER_PARAMETERS}" \
+     run-goby ${PLUGIN_NEED_ALIGN_JVM} align --reference ${REFERENCE} --aligner lastag ${COLOR_SPACE_OPTION} --search \
+           --ambiguity-threshold ${PLUGINS_ALIGNER_LASTAG_GOBY_AMBIGUITY_THRESHOLD} ${PLUGINS_ALIGNER_LASTAG_GOBY_ALL_OTHER_OPTIONS} \
            --database-name ${INDEX_PREFIX} --database-directory ${INDEX_DIRECTORY} \
-           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${OUTPUT}  --options ${ALIGNER_OPTIONS_COMPLETE}
+           ${ALIGNER_OPTIONS} --reads ${READS_FILE} --basename ${OUTPUT} --options ${ALIGNER_OPTIONS_COMPLETE}
 
 }

@@ -34,7 +34,8 @@
   PARTICULAR PURPOSE, OR THAT THE USE OF WORK AND ITS ASSOCIATED COPYRIGHTS
   WILL NOT INFRINGE ANY PATENT, TRADEMARK OR OTHER RIGHTS.
 -->
-<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<alignerConfig xsi:noNamespaceSchemaLocation="../../../schemas/plugins.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Last</name>
     <id>LAST_GOBY</id>
     <dbLegacyId>last</dbLegacyId>
@@ -45,7 +46,7 @@
     <supportsFastqReads>false</supportsFastqReads>
     <supportsFastaReads>false</supportsFastaReads>
     <supportsBAMAlignments>false</supportsBAMAlignments>
-    <version>1.0</version>
+    <version>1.1</version>
     <indexDirectory>/scratchLocal/gobyweb/input-data/reference-db/%VERSION%/%ORGANISM%/%SPACE%/last</indexDirectory>
     <runtime>
         <need scope="ALIGN" key="excl" value="false"/>
@@ -53,14 +54,17 @@
         <need scope="ALIGN" key="virtual_free" value="12g"/>
         <need scope="ALIGN_JVM" value="4g"/>
         <need scope="ALIGNMENT_POST_PROCESSING" key="excl" value="false"/>
-        <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g" />
-        <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="12g" />
-
+        <need scope="ALIGNMENT_POST_PROCESSING" key="h_vmem" value="10g"/>
+        <need scope="ALIGNMENT_POST_PROCESSING" key="virtual_free" value="12g"/>
     </runtime>
     <requires>
         <resource>
             <id>LAST</id>
             <versionAtLeast>189</versionAtLeast>
+        </resource>
+        <resource>
+            <id>GOBY</id>
+            <versionExactly>20120216154520</versionExactly>
         </resource>
     </requires>
     <options>
