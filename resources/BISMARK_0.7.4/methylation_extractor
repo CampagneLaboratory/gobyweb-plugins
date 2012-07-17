@@ -520,10 +520,28 @@ sub process_Bismark_results_file{
 	  # example read in SAM format
 	  # 1_R1/1	67	5	103172224	255	40M	=	103172417	233	AATATTTTTTTTATTTTAAAATGTGTATTGATTTAAATTT	IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII	NM:i:4	XX:Z:4T1T24TT7	XM:Z:....h.h........................hh.......	XR:Z:CT	XG:Z:CT
 	  ###
-	  my ($id,$chrom,$start,$meth_call,$read_conversion,$genome_conversion) = (split("\t"))[0,2,3,13,14,15];
-	  $meth_call =~ s/^XM:Z://;
-	  $read_conversion =~ s/^XR:Z://;
-	  $genome_conversion =~ s/^XG:Z://;	
+	  my ($id,$chrom,$start) = (split("\t"))[0,2,3];
+	  
+	  my $meth_call;
+	  my $read_conversion;
+	  my $genome_conversion;
+	  
+	  while ( /(XM|XR|XG):Z:([^\t]+)/g ) {
+	  	my $tag = $1;
+	  	my $value = $2;
+	  	
+	  	if ($tag eq "XM"){
+	  		$meth_call = $value;
+	  	}
+	  	elsif ($tag eq "XR") {
+	  		$read_conversion = $value;
+	  	}
+	  	elsif ($tag eq "XG") {
+	  		$genome_conversion = $value;
+	  	}
+	  }
+	  
+	  
 	  my $strand;
 	  chomp $genome_conversion;
 	  # print "$meth_call\n$read_conversion\n$genome_conversion\n";
