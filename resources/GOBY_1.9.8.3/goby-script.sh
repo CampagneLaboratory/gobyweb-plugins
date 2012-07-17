@@ -47,7 +47,7 @@ function run-goby {
 }
 
 
-function goby {
+function gobyDeprecated {
    set -x
    set -T
    mode_name="$1"
