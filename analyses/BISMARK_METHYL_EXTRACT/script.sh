@@ -115,7 +115,7 @@ function plugin_alignment_analysis_combine {
 
     for sample in "${PLUGIN_BASENAME[@]}"
     do
-        COLUMNS="${COLUMNS}\t${sample}-MR\t${sample}-MC\t${sample}-UC"
+        COLUMNS="${COLUMNS}\t${sample}-MC\t${sample}-UC\t${sample}-MR"
     done
 
     echo -e ${COLUMNS} > ${OUTPUT_FILE}

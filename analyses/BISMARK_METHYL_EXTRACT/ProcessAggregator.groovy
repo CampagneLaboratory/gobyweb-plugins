@@ -33,11 +33,6 @@ new File(args[0]).splitEachLine("\t") { fields ->
 
     def position = fields[3].toInteger()
 
-    if(!map.isEmpty() && position < map.firstKey()){
-        println "uh oh: $position"
-    }
-
-
     def base = map.get(position, [0, 0])
 
     (fields[1] == '+' ? base[0]++ : base[1]++)

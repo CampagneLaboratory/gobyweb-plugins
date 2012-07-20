@@ -89,7 +89,7 @@
     <outputSchema>
         <outputFile>
             <id>METHYLATION_RESULTS_DB</id>
-            <name>todo</name>
+            <name>Methylation Rates</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>methylation.db</filename>
@@ -98,7 +98,7 @@
         </outputFile>
         <outputFile>
             <id>METHYLATION_RESULTS</id>
-            <name>todo</name>
+            <name>Methylation Rates</name>
             <required>true</required>
             <mimeType>text/tab-separated-values</mimeType>
             <filename>methylation.tsv</filename>
