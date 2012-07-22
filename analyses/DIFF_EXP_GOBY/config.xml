@@ -47,11 +47,11 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
-    <version>1.0</version>
+    <version>1.1</version>
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20111021144833</versionAtLeast>
+            <versionAtLeast>20120722101632</versionAtLeast>
         </resource>
     </requires>
     <runtime>
