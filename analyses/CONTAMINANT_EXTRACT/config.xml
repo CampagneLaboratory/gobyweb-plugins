@@ -64,7 +64,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120125181554</versionAtLeast>
+            <versionAtLeast>20120723142616</versionAtLeast>
         </resource>
         <resource>
             <id>MINIA</id>
