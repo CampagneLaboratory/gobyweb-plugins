@@ -34,6 +34,7 @@
 
 # This script runs through a DESeq Analysis
 # Nyasha Chambwe June 2, 2010 & Kevin C. Dorff July 19, 2010
+# July 24, 2012: DESeq function removed: changed dispersion estimate function name from "estimateVarianceFunctions" to "estimateDispersions"
 
 library("DESeq")
 library("Cairo")
@@ -59,12 +60,19 @@ library("Cairo")
 #--------------------------------------------------------------------------
 
 #
-# Given conditionsToCheck and groupNameToCheck, return groupSizes, the
-# size of each group in the order of groupNameToCheck.
+# Given a sample to group mapping file and a vector of sampleNames return a vector of group membership for those samples in the order given by the sampleNames vector
 #
-groupNameFunction <- function(colName) { 
-   parts <- array(unlist(strsplit(colName, "[\\[\\]]", perl=TRUE)))
-   parts[length(parts)]
+groupNameFunction <- function(sampleGroupMapping, colNames){ 
+  # Read the tab delimited sample to group mapping file
+  sampleToGroupTable <- read.table(sampleGroupMapping, header=FALSE, stringsAsFactors=TRUE, sep="\t", check.names=FALSE)
+  groupVector <- vector() 
+  # Assign group labels to each sample based on the sample to group mapping file, in the order of the counts file seen in variable colNames
+  for(col in colNames){
+    sampleIndex <-which(sampleToGroupTable$V1==col)
+    grp <- as.character(sampleToGroupTable[sampleIndex,]$V2)
+    groupVector <- append(groupVector, grp)
+  }
+  return(groupVector)
 }
 
 #
@@ -72,13 +80,13 @@ groupNameFunction <- function(colName) {
 # size of each group in the order of groupNameToCheck.
 #
 groupSizeFunction <- function(conditionsToCheck, groupNameToCheck) { 
-    sum <- 0
-    for (conditionToCheck in conditionsToCheck) {
-        if (conditionToCheck == groupNameToCheck) {
-            sum <- sum + 1
-        }
+  sum <- 0
+  for (conditionToCheck in conditionsToCheck) {
+    if (conditionToCheck == groupNameToCheck) {
+      sum <- sum + 1
     }
-    sum
+  }
+  sum
 }
 
 #
@@ -89,15 +97,15 @@ groupSizeFunction <- function(conditionsToCheck, groupNameToCheck) {
 # this will output "thispngGENE".
 #
 generateGraphFilename <- function(graphOutputFile, suffix) {
-    parts <- array(unlist(strsplit(graphOutputFile, ".", fixed=TRUE)))
-    extension <- tolower(parts[length(parts)])
-    if (graphOutputFile == extension) {
-        newFilename <- paste(graphOutputFile, "", suffix, sep="")
-        newFilename
-    } else {
-        newFilename <- paste(substring(graphOutputFile, 1, nchar(graphOutputFile)-nchar(extension)-1),"", suffix , ".", extension, sep="")
-        newFilename
-    }
+  parts <- array(unlist(strsplit(graphOutputFile, ".", fixed=TRUE)))
+  extension <- tolower(parts[length(parts)])
+  if (graphOutputFile == extension) {
+    newFilename <- paste(graphOutputFile, "", suffix, sep="")
+    newFilename
+  } else {
+    newFilename <- paste(substring(graphOutputFile, 1, nchar(graphOutputFile)-nchar(extension)-1),"", suffix , ".", extension, sep="")
+    newFilename
+  }
 }
 
 #
@@ -128,97 +136,96 @@ generateGraphFilename <- function(graphOutputFile, suffix) {
 #   so if elementType is "GENE" and graphOutputFile is "something.png" the
 #   actual file that will be written will be "something-GENE.png"
 #
-processFile <- function(inputFile, outputFile, graphOutputFile, elementType, appendOutputFile) {
-    # Read the tab delimited input file
-    countsTable <- read.table(inputFile, header=TRUE, stringsAsFactors=TRUE, sep="\t", check.names=FALSE)
-    head(countsTable)
-    
-    # replace row names with gene identifiers
-    rownames(countsTable) <- countsTable$"element-id"
-    
-    countsTable <- countsTable[, -1]  # Slice out the element-id column
-    countsTable <- countsTable[, -1]  # Slice out the element-type column
-    colNames <- colnames(countsTable)
-    
-
-    # this vector assigns samples to a particular group
-    conditions <- array(unlist(lapply(colNames, groupNameFunction)))
-    
-    # The output marks columns "A" and "B". These are what "A" and "B" actually are
-    groupNames <- unique(conditions)
-    
-    groupSizes <- c()
-    for (groupName in groupNames) {
-        groupSizes <- append(groupSizes, groupSizeFunction(conditions, groupName))
+processFile <- function(inputFile, sampleGroupMapping, outputFile, graphOutputFile, elementType, appendOutputFile) {
+  # Read the tab delimited input file
+  countsTable <- read.table(inputFile, header=TRUE, stringsAsFactors=TRUE, sep="\t", check.names=FALSE)
+  head(countsTable)
+  
+  # replace row names with gene identifiers
+  rownames(countsTable) <- countsTable$"element-id"
+  
+  countsTable <- countsTable[, -1]  # Slice out the element-id column
+  countsTable <- countsTable[, -1]  # Slice out the element-type column
+  colNames <- colnames(countsTable)
+  
+  # this vector describes how samples are assigned to a particular group
+  conditions <- groupNameFunction(sampleGroupMapping, colNames)
+  
+  # The output marks columns "A" and "B". These are what "A" and "B" actually are
+  groupNames <- unique(conditions)
+  
+  groupSizes <- c()
+  for (groupName in groupNames) {
+    groupSizes <- append(groupSizes, groupSizeFunction(conditions, groupName))
+  }
+  
+  # instantiate a new CountDataSet object
+  countDataSet <- newCountDataSet(countsTable, conditions)
+  
+  # Size factors and the effective library size
+  # Alternatively could use the actual total numbers of reads or estimate them from data as below
+  countDataSet <- estimateSizeFactors(countDataSet)
+  sizeFactors(countDataSet)
+  head(countDataSet)
+  
+  # Because this experiment has only one replicate per condition, we have to pool both samples in order to estimate variance
+  
+  if (sum(groupSizes) == length(groupNames)) {
+    cat("Running with no replicates found\n")
+    countDataSet <- estimateDispersions(countDataSet, pool=TRUE)
+  } else {
+    cat("Running with replicates found in at least one group\n")
+    countDataSet <- estimateDispersions(countDataSet)
+  }
+  head(countDataSet)
+  
+  # This function tests for differences between the base means of two conditions (i.e., for differential expression in the case of RNA-Seq).
+  result <- nbinomTest(countDataSet, groupNames[1], groupNames[2])
+  head(result)
+  
+  #
+  # Rename some of the columns
+  #
+  resultColNames <- colnames(result)
+  newColNames <- c()
+  for (resultColName in resultColNames) {
+    if (resultColName == "id") {
+      resultColName = "element-id"
     }
-    
-    # instantiate a new CountDataSet object
-    countDataSet <- newCountDataSet(countsTable, conditions)
-    
-    # Size factors and the effective library size
-    # Alternatively could use the actual total numbers of reads or estimate them from data as below
-    countDataSet <- estimateSizeFactors(countDataSet)
-    sizeFactors(countDataSet)
-    head(countDataSet)
-    
-    # Because this experiment has only one replicate per condition, we have to pool both samples in order to estimate variance
-    
-    if (sum(groupSizes) == length(groupNames)) {
-        cat("Running with no replicates found\n")
-        countDataSet <- estimateVarianceFunctions(countDataSet, pool=TRUE)
+    baseGroupName <- substring(resultColName, 1, nchar(resultColName)-1)
+    if (baseGroupName == "baseMean" || baseGroupName == "resVar") {
+      groupCharacter <- substring(resultColName, nchar(resultColName), nchar(resultColName))
+      index <- 1
+      if (groupCharacter == "A") {
+        index <- 1
+      } else if (groupCharacter == "B") {
+        index <- 2
+      }
+      newColNames <- append(newColNames, paste(baseGroupName, "-", groupNames[index], sep=""))
     } else {
-        cat("Running with replicates found in at least one group\n")
-        countDataSet <- estimateVarianceFunctions(countDataSet)
+      newColNames <- append(newColNames, resultColName)
     }
-    head(countDataSet)
-    
-    # This function tests for differences between the base means of two conditions (i.e., for differential expression in the case of RNA-Seq).
-    result <- nbinomTest(countDataSet, groupNames[1], groupNames[2])
-    head(result)
-    
-    #
-    # Rename some of the columns
-    #
-    resultColNames <- colnames(result)
-    newColNames <- c()
-    for (resultColName in resultColNames) {
-        if (resultColName == "id") {
-            resultColName = "element-id"
-        }
-        baseGroupName <- substring(resultColName, 1, nchar(resultColName)-1)
-        if (baseGroupName == "baseMean" || baseGroupName == "resVar") {
-            groupCharacter <- substring(resultColName, nchar(resultColName), nchar(resultColName))
-            index <- 1
-            if (groupCharacter == "A") {
-                index <- 1
-            } else if (groupCharacter == "B") {
-                index <- 2
-            }
-            newColNames <- append(newColNames, paste(baseGroupName, "-", groupNames[index], sep=""))
-        } else {
-            newColNames <- append(newColNames, resultColName)
-        }
-    }
-    colnames(result) <- newColNames
-    head(result)
-    
-    # Insert the element-type column
-    numRows <- length(rownames(result))
-    numCols <- length(colnames(result))
-    result <- data.frame("element-id"=result[1:numRows,1],"element-type"=c(elementType),result[1:numRows,2:numCols],check.names=FALSE)
-    head(result)
-
-    write.table(result, file=outputFile, append=appendOutputFile, col.names=!appendOutputFile, sep="\t", quote=FALSE, row.names=FALSE)
-    
-    if (graphOutputFile != "") {
-        graphOutputFile <- generateGraphFilename(graphOutputFile, elementType)
-        # MA-Plot for this analysis
-        CairoPNG(graphOutputFile, width=700, height=700)
-        pValueThreshold <- 0.1
-        plot(result$baseMean, result$log2FoldChange, xlab="Mean of Counts", ylab="Log2 Fold Change", log="x", pch=19, cex= .25, col=ifelse(result$padj < pValueThreshold, "red", "black"))
-        title(main = list(paste("MA-Plot ", elementType, groupNames[1], "vs", groupNames[2]), cex=1.5, col="black", font=3))
-        dev.off()
-    }
+  }
+  colnames(result) <- newColNames
+  head(result)
+  
+  # Insert the element-type column
+  numRows <- length(rownames(result))
+  numCols <- length(colnames(result))
+  result <- data.frame("element-id"=result[1:numRows,1],"element-type"=c(elementType),result[1:numRows,2:numCols],check.names=FALSE)
+  head(result)
+  
+  write.table(result, file=outputFile, append=appendOutputFile, col.names=!appendOutputFile, sep="\t", quote=FALSE, row.names=FALSE)
+  
+  if (graphOutputFile != "") {
+    graphOutputFile <- generateGraphFilename(graphOutputFile, elementType)
+    # MA-Plot for this analysis
+    CairoPNG(graphOutputFile, width=700, height=700)
+    pValueThreshold <- 0.1
+    plot(result$baseMean, result$log2FoldChange, xlab="Mean of Counts", ylab="Log2 Fold Change", log="x", pch=19, cex= .25, col=ifelse(result$padj < pValueThreshold, "red", "black"))
+    title(main = list(paste("MA-Plot ", elementType, groupNames[1], "vs", groupNames[2]), cex=1.5, col="black", font=3))
+    dev.off()
+  }
 }
 
 #--------------------------------------------------------------------------
@@ -229,20 +236,24 @@ geneInput <- ""
 exonInput <- ""
 output <- ""
 graphOutput <- ""
+sampleGroupMapping <- ""
 
 notused <- capture.output(commandArgs())
 for (e in commandArgs()) {
-    ta = strsplit(e,"=",fixed=TRUE)
-    if(! is.na(ta[[1]][2])) {
-        temp = ta[[1]][2]
-        assign(ta[[1]][1],temp)
-    } else {
-        assign(ta[[1]][1],TRUE)
+  ta = strsplit(e,"=",fixed=TRUE)
+  if(! is.na(ta[[1]][2])) {
+    temp = ta[[1]][2]
+    assign(ta[[1]][1],temp)
+  } else {
+    assign(ta[[1]][1],TRUE)
   }
 }
 
 if ((output == "") || (geneInput == "" && exonInput == "")) {
-    stop("This script requires output to be defined and at least one of geneInput and/or exonInput to be specified")
+  stop("This script requires output to be defined and at least one of geneInput and/or exonInput to be specified")
+}
+if(sampleGroupMapping==""){
+  stop("This script requires a sample to group mapping file to be specified.")
 }
 
 #--------------------------------------------------------------------------
@@ -251,10 +262,10 @@ if ((output == "") || (geneInput == "" && exonInput == "")) {
 
 appendOutputFile <- FALSE
 if (geneInput != "") {
-    processFile(geneInput, output, graphOutput, "GENE", appendOutputFile)
-    appendOutputFile <- TRUE
+  processFile(geneInput, sampleGroupMapping, output, graphOutput, "GENE", appendOutputFile)
+  appendOutputFile <- TRUE
 }
 if (exonInput != "") {
-    processFile(exonInput, output, graphOutput, "EXON", appendOutputFile)
-    appendOutputFile <- TRUE
+  processFile(exonInput, sampleGroupMapping, output, graphOutput, "EXON", appendOutputFile)
+  appendOutputFile <- TRUE
 }
