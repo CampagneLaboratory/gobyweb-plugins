@@ -31,8 +31,7 @@ int execute(final Object gobywebObj, final File tempDir, final Map bindings) {
 /**
  * This comes from alignmentService.alignmentFilename().
  * @param alignment the alignment in question
- * @param extension the extension to provide a filename for
- * @return
+ * @return basename of the alignment.
  */
 public String alignmentBasename(Object alignment) {
 

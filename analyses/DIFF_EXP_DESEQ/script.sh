@@ -102,6 +102,7 @@ function setupAnnotationSource {
 }
 
 . ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_PARALLEL_SCRIPT}
+. ${RESOURCES_R_SHELL_SCRIPT}
 
 function plugin_alignment_analysis_combine {
    set -x
@@ -143,13 +144,13 @@ function plugin_alignment_analysis_combine {
       if [ "$HAS_GENES" != "1" ]; then
 
         DESEQ_OUTPUT="output=gene-stats.tsv graphOutput=.png"
-        R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${SAMPLE_GROUP_MAPPING}
+        run-R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${SAMPLE_GROUP_MAPPING}
 
       fi
       if [ "$HAS_EXONS" != "1" ]; then
 
         DESEQ_OUTPUT="output=exon-stats.tsv graphOutput=.png"
-        R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_EXON_INPUT} ${SAMPLE_GROUP_MAPPING}
+        run-R -f ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_DESEQ_FILES_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_EXON_INPUT} ${SAMPLE_GROUP_MAPPING}
       fi
       if [ "${HAS_GENES}" != "1" ] && [ "${HAS_EXONS}" != "1" ]; then
 

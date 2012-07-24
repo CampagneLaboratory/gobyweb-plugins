@@ -53,6 +53,10 @@
             <id>GOBY</id>
             <versionAtLeast>20111021144833</versionAtLeast>
         </resource>
+        <resource>
+            <id>R</id>
+            <versionExactly>2.14.1</versionExactly>
+        </resource>
     </requires>
 
     <runtime>
