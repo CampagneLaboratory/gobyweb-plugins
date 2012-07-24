@@ -54,6 +54,7 @@
             <versionAtLeast>20111021144833</versionAtLeast>
         </resource>
     </requires>
+
     <runtime>
         <need scope="PROCESS" key="excl" value="false"/>
         <need scope="PROCESS" key="h_vmem" value="4g"/>
@@ -62,12 +63,15 @@
         <need scope="GLOBAL" key="h_vmem" value="8g"/>
         <need scope="GLOBAL" key="virtual_free" value="8g"/>
         <need scope="COMBINE" key="excl" value="false"/>
-        <need scope="COMBINE" key="h_vmem" value="20g"/>
-        <need scope="COMBINE" key="virtual_free" value="22g"/>
+        <need scope="COMBINE" key="h_vmem" value="22g"/>
+        <need scope="COMBINE" key="virtual_free" value="24g"/>
         <need scope="SPLIT_JVM" value="6g"/>
         <need scope="PROCESS_JVM" value="3g"/>
         <need scope="COMBINE_JVM" value="20g"/>
     </runtime>
+    <execute>
+        <script phase="pre-deployment" language="groovy" filename="sampleToGroups.groovy"/>
+    </execute>
     <options>
         <validation>
             <rule validWhen="(matches(ANNOTATION_SOURCE,GENE_EXON_OTHER) AND (value(ESTIMATE_COUNTS_GENE) OR value(ESTIMATE_COUNTS_EXON) OR value(ESTIMATE_COUNTS_OTHER))) OR NOT (matches(ANNOTATION_SOURCE,GENE_EXON_OTHER))"
