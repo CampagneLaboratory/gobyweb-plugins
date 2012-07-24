@@ -6,7 +6,7 @@
  * @param tempDir temporary directory where to write files that will be transferred to the cluster with the plugin
  * @return exit code, 0 means executed normally
  */
-int execute(final Object gobywebObj, final File tempDir) {
+int execute(final Object gobywebObj, final File tempDir, final Map bindings) {
     final File outputFile = new File(tempDir, "sample-to-groups.tsv")
     final PrintWriter writer = outputFile.newPrintWriter()
     try {
