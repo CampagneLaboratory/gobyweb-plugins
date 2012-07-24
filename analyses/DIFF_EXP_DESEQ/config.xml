@@ -46,7 +46,7 @@
     <supportsTranscriptAlignments>false</supportsTranscriptAlignments>
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
-    <version>1.0</version>
+    <version>1.1</version>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <requires>
         <resource>
