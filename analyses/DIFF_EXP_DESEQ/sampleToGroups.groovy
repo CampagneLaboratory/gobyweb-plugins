@@ -7,7 +7,7 @@
  * @return exit code, 0 means executed normally
  */
 int execute(final Object gobywebObj, final File tempDir, final Map bindings) {
-    final File outputFile = new File(tempDir, "sample-to-groups.tsv")
+    final File outputFile = new File(tempDir, "sampleToGroups.tsv")
     final PrintWriter writer = outputFile.newPrintWriter()
     try {
 

@@ -138,7 +138,8 @@ function plugin_alignment_analysis_combine {
       ls -lat
       HAS_EXONS=`cat ${EXON_OUT_FILENAME} | wc -l `
 
-      SAMPLE_GROUP_MAPPING="sampleGroupMapping=sample-to-groups.tsv"
+      SAMPLE_GROUP_MAPPING="sampleGroupMapping=sampleToGroups.tsv"
+
       # Run DESeq on gene and exon input:
 
       if [ "$HAS_GENES" != "1" ]; then
