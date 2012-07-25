@@ -66,6 +66,10 @@
             <id>DESEQ_SCRIPT</id>
             <versionAtLeast>2012.07.25</versionAtLeast>
         </resource>
+        <resource>
+            <id>EDGE_R_SCRIPT</id>
+            <versionAtLeast>2012.07.25</versionAtLeast>
+        </resource>
     </requires>
     <runtime>
         <need scope="GLOBAL" key="h_vmem" value="18g"/>
@@ -111,6 +115,32 @@
     <execute>
         <script phase="pre-deployment" language="groovy" filename="alignmentsToTags.groovy"/>
     </execute>
+    <options>
+        <option>
+            <id>STAT_ENGINE</id>
+            <name>Estimation method</name>
+            <help>The method used to estimate statistical significance of differences.
+            </help>
+            <required>false</required>
+            <defaultsTo>NONE</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>DESEQ</id>
+                    <name>DESEQ</name>
+                    <value>DESEQ</value>
+                    <help>Use the DESEQ statistic.</help>
+                </category>
+                <category>
+                    <id>EDGE_R</id>
+                    <name>EDGE_R</name>
+                    <value>EDGE_R</value>
+                    <help>Use the EdgeR statistic.</help>
+                </category>
+            </categories>
+            <autoFormat>false</autoFormat>
+        </option>
+    </options>
     <files>
         <file>
             <id>PROCESS_SCRIPT</id>

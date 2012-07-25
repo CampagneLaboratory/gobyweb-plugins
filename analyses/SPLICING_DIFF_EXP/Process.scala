@@ -53,10 +53,7 @@ for (file <- args) {
 
     val sample:String = tokens(0)
     val sampleIndex: Int=sampleMap.getOrElse(sample,-1)
-    for (token <- tokens.slice(1, 4)) {
-      site += token
-      site += "|"
-    }
+    site= tokens(1)+":" +tokens(2)+"-"+tokens(3)+":"+tokens(4)
 
     val spliceJunctionCount = Integer.parseInt(tokens(6))
     val newList:IntArrayList=new IntArrayList()
@@ -100,3 +97,4 @@ for (site: String <- dataMap.keys) {
   //if (i>2) System.exit(1)
   //i+=1
 }
+

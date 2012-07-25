@@ -55,16 +55,23 @@ function plugin_alignment_analysis_combine {
     touch ${SGE_O_WORKDIR}/split-results/*
 
     scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar ${SGE_O_WORKDIR}/Process.scala ${PART_RESULT_FILES} > counts.tsv
-    #dieUponError  "Cannot reformat counts for R pacakage."
+
     cp counts.tsv  ${SGE_O_WORKDIR}/
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .
     dieUponError  "Cannot copy sample to group mapping information to local directory."
 
     # Run DESeq or EdgeR to estimate p-values:
+    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_STAT_ENGINE}" == "DESEQ" ]; then
 
-    run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
+     run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
            --no-readline --args input=counts.tsv elementType=SPLICE \
            output=junctions.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv
+    else
+
+     run-R -f ${RESOURCES_EDGER_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
+                --no-readline --args input=counts.tsv elementType=SPLICE \
+                output=junctions.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv
+    fi
 
     dieUponError  "Calling statistics with R script failed."
 
