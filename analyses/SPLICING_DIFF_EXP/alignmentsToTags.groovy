@@ -30,7 +30,7 @@ int execute(final Object gobywebObj, final File tempDir, final Map bindings) {
             final String spliceFilename = "${alignment.alignJob.tag}-SpliceJunctionCoverage-all.tsv"
             // we write the tab delimited output:
             writer.println "${credentials}:${path}/${spliceFilename}\t${groupName}"
-            sampleGroupsWriter.println "${spliceFilename}\t${groupName}"
+            sampleGroupsWriter.println "${alignmentBasename(alignment)}\t${groupName}"
         }
     } finally {
         writer.close()
@@ -52,5 +52,22 @@ public String alignmentFilename(Object alignment, String extension) {
     } else {
         // if the basename does not include the tag, make sure we return a filename that includes it:
         return "${alignment.alignJob.tag}-${alignment.basename}.${extension}"
+    }
+}
+
+
+/**
+ * This comes from alignmentService.alignmentFilename().
+ * @param alignment the alignment in question
+ * @return basename of the alignment.
+ */
+public String alignmentBasename(Object alignment) {
+
+    // some versions of GobyWeb stored "tag-basename" in the basename.
+    if (alignment.basename.startsWith(alignment.alignJob.tag)) {
+        return "${alignment.basename}"
+    } else {
+        // if the basename does not include the tag, make sure we return a filename that includes it:
+        return "${alignment.alignJob.tag}-${alignment.basename}}"
     }
 }

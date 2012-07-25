@@ -42,11 +42,10 @@ library("Cairo")
 #--------------------------------------------------------------------------
 # This version of the script is designed for running manually.
 # Supply the command line options
-#   geneInput   - tsv input file for genes, optional
-#   exonInput   - tsv input file for genes, optional
+#   input       - tsv input file
 #   output      - tsv output file
 #   graphOutput - png output file
-#
+#   elementType - the kind of element to keep for analysis, must match the second column of this file.
 #  Example command line:
 #
 #  R -f geneDESeqAnalysis.R --slave --quiet --no-restore --no-save --no-readline --args exonInput=input-exon.tsv geneInput=input-gene.tsv output=alloutput.tsv graphOutput=output.png
@@ -150,10 +149,10 @@ processFile <- function(inputFile, sampleGroupMapping, outputFile, graphOutputFi
   
   # this vector describes how samples are assigned to a particular group
   conditions <- groupNameFunction(sampleGroupMapping, colNames)
-  
+
   # The output marks columns "A" and "B". These are what "A" and "B" actually are
   groupNames <- unique(conditions)
-  
+  print(groupNames)
   groupSizes <- c()
   for (groupName in groupNames) {
     groupSizes <- append(groupSizes, groupSizeFunction(conditions, groupName))
@@ -162,7 +161,6 @@ processFile <- function(inputFile, sampleGroupMapping, outputFile, graphOutputFi
   # instantiate a new CountDataSet object
   countDataSet <- newCountDataSet(countsTable, conditions)
   
-  # Size factors and the effective library size
   # Alternatively could use the actual total numbers of reads or estimate them from data as below
   countDataSet <- estimateSizeFactors(countDataSet)
   sizeFactors(countDataSet)
@@ -232,11 +230,11 @@ processFile <- function(inputFile, sampleGroupMapping, outputFile, graphOutputFi
 # COMMAND LINE PARSING
 #--------------------------------------------------------------------------
 
-geneInput <- ""
-exonInput <- ""
+input <- ""
 output <- ""
 graphOutput <- ""
 sampleGroupMapping <- ""
+elementType <- ""
 
 notused <- capture.output(commandArgs())
 for (e in commandArgs()) {
@@ -249,8 +247,8 @@ for (e in commandArgs()) {
   }
 }
 
-if ((output == "") || (geneInput == "" && exonInput == "")) {
-  stop("This script requires output to be defined and at least one of geneInput and/or exonInput to be specified")
+if ((output == "") || (input == "")) {
+  stop("This script requires input and output to be defined")
 }
 if(sampleGroupMapping==""){
   stop("This script requires a sample to group mapping file to be specified.")
@@ -261,11 +259,6 @@ if(sampleGroupMapping==""){
 #--------------------------------------------------------------------------
 
 appendOutputFile <- FALSE
-if (geneInput != "") {
-  processFile(geneInput, sampleGroupMapping, output, graphOutput, "GENE", appendOutputFile)
-  appendOutputFile <- TRUE
-}
-if (exonInput != "") {
-  processFile(exonInput, sampleGroupMapping, output, graphOutput, "EXON", appendOutputFile)
-  appendOutputFile <- TRUE
-}
+processFile(input, sampleGroupMapping, output, graphOutput, elementType, appendOutputFile)
+appendOutputFile <- TRUE
+

@@ -119,10 +119,7 @@ function plugin_alignment_analysis_combine {
 
    if [ $? -eq 0 ]; then
       GENE_OUT_FILENAME=gene-counts.stats.tsv
-      DESEQ_GENE_INPUT="geneInput=${GENE_OUT_FILENAME}"
-
       EXON_OUT_FILENAME=exon-counts-stats.tsv
-      DESEQ_EXON_INPUT="exonInput=${EXON_OUT_FILENAME}"
 
       # Extract gene part of file:
       head -1 ${OUT_FILENAME} >${GENE_OUT_FILENAME}
@@ -146,14 +143,17 @@ function plugin_alignment_analysis_combine {
       if [ "$HAS_GENES" != "1" ]; then
 
         DESEQ_OUTPUT="output=gene-stats.tsv graphOutput=.png"
-        run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${DESEQ_OUTPUT} ${DESEQ_GENE_INPUT} ${SAMPLE_GROUP_MAPPING}
+        run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline \
+            --args ${DESEQ_OUTPUT} input=${GENE_OUT_FILENAME} elementType=GENE  ${SAMPLE_GROUP_MAPPING}
+
 
       fi
       if [ "$HAS_EXONS" != "1" ]; then
 
         DESEQ_OUTPUT="output=exon-stats.tsv graphOutput=.png"
         run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline \
-             --args ${DESEQ_OUTPUT} ${DESEQ_EXON_INPUT} ${SAMPLE_GROUP_MAPPING}
+             --args ${DESEQ_OUTPUT} input=${EXON_OUT_FILENAME} elementType=EXON ${SAMPLE_GROUP_MAPPING}    \
+
       fi
       if [ "${HAS_GENES}" != "1" ] && [ "${HAS_EXONS}" != "1" ]; then
 
