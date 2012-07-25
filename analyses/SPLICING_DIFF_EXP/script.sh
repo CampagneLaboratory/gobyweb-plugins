@@ -51,6 +51,8 @@ function plugin_alignment_analysis_combine {
    RESULT_FILE=$1
    shift
    PART_RESULT_FILES=$*
+    # On some weird systems, touching the directory helps update its file list:
+    touch ${SGE_O_WORKDIR}/split-results/*
 
     scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar ${SGE_O_WORKDIR}/Process.scala ${PART_RESULT_FILES} > counts.tsv
     dieUponError  "Cannot reformat counts for R pacakage."
@@ -66,4 +68,9 @@ function plugin_alignment_analysis_combine {
 
     dieUponError  "Calling statistics with R script failed."
 
+    # R does not preserve rownames if they they contain some characters. Rather than trying to guess
+    # what characters are allowed, we just copy and paste the columns here (order is preserved):
+    cut -f 1 counts.tsv >ids.tsv
+    cut -f 2- junctions.tsv >data.tsv
+    paste ids.tsv data.tsv >junctions.tsv
 }

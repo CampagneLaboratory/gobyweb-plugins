@@ -212,7 +212,7 @@ processFile <- function(inputFile, sampleGroupMapping, outputFile, graphOutputFi
   numCols <- length(colnames(result))
   result <- data.frame("element-id"=result[1:numRows,1],"element-type"=c(elementType),result[1:numRows,2:numCols],check.names=FALSE)
   head(result)
-  
+
   write.table(result, file=outputFile, append=appendOutputFile, col.names=!appendOutputFile, sep="\t", quote=FALSE, row.names=FALSE)
   
   if (graphOutputFile != "") {

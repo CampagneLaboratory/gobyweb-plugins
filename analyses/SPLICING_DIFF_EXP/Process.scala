@@ -70,7 +70,8 @@ for (file <- args) {
 }
 
 //printf("chromosome\tintron-first-base\tintron-last-base\t%s",sampleMap.keys.mkString("\t"))
-printf("chromosome|intron-first-base|intron-last-base|\telement-type\t%s",sampleMap.keys.mkString("\t"))
+#printf("chromosome|intron-first-base|intron-last-base|\telement-type\t%s",sampleMap.keys.mkString("\t"))
+printf("element-id\telement-type\t%s",sampleMap.keys.mkString("\t"))
 println()
 val LOG2: Double = StrictMath.log(2)
 var i = 0;
