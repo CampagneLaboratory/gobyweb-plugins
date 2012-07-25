@@ -138,6 +138,7 @@ function plugin_alignment_analysis_combine {
       ls -lat
       HAS_EXONS=`cat ${EXON_OUT_FILENAME} | wc -l `
 
+      cp ${SGE_O_WORKDIR}/sampleToGroups.tsv .
       SAMPLE_GROUP_MAPPING="sampleGroupMapping=sampleToGroups.tsv"
 
       # Run DESeq on gene and exon input:
