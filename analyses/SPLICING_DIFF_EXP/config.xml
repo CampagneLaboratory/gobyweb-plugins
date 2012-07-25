@@ -46,6 +46,8 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
+    <copyAlignments>false</copyAlignments>
+    <copyWeightFiles>false</copyWeightFiles>
     <version>1.0</version>
     <requires>
         <resource>
