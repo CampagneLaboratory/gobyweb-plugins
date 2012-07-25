@@ -55,7 +55,7 @@ function plugin_alignment_analysis_combine {
     touch ${SGE_O_WORKDIR}/split-results/*
 
     scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar ${SGE_O_WORKDIR}/Process.scala ${PART_RESULT_FILES} > counts.tsv
-    dieUponError  "Cannot reformat counts for R pacakage."
+    #dieUponError  "Cannot reformat counts for R pacakage."
     cp counts.tsv  ${SGE_O_WORKDIR}/
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .
     dieUponError  "Cannot copy sample to group mapping information to local directory."
