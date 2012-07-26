@@ -70,7 +70,7 @@ function plugin_alignment_analysis_combine {
 
      run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
                 --no-readline --args input=counts.tsv elementType=SPLICE \
-                output=junctions.tsv graphOutput=.png sampleGroupMapp   ing=sampleGroups.tsv \
+                output=junctions.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv \
                 normalizationMethod=TMM dispersionMethod=tagwise
     fi
 
