@@ -118,10 +118,10 @@ generateSmearPlot <- function (deExact, smearPlotOutput) {
 # If tagwise dispersion - common dispersion estimated first
 estimateDispersion <- function(dgeObj, dispersionMethod){ 
   # Estimate Common Negative Binomial Dispersion by Conditional Maximum Likelihood
-  d <- estimateCommonDisp(dgeObj, verbose=TRUE)
+  d <- estimateCommonDisp(dgeObj)
   if(dispersionMethod=="tagwise"){  
     # Estimates tagwise dispersion values by an empirical Bayes method based on weighted conditional maximum likelihood.
-    d <- estimateTagwiseDisp(d, verbose=TRUE)
+    d <- estimateTagwiseDisp(d)
   }
   return(d)
 }
