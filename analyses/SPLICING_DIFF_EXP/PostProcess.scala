@@ -29,7 +29,7 @@ for (file <- args.tail) {
 
   val header = lines.next().toString
   val firstToken=header.split("\t")(0)
-  System.out.println(header.replaceFirst(firstToken, "gene-id\tchromosome\tintronFirstBase\tintronLastBase"))
+  System.out.println(header.replaceFirst(firstToken, "gene-id\tchromosome\tintronFirstBase\tintronLastBase\tstrand"))
   while (lines.hasNext) {
     val line = lines.next()
     val tokens = line.toString.split("\t")
@@ -41,8 +41,9 @@ for (file <- args.tail) {
     if (interval == null) {
       interval = emptyInterval
     }
-    System.out.printf("%s\t%s\t%s%n", interval.id, ids.mkString("\t"), line.substring(line.indexOf('\t')))
+    System.out.printf("%s\t%s\t%s%n", interval.id, ids.mkString("\t"), line.substring(line.indexOf('\t')+1))
   }
   System.out.flush()
 
 }
+

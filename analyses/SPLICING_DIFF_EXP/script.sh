@@ -54,12 +54,15 @@ function plugin_alignment_analysis_combine {
     # On some weird systems, touching the directory helps update its file list:
     touch ${SGE_O_WORKDIR}/split-results/*
 
-    scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_PROCESS_SCRIPT} \
+    scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_PROCESS_SCRIPT} \
                                                 ${PART_RESULT_FILES} > counts.tsv
 
-    cp counts.tsv  ${SGE_O_WORKDIR}/
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .
     dieUponError  "Cannot copy sample to group mapping information to local directory."
+
+    head -10000 counts.tsv >1.tsv
+    cp 1.tsv counts.tsv
+
 
     # Run DESeq or EdgeR to estimate p-values:
     if [ "${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_STAT_ENGINE}" == "DESEQ" ]; then
@@ -77,14 +80,19 @@ function plugin_alignment_analysis_combine {
 
     dieUponError  "Calling statistics with R script failed."
 
+
     # R does not preserve rownames if they they contain some characters. Rather than trying to guess
     # what characters are allowed, we just copy and paste the columns here (order is preserved):
     cut -f 1 counts.tsv >ids.tsv
     cut -f 2- out1.tsv >data.tsv
     paste ids.tsv data.tsv >out2.tsv
-
-    scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_POST_PROCESS_SCRIPT} \
+    ls -l
+    head -2 out2.tsv
+    cp counts.tsv ids.tsv data.tsv out1.tsv    ${SGE_O_WORKDIR}/
+    scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_POST_PROCESS_SCRIPT} \
         ${REFERENCE_DIRECTORY}/exon-annotations.tsv \
         out2.tsv > junctions.tsv
-
+    ls -l
+    head -2 junctions.tsv
+    cp  junctions.tsv   ${SGE_O_WORKDIR}/
 }
