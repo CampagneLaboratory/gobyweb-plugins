@@ -65,12 +65,12 @@ function plugin_alignment_analysis_combine {
 
      run-R -f ${RESOURCES_DESEQ_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
            --no-readline --args input=counts.tsv elementType=SPLICE \
-           output=junctions.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv
+           output=out1.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv
     else
 
      run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
                 --no-readline --args input=counts.tsv elementType=SPLICE \
-                output=junctions.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv \
+                output=out1.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv \
                 normalizationMethod=TMM dispersionMethod=tagwise
     fi
 
@@ -79,6 +79,11 @@ function plugin_alignment_analysis_combine {
     # R does not preserve rownames if they they contain some characters. Rather than trying to guess
     # what characters are allowed, we just copy and paste the columns here (order is preserved):
     cut -f 1 counts.tsv >ids.tsv
-    cut -f 2- junctions.tsv >data.tsv
-    paste ids.tsv data.tsv >junctions.tsv
+    cut -f 2- out1.tsv >data.tsv
+    paste ids.tsv data.tsv >out2.tsv
+
+    scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar ${SGE_O_WORKDIR}/PostProcess.scala \
+        ${REFERENCE_DIRECTORY}/exon-annotations.tsv \
+        out2.tsv > junctions.tsv
+
 }
