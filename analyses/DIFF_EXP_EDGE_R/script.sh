@@ -102,6 +102,7 @@ function setupAnnotationSource {
 }
 
 . ${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_FILES_PARALLEL_SCRIPT}
+. ${RESOURCES_R_SHELL_SCRIPT}
 
 function plugin_alignment_analysis_combine {
    set -x
@@ -115,19 +116,17 @@ function plugin_alignment_analysis_combine {
    NORMALIZATION_FACTORS_METHOD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_NORMALIZATION_FACTORS_METHOD}
    DISPERSION_METHOD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_DISPERSION_METHOD}
 
-    cp ${SGE_O_WORKDIR}/sampleToGroups.tsv .
-      SAMPLE_GROUP_MAPPING="sampleGroupMapping=sampleToGroups.tsv"
 
 
    # following function from DIFF_EXP_GOBY/parallel.sh
    run_fdr
 
    if [ $? -eq 0 ]; then
-      GENE_OUT_FILENAME=gene-counts.stats.tsv
-      EDGE_R_GENE_INPUT="geneInput=${GENE_OUT_FILENAME}"
+      GENE_OUT_FILENAME="gene-counts.stats.tsv"
+      EDGE_R_GENE_INPUT="input=${GENE_OUT_FILENAME}"
 
-      EDGE_R_OUT_FILENAME=exon-counts-stats.tsv
-      EDGE_R_EXON_INPUT="exonInput=${EXON_OUT_FILENAME}"
+      EDGE_R_OUT_FILENAME="exon-counts-stats.tsv"
+      EDGE_R_EXON_INPUT="input=${EXON_OUT_FILENAME}"
 
       # Extract gene part of file:
       head -1 ${OUT_FILENAME} >${GENE_OUT_FILENAME}
@@ -142,21 +141,22 @@ function plugin_alignment_analysis_combine {
       ls -lat
       HAS_EXONS=`cat ${EXON_OUT_FILENAME} | wc -l `
 
+    cp ${SGE_O_WORKDIR}/sampleToGroups.tsv .
+    SAMPLE_GROUP_MAPPING="sampleGroupMapping=sampleToGroups.tsv"
+
       # Run EdgeR on gene and exon input:
 
       if [ "$HAS_GENES" != "1" ]; then
 
-        EDGE_R_OUTPUT="output=alloutput.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore
-        --no-save --no-readline --args ${EDGE_R_OUTPUT} ${EDGE_R_GENE_INPUT} elementType=GENE  ${SAMPLE_GROUP_MAPPING} normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        EDGE_R_OUTPUT="output=gene-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${EDGE_R_GENE_INPUT} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=GENE normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
 
 
       fi
       if [ "$HAS_EXONS" != "1" ]; then
 
-        EDGE_R_OUTPUT="output=alloutput.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore
-        --no-save --no-readline --args ${EDGE_R_OUTPUT} ${EDGE_R_EXON_INPUT} elementType=GENE  ${SAMPLE_GROUP_MAPPING} normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        EDGE_R_OUTPUT="output=exon-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${EDGE_R_EXON_INPUT} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=EXON normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
 
 
       fi
