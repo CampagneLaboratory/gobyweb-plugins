@@ -122,11 +122,8 @@ function plugin_alignment_analysis_combine {
    run_fdr
 
    if [ $? -eq 0 ]; then
-      GENE_OUT_FILENAME="gene-counts.stats.tsv"
-      EDGE_R_GENE_INPUT="input=${GENE_OUT_FILENAME}"
-
-      EDGE_R_OUT_FILENAME="exon-counts-stats.tsv"
-      EDGE_R_EXON_INPUT="input=${EXON_OUT_FILENAME}"
+      GENE_OUT_FILENAME=gene-counts.stats.tsv
+      EXON_OUT_FILENAME=exon-counts-stats.tsv
 
       # Extract gene part of file:
       head -1 ${OUT_FILENAME} >${GENE_OUT_FILENAME}
@@ -134,6 +131,7 @@ function plugin_alignment_analysis_combine {
       wc -l ${GENE_OUT_FILENAME}
 
       HAS_GENES=`cat ${GENE_OUT_FILENAME} | wc -l`
+
 
       # Extract exon part of file:
       head -1 ${OUT_FILENAME} >${EXON_OUT_FILENAME}
@@ -149,14 +147,14 @@ function plugin_alignment_analysis_combine {
       if [ "$HAS_GENES" != "1" ]; then
 
         EDGE_R_OUTPUT="output=gene-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${EDGE_R_GENE_INPUT} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=GENE normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${GENE_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=GENE normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
 
 
       fi
       if [ "$HAS_EXONS" != "1" ]; then
 
         EDGE_R_OUTPUT="output=exon-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args ${EDGE_R_EXON_INPUT} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=EXON normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${EXON_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=EXON normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
 
 
       fi
