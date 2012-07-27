@@ -77,6 +77,9 @@
         <need scope="PROCESS_JVM" value="3g"/>
         <need scope="COMBINE_JVM" value="20g"/>
     </runtime>
+       <execute>
+        <script phase="pre-deployment" language="groovy" filename="sampleToGroups.groovy"/>
+    </execute>
     <options>
         <validation>
             <rule validWhen="(matches(ANNOTATION_SOURCE,GENE_EXON_OTHER) AND (value(ESTIMATE_COUNTS_GENE) OR value(ESTIMATE_COUNTS_EXON) OR value(ESTIMATE_COUNTS_OTHER))) OR NOT (matches(ANNOTATION_SOURCE,GENE_EXON_OTHER))"
