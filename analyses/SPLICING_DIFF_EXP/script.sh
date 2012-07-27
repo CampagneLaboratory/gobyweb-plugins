@@ -54,7 +54,8 @@ function plugin_alignment_analysis_combine {
     # On some weird systems, touching the directory helps update its file list:
     touch ${SGE_O_WORKDIR}/split-results/*
 
-    scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_PROCESS_SCRIPT} ${PART_RESULT_FILES} > counts.tsv
+    scala ${PLUGIN_NEED_COMBINE_JVM} goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_PROCESS_SCRIPT} \
+                                                ${PART_RESULT_FILES} > counts.tsv
 
     cp counts.tsv  ${SGE_O_WORKDIR}/
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .

@@ -28,7 +28,8 @@ for (file <- args.tail) {
   val lines: LineIterator = new LineIterator(new FastBufferedReader(new FileReader(file)))
 
   val header = lines.next().toString
-  System.out.println(header.replaceFirst("element-id", "gene-id\tchromosome\tintronFirstBase\tintronLastBase"))
+  val firstToken=header.split("\t")(0)
+  System.out.println(header.replaceFirst(firstToken, "gene-id\tchromosome\tintronFirstBase\tintronLastBase"))
   while (lines.hasNext) {
     val line = lines.next()
     val tokens = line.toString.split("\t")
