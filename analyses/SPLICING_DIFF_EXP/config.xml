@@ -146,6 +146,10 @@
             <id>PROCESS_SCRIPT</id>
             <filename>Process.scala</filename>
         </file>
+        <file>
+            <id>POST_PROCESS_SCRIPT</id>
+            <filename>PostProcess.scala</filename>
+        </file>
     </files>
     <minimumNumberOfGroups>1</minimumNumberOfGroups>
     <maximumNumberOfGroups>50</maximumNumberOfGroups>
