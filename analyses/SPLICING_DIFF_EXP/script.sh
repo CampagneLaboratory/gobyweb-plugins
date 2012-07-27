@@ -60,8 +60,9 @@ function plugin_alignment_analysis_combine {
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .
     dieUponError  "Cannot copy sample to group mapping information to local directory."
 
-    head -10000 counts.tsv >1.tsv
-    cp 1.tsv counts.tsv
+    # The following for debugging:
+    #head -10000 counts.tsv >1.tsv
+    #cp 1.tsv counts.tsv
 
 
     # Run DESeq or EdgeR to estimate p-values:
@@ -86,13 +87,10 @@ function plugin_alignment_analysis_combine {
     cut -f 1 counts.tsv >ids.tsv
     cut -f 2- out1.tsv >data.tsv
     paste ids.tsv data.tsv >out2.tsv
-    ls -l
-    head -2 out2.tsv
-    cp counts.tsv ids.tsv data.tsv out1.tsv    ${SGE_O_WORKDIR}/
+
+
     scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_POST_PROCESS_SCRIPT} \
         ${REFERENCE_DIRECTORY}/exon-annotations.tsv \
         out2.tsv > junctions.tsv
-    ls -l
-    head -2 junctions.tsv
-    cp  junctions.tsv   ${SGE_O_WORKDIR}/
+
 }
