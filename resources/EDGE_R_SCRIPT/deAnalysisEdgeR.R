@@ -83,7 +83,7 @@ generateMDSPlot <-function(dgeObj, mdsPlotOutput){
   if (mdsPlotOutput != "") {
     # MDS-Plot for this analysis
     CairoPNG(mdsPlotOutput, width=700, height=700)
-    mdsPlot <- plotMDS(dgeObj, top=5000, labels=dgeObj$samples$group, cex=1, col="blue") # labels - character vector of group labels
+    mdsPlot <- plotMDS(dgeObj, top=500, labels=dgeObj$samples$group, cex=1, col="blue") # labels - character vector of group labels
     title(main = "Diagnostic Plot\n Sample Relationship based on Multi-Dimensional Scaling")
     dev.off()
   }
@@ -95,18 +95,20 @@ generateSmearPlot <- function (deExact, smearPlotOutput) {
   # Determine the number of differentially expressed genes based on input parameters
   numDeTagsTable <- summary(decideTestsDGE(deExact, adjust.method="BH", p.value=0.05))
   numDeTags <- sum(numDeTagsTable[1,1], numDeTagsTable[3,1])
+  deTags <- rownames(topTags(deExact, n = numDeTags)$table)
+ 
   if (smearPlotOutput != "") {
      # Generate a smear plot for the result with differentially expressed tags highlighed
     CairoPNG(smearPlotOutput, width=700, height=700)
     if(numDeTags > 0){
-      deTags <- rownames(topTags(deExact, n = numDeTags)$table)
       plotSmear(deExact, de.tags = deTags, main = "Smear Plot")
     } else {
       plotSmear(deExact, main = "Smear Plot")
     }
     abline(h = c(-2, 2), col = "dodgerblue", lwd = 2)
     title(main = "Smear Plot")
-    dev.off()}
+    dev.off()
+    }
 }  
 #
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -139,6 +141,8 @@ estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput){
   resultTable <- topTags(deExact, n=dim(dgeObj$counts)[1], adjust.method="BH", sort.by="p.value")
   sampleCountsTable <- cpm(dgeObj) # gets sample counts per million to append to result table
   finalResultTable <- merge(sampleCountsTable, resultTable, by=0)
+  
+  print("Writing stats results table ......................................................")
   write.table(finalResultTable, file=outputFile, sep="\t", quote=FALSE, row.names=FALSE)
   
   print("Generating Smear Plot ......................................................")
