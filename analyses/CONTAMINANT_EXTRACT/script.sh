@@ -53,50 +53,64 @@
 . ${RESOURCES_MINIA_SHELL_SCRIPT}
 . ${RESOURCES_TRINITY_SHELL_SCRIPT}
 . ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
+. ${JOB_DIR}/plugin-constants.sh
 
 
 function plugin_alignment_analysis_split {
 	local SPLICING_PLAN_RESULT=$2
-	
-	echo "${SOURCE_ALIGNMENT_FULL_PATH_BASENAMES}" | tr " " "\n" | sed '/^$/d' > ${SPLICING_PLAN_RESULT}
-	
+	echo ;
 }
 
 # This function return the number of parts in the slicing plan. It returns zero if the alignments could not be split.
 function plugin_alignment_analysis_num_parts {
-	local SPLICING_PLAN_FILE=$1
-
-	if [ $? -eq 0 ]; then
-		return `wc -l < ${SPLICING_PLAN_FILE}`
-	fi
-	
-	return 0
+	return $NUM_SPLITS
 }
 
 function plugin_alignment_analysis_process {
 
 	local SPLICING_PLAN_FILENAME=$1
 	local CURRENT_PART=$2
-	
-	#get basenames for this part
-	local SOURCE_BASENAME=`sed -n ${CURRENT_PART}p < ${SPLICING_PLAN_FILENAME}`
-	local REDUCED_BASENAME=`basename ${SOURCE_BASENAME}`
-	
-	#copy over unmatched reads 
-	scp "${SOURCE_BASENAME}-unmatched.compact-reads" "unmatched${CURRENT_PART}.compact-reads"
-	if [ $? -eq 0 ]; then
-		echo "found the unmapped reads"
-	else
-	
-		echo "unmapped reads not found, running extraction now"
-		
-		local READS_FILE=`grep "$REDUCED_BASENAME" "${SGE_O_WORKDIR}/alignmentsToReads.tsv" | awk '{print $2}'`
-		
-		extract_unmatched_reads "${READS_FILE}" "${ENTRIES_DIRECTORY}/${REDUCED_BASENAME}" "unmatched${CURRENT_PART}.compact-reads"
-		
-	fi
-	dieUponError "Could not retrieve unmapped reads"
-	
+
+
+
+    if [ "$PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_MERGE_GROUPS" == 'false' ]; then
+        local PART_BASENAMES=${PLUGIN_BASENAMES[$CURRENT_PART]}
+        local SPLIT_TYPE='Sample'
+        local SPLIT_NAME=${PLUGIN_BASENAMES[$CURRENT_PART]}
+
+    else
+        local PART_BASENAMES=${PLUGIN_GROUP_ALIGNMENTS[$CURRENT_PART]}
+        local SPLIT_TYPE='Group'
+        local SPLIT_NAME=$CURRENT_PART #todo groupname
+        echo ;
+    fi
+
+
+    for SOURCE_BASENAME in $PART_BASENAMES
+    do
+	    local REDUCED_BASENAME=`basename ${SOURCE_BASENAME}`
+
+	    #copy over unmatched reads
+        scp "${SOURCE_BASENAME}-unmatched.compact-reads" "unmatched-part-${REDUCED_BASENAME}.compact-reads" #todo fix name conflicts
+        if [ $? -eq 0 ]; then
+            echo "found the unmapped reads"
+        else
+
+            echo "unmapped reads not found, running extraction now"
+
+            local READS_FILE=${PLUGIN_READS[$CURRENT_PART]}
+
+            extract_unmatched_reads "${READS_FILE}" "${ENTRIES_DIRECTORY}/${REDUCED_BASENAME}" "unmatched-part-${REDUCED_BASENAME}.compact-reads"
+
+        fi
+        dieUponError "Could not retrieve unmapped reads for basename ${REDUCED_BASENAME}"
+
+    done
+
+    run-goby 4g concatenate-compact-reads -o "unmatched${CURRENT_PART}.compact-reads" unmatched-part-*.compact-reads
+
+
+
 	NUM_UNMATCHED_READS=`goby compact-file-stats unmatched${CURRENT_PART}.compact-reads | grep 'Number of entries' | awk 'BEGIN{FS=" = "} {print $2}' | tr -d ','`
 	
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_TRIM_ADAPTERS}" == "true" ]; then
@@ -132,7 +146,7 @@ function plugin_alignment_analysis_process {
 	${RESOURCES_LAST_EXEC_PATH} -f 0 ${REF_BASENAME} "assembled${CURRENT_PART}.fasta" | \
   		${RESOURCES_LAST_EXPECT} ${REF_BASENAME}.prj assembled.prj - | \
   		sed '/^#/ d' | \
-  		awk '{print $2, "\t", "'${REDUCED_BASENAME}'", "\t", $7, "\t", $9, "\t", $1, "\t", $13}' > "${TAG}-results-${CURRENT_PART}.tsv"
+  		awk '{print $2, "\t", "'${SPLIT_NAME}'", "\t", $7, "\t", $9, "\t", $1, "\t", $13}' > "${TAG}-results-${CURRENT_PART}.tsv"
   		
   	ls
   	
@@ -224,8 +238,16 @@ function plugin_alignment_analysis_combine {
 			${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_IDENTITYTHRESHOLD}
 	
 	dieUponError "Failed formatting output"
+
+	local SPLIT_TYPE=''
+	if [ "$PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_MERGE_GROUPS" == 'false' ]; then
+        SPLIT_TYPE='Sample'
+
+    else
+        SPLIT_TYPE='Group'
+    fi
 	
-	echo -e 'Sample\tContig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
+	echo -e ${SPLIT_TYPE}'\tContig\tMatching Reads\tPercent of reads' > $OUTPUT_FILE_REALIGN
 	
 	cat $TEMPFILE_REALIGN >> $OUTPUT_FILE_REALIGN
 	

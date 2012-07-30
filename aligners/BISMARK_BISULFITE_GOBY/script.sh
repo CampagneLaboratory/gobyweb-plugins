@@ -50,8 +50,8 @@ function plugin_align {
     OUTPUT=$1
     BASENAME=$2
     
-    # set the number of threads to the number of cores available on the server:
-    ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -p 2"
+    # set the number of threads to the number of cores available on the server divided by 4:
+    ALIGNER_OPTIONS="${ALIGNER_OPTIONS} -p $(("`grep physical /proc/cpuinfo | grep id | wc -l`" / 4))"
 
 	#set other aligner options
 	ALIGNER_OPTIONS="${ALIGNER_OPTIONS} --fastq --bowtie2 --path_to_bowtie $(dirname ${RESOURCES_BOWTIE2_EXEC_PATH})"
