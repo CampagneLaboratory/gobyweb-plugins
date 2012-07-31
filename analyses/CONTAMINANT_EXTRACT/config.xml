@@ -46,6 +46,7 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
+    <copyWeightFiles>false</copyWeightFiles>
     <version>1.5</version>
     <files>
         <file>
@@ -106,7 +107,7 @@
         <need scope="SPLIT_JVM" value="6g"/>
     </runtime>
     <execute>
-        <script phase="pre-deployment" language="groovy" filename="makePluginConstants.groovy"/>
+        <script phase="pre-deployment" language="groovy" filename="alignmentsToReads.groovy"/>
     </execute>
     <outputSchema>
         <outputFile>
@@ -229,7 +230,7 @@
     		<name>Percent Identity Threshold</name>
     		<help>Matches with a percent identity below the threshold will not be considered significant</help>
     		<required>true</required>
-    		<defaultsTo>95</defaultsTo>
+    		<defaultsTo>90</defaultsTo>
     		<type>DOUBLE</type>
     	</option>
     	<option>
@@ -238,15 +239,6 @@
             <help>Illumina Adapters will be trimmed from unmatched reads before assembly</help>
             <required>true</required>
             <defaultsTo>true</defaultsTo>
-            <type>BOOLEAN</type>
-            <autoFormat>false</autoFormat>
-        </option>
-        <option>
-            <id>MERGE_GROUPS</id>
-            <name>Merge Groups</name>
-            <help>Combine reads within groups before assembly</help>
-            <required>true</required>
-            <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
         </option>

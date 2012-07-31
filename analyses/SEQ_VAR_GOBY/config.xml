@@ -47,6 +47,7 @@
     <splitProcessCombine>true</splitProcessCombine>
     <producesVariantCallingFormatOutput>true</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
+    <copyWeightFiles>false</copyWeightFiles>
     <version>1.0</version>
     <requires>
         <resource>

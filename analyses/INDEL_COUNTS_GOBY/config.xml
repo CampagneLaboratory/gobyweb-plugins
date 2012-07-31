@@ -48,6 +48,7 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <producesVariantCallingFormatOutput>false</producesVariantCallingFormatOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
+    <copyWeightFiles>false</copyWeightFiles>
     <version>1.2</version>
     <requires>
         <resource>
