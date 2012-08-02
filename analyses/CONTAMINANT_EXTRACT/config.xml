@@ -47,7 +47,7 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <copyWeightFiles>false</copyWeightFiles>
-    <version>1.5</version>
+    <version>1.6</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>
