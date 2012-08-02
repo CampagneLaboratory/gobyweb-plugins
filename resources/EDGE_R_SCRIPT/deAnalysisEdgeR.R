@@ -98,17 +98,13 @@ generateSmearPlot <- function (dgeObj, deExact, smearPlotOutput) {
   deTags <- rownames(topTags(deExact, n = numDeTags)$table)
  
   if (smearPlotOutput != "") {
-     # Generate a smear plot for the result with differentially expressed tags highlighed
+    # Generate a smear plot for the result with differentially expressed tags highlighed
     CairoPNG(smearPlotOutput, width=700, height=700)
-    if(numDeTags > 0){
-      plotSmear(dgeObj, de.tags = deTags, main = "Smear Plot")
-    } else {
-      plotSmear(dgeObj, main = "Smear Plot")
-    }
+    plotSmear(dgeObj, de.tags = deTags, main = "Smear Plot")
     abline(h = c(-2, 2), col = "dodgerblue", lwd = 2)
-    title(main = "Smear Plot")
     dev.off()
-    }
+  }
+  
 }  
 #
 #-------------------------------------------------------------------------------------------------------------------------------------
