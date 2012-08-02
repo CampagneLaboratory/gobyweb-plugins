@@ -233,12 +233,21 @@
     		<defaultsTo>90</defaultsTo>
     		<type>DOUBLE</type>
     	</option>
-    	<option>
+        <option>
             <id>TRIM_ADAPTERS</id>
             <name>Trim Illumina Adapters</name>
             <help>Illumina Adapters will be trimmed from unmatched reads before assembly</help>
             <required>true</required>
             <defaultsTo>true</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
+        <option>
+            <id>MERGE_GROUPS</id>
+            <name>Merge Groups</name>
+            <help>Combine unmapped reads within each group before assembly</help>
+            <required>true</required>
+            <defaultsTo>false</defaultsTo>
             <type>BOOLEAN</type>
             <autoFormat>false</autoFormat>
         </option>
