@@ -101,9 +101,9 @@ generateSmearPlot <- function (dgeObj, deExact, smearPlotOutput) {
      # Generate a smear plot for the result with differentially expressed tags highlighed
     CairoPNG(smearPlotOutput, width=700, height=700)
     if(numDeTags > 0){
-      plotSmear(deExact, de.tags = deTags, main = "Smear Plot")
+      plotSmear(dgeObj, de.tags = deTags, main = "Smear Plot")
     } else {
-      plotSmear(deExact, main = "Smear Plot")
+      plotSmear(dgeObj, main = "Smear Plot")
     }
     abline(h = c(-2, 2), col = "dodgerblue", lwd = 2)
     title(main = "Smear Plot")
