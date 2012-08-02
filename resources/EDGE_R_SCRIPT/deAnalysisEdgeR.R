@@ -91,7 +91,7 @@ generateMDSPlot <-function(dgeObj, mdsPlotOutput){
 #
 #-------------------------------------------------------------------------------------------------------------------------------------
 #
-generateSmearPlot <- function (deExact, smearPlotOutput) {
+generateSmearPlot <- function (dgeObj, deExact, smearPlotOutput) {
   # Determine the number of differentially expressed genes based on input parameters
   numDeTagsTable <- summary(decideTestsDGE(deExact, adjust.method="BH", p.value=0.05))
   numDeTags <- sum(numDeTagsTable[1,1], numDeTagsTable[3,1])
@@ -146,7 +146,7 @@ estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput){
   write.table(finalResultTable, file=outputFile, sep="\t", quote=FALSE, row.names=FALSE)
   
   print("Generating Smear Plot ......................................................")
-  generateSmearPlot(deExact, smearPlotOutput)
+  generateSmearPlot(dgeObj, deExact, smearPlotOutput)
 }
 #-------------------------------------------------------------------------------------------------------------------------------------
 #
