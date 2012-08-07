@@ -61,6 +61,14 @@
         	<id>VIRAL_NAMES</id>
         	<filename>viral-names.map</filename>
         </file>
+        <file>
+            <id>MICRO_REF</id>
+            <filename>microref.tar.gz</filename>
+        </file>
+        <file>
+            <id>MICRO_NAMES</id>
+            <filename>micro-names.map</filename>
+        </file>
     </files>
     <requires>
         <resource>
@@ -217,14 +225,44 @@
     			</category>
     		</categories>
     	</option>
-    	<option>
-    		<id>EVALUETHRESHOLD</id>
-    		<name>E-value Threshold</name>
-    		<help>Matches with an E-value above the threshold will not be considered significant</help>
-    		<required>true</required>
-    		<defaultsTo>1e-6</defaultsTo>
-    		<type>DOUBLE</type>
-    	</option>
+        <option>
+            <id>SEARCH_REFERENCE</id>
+            <name>Search Reference</name>
+            <help>The reference of contaminants to search for</help>
+            <required>true</required>
+            <defaultsTo>VIRAL</defaultsTo>
+            <type>CATEGORY</type>
+            <categories>
+                <category>
+                    <id>VIRAL</id>
+                    <name>Viral</name>
+                    <value>VIRAL</value>
+                    <help> </help>
+                </category>
+                <category>
+                    <id>MICROBIAL</id>
+                    <name>Microbial</name>
+                    <value>MICROBIAL</value>
+                    <help> </help>
+                </category>
+            </categories>
+        </option>
+        <option>
+            <id>EVALUETHRESHOLD</id>
+            <name>E-value Threshold</name>
+            <help>Matches with an E-value above the threshold will not be considered significant</help>
+            <required>true</required>
+            <defaultsTo>1e-6</defaultsTo>
+            <type>DOUBLE</type>
+        </option>
+        <option>
+            <id>KMER_LENGTH</id>
+            <name>kmer length</name>
+            <help>kmer length to use for assembly (not supported with trinity)</help>
+            <required>true</required>
+            <defaultsTo>25</defaultsTo>
+            <type>DOUBLE</type>
+        </option>
     	<option>
     		<id>IDENTITYTHRESHOLD</id>
     		<name>Percent Identity Threshold</name>

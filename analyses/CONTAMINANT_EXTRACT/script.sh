@@ -125,7 +125,7 @@ function plugin_alignment_analysis_process {
 	#assemble reads into longer contigs
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_ASSEMBLER}" == "MINIA" ]; then
 		echo "using minia to assemble reads"
-		run_minia "unmatched${CURRENT_PART}-trimmed.compact-reads" "assembled${CURRENT_PART}.fasta"
+		run_minia "unmatched${CURRENT_PART}-trimmed.compact-reads" "assembled${CURRENT_PART}.fasta" ${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_KMER_LENGTH}
 	else
 		echo "using trinity to assemble reads"
 		run_trinity "unmatched${CURRENT_PART}-trimmed.compact-reads" "assembled${CURRENT_PART}.fasta"
@@ -136,11 +136,19 @@ function plugin_alignment_analysis_process {
 	#create counts index of assembled file for E-value computation
 	${RESOURCES_LAST_INDEXER} -x assembled "assembled${CURRENT_PART}.fasta"
 	dieUponError "Could not index assembled file"
-	
-	#extract viral ref tarball
-	tar -zxvf ${SGE_O_WORKDIR}/viralref.tar.gz
-	
-	local REF_BASENAME="viralref"
+
+	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
+        #extract viral ref tarball
+        tar -zxvf ${SGE_O_WORKDIR}/viralref.tar.gz
+
+        local REF_BASENAME="viralref"
+
+    else
+        #extract viral ref tarball
+        tar -zxvf ${SGE_O_WORKDIR}/microref.tar.gz
+
+        local REF_BASENAME="microref"
+    fi
 	
 	#run alignment and print results into tsv format
 	${RESOURCES_LAST_EXEC_PATH} -f 0 ${REF_BASENAME} "assembled${CURRENT_PART}.fasta" | \
