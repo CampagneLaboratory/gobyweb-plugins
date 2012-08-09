@@ -236,8 +236,12 @@ function plugin_alignment_analysis_combine {
 	cat $PART_REALIGN_FILES > $TEMPFILE_REALIGN
 	dieUponError "Could not combine realigned output files"
 	
-	
-	ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
+	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
+        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
+    else
+        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/micro-names.map"
+    fi
+
 	
 	#create full output and output summary tsv files
 	
