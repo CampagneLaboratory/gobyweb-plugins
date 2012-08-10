@@ -65,16 +65,25 @@ processInputFile <- function(inputFile, sampleGroupMapping){
 #
 #-------------------------------------------------------------------------------------------------------------------------------------
 # Function that performs normalization on a DGEList object according to a specific method 
-performNormalization <- function(dgeObj, normalizationMethod){
-  normDgeObj <- calcNormFactors(dgeObj, method=normalizationMethod)
-  ########################################################################################################
-  # Filtering low count genes (optional)
-  # some say necessary for speed, others say it biases results
-  #Since it is not possible to achieve statistical significance with few total counts
-  #in total for a tag, we filter out tags with n or fewer counts in total
-  # d <- d[rowSums(d$counts) > 5, ]
-  ########################################################################################################
+performNormalization <- function(dgeObj, normalizationMethod, filterFlag){
+  if(filterFlag=="true"){
+    ########################################################################################################
+    # Filtering low count genes (optional) some say necessary for speed, others say it biases results
+    # Since it is not possible to achieve statistical significance with few total counts
+    #in total for a tag, we filter out tags with n or fewer counts in total
+    print("Filtering out low count tags.............................................................................")
+    # Find the number of samples in the smallest group under consideration
+    x <- min(table(dgeObj$samples$group))
+    cpm.dgeObj <- cpm(dgeObj)
+    filteredDgeObj <- dgeObj[rowSums(cpm.dgeObj>1) >= x, ]
+    normDgeObj <- calcNormFactors(filteredDgeObj, method=normalizationMethod)
+  } else{
+    # Perform normalization without filtering
+    print("Normlizing data WITHOUT filtering.............................................................................")
+    normDgeObj <- calcNormFactors(dgeObj, method=normalizationMethod)
+  }
   return(normDgeObj)
+  
 }
 #
 #-------------------------------------------------------------------------------------------------------------------------------------
@@ -96,7 +105,7 @@ generateSmearPlot <- function (dgeObj, deExact, smearPlotOutput) {
   numDeTagsTable <- summary(decideTestsDGE(deExact, adjust.method="BH", p.value=0.05))
   numDeTags <- sum(numDeTagsTable[1,1], numDeTagsTable[3,1])
   deTags <- rownames(topTags(deExact, n = numDeTags)$table)
- 
+  
   if (smearPlotOutput != "") {
     # Generate a smear plot for the result with differentially expressed tags highlighed
     CairoPNG(smearPlotOutput, width=700, height=700)
@@ -148,11 +157,11 @@ estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput){
 #
 
 
-runAnalysis <- function(inputFile, sampleGroupMapping, output, mdsPlotOutput,smearPlotOutput, annotationtype, normalizationMethod, dispersionMethod){
+runAnalysis <- function(inputFile, sampleGroupMapping, output, mdsPlotOutput,smearPlotOutput, annotationtype, normalizationMethod, dispersionMethod, filterFlag){
   print("processing counts files for edgeR analysis......................................................")
   result <- processInputFile(inputFile, sampleGroupMapping)
   print("carrying out count normalization......................................................")
-  resultNormalized <- performNormalization(result, normalizationMethod)
+  resultNormalized <- performNormalization(result, normalizationMethod, filterFlag)
   print("Generating diagnostic MDS plot ......................................................")
   generateMDSPlot(resultNormalized, mdsPlotOutput)
   print("Calculating estimates of dispersion ......................................................")
@@ -173,6 +182,7 @@ sampleGroupMapping <- ""
 elementType <- ""  
 normalizationMethod <- ""
 dispersionMethod <- ""
+filterFlag <- ""
 
 notused <- capture.output(commandArgs())
 for (e in commandArgs()) {
@@ -196,4 +206,4 @@ if(sampleGroupMapping==""){
 # Process given the specifed command line
 #--------------------------------------------------------------------------
 
-runAnalysis(input, sampleGroupMapping, output, mdsPlotOutput, smearPlotOutput, elementType, normalizationMethod, dispersionMethod)
+runAnalysis(input, sampleGroupMapping, output, mdsPlotOutput, smearPlotOutput, elementType, normalizationMethod, dispersionMethod, filterFlag)

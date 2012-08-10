@@ -115,7 +115,7 @@ function plugin_alignment_analysis_combine {
    Q_VALUE_THRESHOLD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_Q_VALUE_THRESHOLD}
    NORMALIZATION_FACTORS_METHOD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_NORMALIZATION_FACTORS_METHOD}
    DISPERSION_METHOD=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_DISPERSION_METHOD}
-
+   FILTERING=${PLUGINS_ALIGNMENT_ANALYSIS_DIFF_EXP_EDGE_R_FILTERING}
 
 
    # following function from DIFF_EXP_GOBY/parallel.sh
@@ -147,14 +147,14 @@ function plugin_alignment_analysis_combine {
       if [ "$HAS_GENES" != "1" ]; then
 
         EDGE_R_OUTPUT="output=gene-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${GENE_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=GENE normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${GENE_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=GENE normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD} filterFlag=${FILTERING}
 
 
       fi
       if [ "$HAS_EXONS" != "1" ]; then
 
         EDGE_R_OUTPUT="output=exon-stats.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png"
-        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${EXON_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=EXON normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD}
+        run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save --no-readline --args input=${EXON_OUT_FILENAME} ${EDGE_R_OUTPUT} ${SAMPLE_GROUP_MAPPING} elementType=EXON normalizationMethod=${NORMALIZATION_FACTORS_METHOD} dispersionMethod=${DISPERSION_METHOD} filterFlag=${FILTERING}
 
 
       fi

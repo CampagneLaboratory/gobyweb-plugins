@@ -256,7 +256,7 @@
                 and "tagwise". See EdgeR documentation.
             </help>
             <required>true</required>
-            <defaultsTo>common</defaultsTo>
+            <defaultsTo>tagwise</defaultsTo>
             <type>CATEGORY</type>
             <categories>
                 <category>
@@ -277,6 +277,17 @@
                 </category>
             </categories>
         </option>
+        <option>
+            <id>FILTERING</id>
+            <dbLegacyId>filtering_flag</dbLegacyId>
+            <name>apply filtering</name>
+            <help>Indicate whether low count tags should be filtered. This prevents reporting spurious DE tags in the final result. See edgeR documentation for more details.
+            </help>
+            <required>true</required>
+            <defaultsTo>TRUE</defaultsTo>
+            <type>BOOLEAN</type>
+        </option>
+
         <option>
             <id>ANNOTATION_SOURCE</id>
             <dbLegacyId>annotation_types</dbLegacyId>
