@@ -103,13 +103,23 @@
             <filename>junctions.tsv</filename>
             <help>Statistics of differential expression splice junction usage.</help>
         </outputFile>
-        <outputFile>
-            <id>MA_PLOT</id>
-            <required>false</required>
-            <name>MA plot</name>
+         <outputFile>
+            <id>SAMPLE_MDS_PLOT</id>
+            <required>true</required>
+            <name>MDS Plot</name>
             <mimeType>image/png</mimeType>
-            <filename>SPLICE.png</filename>
-            <help>MA plot for splice junctions.</help>
+            <filename>mds.png</filename>
+            <help>Plot showing how samples are related based on multidimensional scaling.</help>
+        </outputFile>
+        <outputFile>
+            <id>ANALYSIS_SMEAR_PLOT</id>
+            <name>Analysis smear plot</name>
+            <required>true</required>
+            <mimeType>image/png</mimeType>
+            <filename>smear.png</filename>
+            <help>MA-like plot showing the log-fold change plotted against the log-counts
+                per million for splice junctions. Significantly differentially expressed junctions are highlighted.
+            </help>
         </outputFile>
     </outputSchema>
     <execute>

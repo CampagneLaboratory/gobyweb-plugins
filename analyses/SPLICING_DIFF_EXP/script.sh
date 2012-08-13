@@ -75,8 +75,9 @@ function plugin_alignment_analysis_combine {
 
      run-R -f ${RESOURCES_EDGE_R_SCRIPT_R_SCRIPT} --slave --quiet --no-restore --no-save \
                 --no-readline --args input=counts.tsv elementType=SPLICE \
-                output=out1.tsv graphOutput=.png sampleGroupMapping=sampleGroups.tsv \
-                normalizationMethod=TMM dispersionMethod=tagwise filterFlag=false
+                output=out1.tsv mdsPlotOutput=mds.png smearPlotOutput=smear.png sampleGroupMapping=sampleGroups.tsv \
+                normalizationMethod=TMM dispersionMethod=tagwise filterFlag=true
+      
     fi
 
     dieUponError  "Calling statistics with R script failed."
@@ -84,13 +85,13 @@ function plugin_alignment_analysis_combine {
 
     # R does not preserve rownames if they they contain some characters. Rather than trying to guess
     # what characters are allowed, we just copy and paste the columns here (order is preserved):
-    cut -f 1 counts.tsv >ids.tsv
-    cut -f 2- out1.tsv >data.tsv
-    paste ids.tsv data.tsv >out2.tsv
+    #cut -f 1 counts.tsv >ids.tsv
+    #cut -f 2- out1.tsv >data.tsv
+    #paste ids.tsv data.tsv >out2.tsv
 
 
     scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_POST_PROCESS_SCRIPT} \
         ${REFERENCE_DIRECTORY}/exon-annotations.tsv \
-        out2.tsv > junctions.tsv
+        out1.tsv > junctions.tsv
 
 }
