@@ -82,7 +82,9 @@ function plugin_alignment_analysis_combine {
 
     dieUponError  "Calling statistics with R script failed."
 
-
+    # 08/22/2012 - no need to do this R script now preserves rownames - there are no guarantees that the
+    # order of the input counts.tsv file is maintained in out1.tsv resulting in mixing up genomic locations
+    # if this cut and paste operation is carried out.
     # R does not preserve rownames if they they contain some characters. Rather than trying to guess
     # what characters are allowed, we just copy and paste the columns here (order is preserved):
     #cut -f 1 counts.tsv >ids.tsv

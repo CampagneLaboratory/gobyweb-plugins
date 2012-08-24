@@ -38,7 +38,7 @@
     <name>EdgeR script</name>
     <id>EDGE_R_SCRIPT</id>
     <help>Script that helps run EdgeR on table of counts data with group information.</help>
-    <version>2012.07.25</version>
+    <version>2012.08.24</version>
     <files>
          <file>
             <id>R_SCRIPT</id>

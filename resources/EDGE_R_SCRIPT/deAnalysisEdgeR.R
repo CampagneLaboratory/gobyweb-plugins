@@ -136,7 +136,7 @@ estimateDispersion <- function(dgeObj, dispersionMethod){
 #-------------------------------------------------------------------------------------------------------------------------------------
 #
 # Carry out statistical test for differential expression between two groups
-estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput){
+estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput, sampleGroupMapping){
   # Sanity check
   if(is.null(dgeObj$common.dispersion)){
     stop("The DGEList object provided must at least have a common dispersion estimate in order to carry out the exact test for differentialexpression. \n")}
@@ -144,8 +144,25 @@ estimateDifferentialExpression <- function(dgeObj, outputFile, smearPlotOutput){
   # Test for significant differential expression between two groups
   deExact <- exactTest(dgeObj)
   resultTable <- topTags(deExact, n=dim(dgeObj$counts)[1], adjust.method="BH", sort.by="p.value")
-  sampleCountsTable <- cpm(dgeObj) # gets sample counts per million to append to result table
-  finalResultTable <- merge(sampleCountsTable, resultTable, by=0)
+  
+  # gets sample counts per million for each feature as well as the group means to append to result table
+  sampleCountsTable <- cpm(dgeObj) 
+  sampleNames<- colnames(sampleCountsTable)
+  targets <- groupNameFunction(sampleGroupMapping, sampleNames)
+  
+  print("Getting group mean normalized counts per million ......................................................")
+  transposedSampleCounts <- as.data.frame(t(sampleCountsTable) )
+  transposedGroupTagMeans <- aggregate(transposedSampleCounts, list(GroupID=targets), mean)
+  groupTagMeans <-  t(transposedGroupTagMeans)
+  colnames(groupTagMeans) <- groupTagMeans[1,]
+  groupTagMeans <-  groupTagMeans[-1,]
+  
+  countsMeanTable <-  merge(sampleCountsTable, groupTagMeans, by=0)
+  row.names(countsMeanTable) <- countsMeanTable[,1]
+  countsMeanTable <- countsMeanTable[,-1]
+  
+  finalResultTable <- merge(countsMeanTable, resultTable, by=0)
+  names(finalResultTable)[1] <- "Feature ID"
   
   print("Writing stats results table ......................................................")
   write.table(finalResultTable, file=outputFile, sep="\t", quote=FALSE, row.names=FALSE)
@@ -167,7 +184,7 @@ runAnalysis <- function(inputFile, sampleGroupMapping, output, mdsPlotOutput,sme
   print("Calculating estimates of dispersion ......................................................")
   resultNormalizedDispersed <- estimateDispersion(resultNormalized, dispersionMethod)
   print("Calculating differential expression statistics ......................................................")
-  estimateDifferentialExpression(resultNormalizedDispersed, output, smearPlotOutput)
+  estimateDifferentialExpression(resultNormalizedDispersed, output, smearPlotOutput, sampleGroupMapping)
 }
 
 #--------------------------------------------------------------------------
