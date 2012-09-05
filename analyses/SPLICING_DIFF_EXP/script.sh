@@ -32,15 +32,42 @@ function plugin_alignment_analysis_process {
 	#copy over splice data
 	scp "${SOURCE_PATH}" ${TAG}-stats-${CURRENT_PART}.tsv
 	#	 ${SGE_O_WORKDIR}/split-results/"${CURRENT_PART}_SpliceJunctionCoverage.tsv"
+    local FORCE_GOBY_SPLICE_USE=${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FORCE_GOBY_SPLICE_USE}
 
-	if [ $? -eq 0 ]; then
+	if [ $? -eq 0 -a ! ${FORCE_GOBY_SPLICE_USE} ]; then
 		echo "found splice junction coverage data for sample "
 	else
 
-		echo "found splice junction coverage data could not be found"
+		echo "found splice junction coverage data could not be found, extracting from alignment files"
+
+        copy_local  entries ${CURRENT_PART}
+        copy_local  header  ${CURRENT_PART}
+        copy_local  index   ${CURRENT_PART}
+        extract_splicing_info    ${CURRENT_PART} ${TAG}-stats-${CURRENT_PART}.tsv
 	fi
 }
 
+function copy_local {
+
+  local FILE_TYPE=$1
+  local CURRENT_PART=$2
+  cp ${SPLICING_PLAN_FILENAME} ./${FILE_TYPE}-filenames.tsv
+  sed -i s/-SpliceJunctionCoverage-all.tsv/\\\*.${FILE_TYPE}/g ./${FILE_TYPE}-filenames.tsv
+
+  # Scp the first path from the TSV file, at line SOURCE_LINE to source/${TAG}/
+  local SOURCE_LINE=`sed -n ${CURRENT_PART}p < ./${FILE_TYPE}-filenames.tsv`
+  local SOURCE_PATH=`echo ${SOURCE_LINE} |cut -d " " -f 1`  # first token is scp path for Splice file.
+  # Copy the alignment file of the appropriate type to the current directory:
+  scp ${SOURCE_PATH} ./
+}
+
+function extract_splicing_info {
+   local CURRENT_PART=$1
+   local DESTINATION_FILE=$2
+   scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_EXTRACT_SPLICING_SCRIPT} \
+       *.entries  > ${DESTINATION_FILE}
+
+}
 
 # This function is called after the analysis parts have finished executing
 . ${RESOURCES_R_SHELL_SCRIPT}

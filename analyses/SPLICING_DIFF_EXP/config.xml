@@ -48,7 +48,7 @@
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <copyAlignments>false</copyAlignments>
     <copyWeightFiles>false</copyWeightFiles>
-    <version>1.0</version>
+    <version>1.1</version>
     <requires>
         <resource>
             <id>GOBY</id>
@@ -74,9 +74,9 @@
     <runtime>
         <need scope="GLOBAL" key="h_vmem" value="18g"/>
         <need scope="GLOBAL" key="virtual_free" value="20g"/>
-        <need scope="PROCESS" key="excl" value="true"/>
-        <need scope="PROCESS" key="h_vmem" value="2g"/>
-        <need scope="PROCESS" key="virtual_free" value="2g"/>
+        <need scope="PROCESS" key="excl" value="false"/>
+        <need scope="PROCESS" key="h_vmem" value="8g"/>
+        <need scope="PROCESS" key="virtual_free" value="8g"/>
         <need scope="PROCESS_JVM" value="6g"/>
         <need scope="COMBINE" key="excl" value="false"/>
         <need scope="COMBINE" key="h_vmem" value="8g"/>
@@ -150,11 +150,26 @@
             </categories>
             <autoFormat>false</autoFormat>
         </option>
+        <option>
+            <id>FORCE_GOBY_SPLICE_USE</id>
+            <name>Force recalculation of splice junction usage from Goby alignment splice link info.</name>
+            <help>When this option is active, splice junction counts are recalculated from the alignment, even in the
+                presence of a STAR splice junction TSV file.
+            </help>
+            <required>false</required>
+            <defaultsTo>false</defaultsTo>
+            <type>BOOLEAN</type>
+            <autoFormat>false</autoFormat>
+        </option>
     </options>
     <files>
         <file>
             <id>PROCESS_SCRIPT</id>
             <filename>Process.scala</filename>
+        </file>
+        <file>
+            <id>EXTRACT_SPLICING_SCRIPT</id>
+            <filename>ExtractSplicing.scala</filename>
         </file>
         <file>
             <id>POST_PROCESS_SCRIPT</id>
