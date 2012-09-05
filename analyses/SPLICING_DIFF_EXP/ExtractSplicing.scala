@@ -31,7 +31,7 @@ output format:
 
 val targetIds = reader.getTargetIdentifiers
 val reverseIds = new DoubleIndexedIdentifier(targetIds)
-var firstBase = 0
+var firstBase = -1
 var lastBase = 0
 var motif = "??/??"
 var previous = false
@@ -84,7 +84,7 @@ while (reader.hasNext) {
 
 }
 
-if (lastPos != 0 || lastRef != 0) {
+if (lastFirstBase != 0 || lastRef != 0) {
   printAll(null, null)
 }
 
