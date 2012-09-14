@@ -19,6 +19,8 @@ function plugin_alignment_analysis_num_parts {
 	return 0
 }
 
+. ${RESOURCES_GOBY_SHELL_SCRIPT}
+
 function plugin_alignment_analysis_process {
 
 	local SPLICING_PLAN_FILENAME=$1
@@ -64,8 +66,9 @@ function copy_local {
 function extract_splicing_info {
    local CURRENT_PART=$1
    local DESTINATION_FILE=$2
-   scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_EXTRACT_SPLICING_SCRIPT} \
-       *.entries  > ${DESTINATION_FILE}
+   run-goby  ${PLUGIN_NEED_COMBINE_JVM} extract-splicing-events --min-mapping-quality 255  *.entries -o  ${DESTINATION_FILE}
+  # scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_EXTRACT_SPLICING_SCRIPT} \
+   #    *.entries  > ${DESTINATION_FILE}
 
 }
 

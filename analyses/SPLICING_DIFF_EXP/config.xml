@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120727130004</versionAtLeast>
+            <versionAtLeast>20120914141055</versionAtLeast>
         </resource>
         <resource>
             <id>SCALA</id>
@@ -166,10 +166,6 @@
         <file>
             <id>PROCESS_SCRIPT</id>
             <filename>Process.scala</filename>
-        </file>
-        <file>
-            <id>EXTRACT_SPLICING_SCRIPT</id>
-            <filename>ExtractSplicing.scala</filename>
         </file>
         <file>
             <id>POST_PROCESS_SCRIPT</id>
