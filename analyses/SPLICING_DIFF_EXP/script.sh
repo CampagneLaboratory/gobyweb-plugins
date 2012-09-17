@@ -121,7 +121,7 @@ function plugin_alignment_analysis_combine {
     #cut -f 2- out1.tsv >data.tsv
     #paste ids.tsv data.tsv >out2.tsv
 
-
+    cp out1.tsv  ${SGE_O_WORKDIR}/
     scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_POST_PROCESS_SCRIPT} \
         ${REFERENCE_DIRECTORY}/exon-annotations.tsv \
         out1.tsv > junctions.tsv

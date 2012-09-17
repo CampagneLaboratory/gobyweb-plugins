@@ -33,15 +33,18 @@ for (file <- args.tail) {
   while (lines.hasNext) {
     val line = lines.next()
     val tokens = line.toString.split("\t")
-    val ids = tokens(0).split("[:-]")
+    val ids = tokens(0).split("[:]")
     val chromosome = ids(0)
-    val start = Integer.parseInt(ids(1))
-    val end = Integer.parseInt(ids(2))
+    val start_end=ids(1).split("[-]")
+    val strand=ids(2)
+    val start = Integer.parseInt(start_end(0))
+    val end = Integer.parseInt(start_end(1))
     var interval:Interval = annotations.find(chromosome, start, end)
     if (interval == null) {
       interval = emptyInterval
     }
-    System.out.printf("%s\t%s\t%s%n", interval.id, ids.mkString("\t"), line.substring(line.indexOf('\t')+1))
+    val newIds=List(chromosome,start,end,strand)
+    System.out.printf("%s\t%s\t%s%n", interval.id, newIds.mkString("\t"), line.substring(line.indexOf('\t')+1))
   }
   System.out.flush()
 
