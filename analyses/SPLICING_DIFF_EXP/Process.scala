@@ -6,12 +6,14 @@
  *         Time: 12: 50 PM
  */
 
+import collection.mutable.ListBuffer
 import it.unimi.dsi.fastutil.ints.IntArrayList
 import it.unimi.dsi.io.{FastBufferedReader, LineIterator}
 import it.unimi.dsi.io.{LineIterator, FastBufferedReader}
 import java.io.FileReader
 var nextSampleIndex = -1;
 val sampleMap = scala.collection.mutable.Map[String, Int]()
+val indexToSample = scala.collection.mutable.Map[Int, String]()
 for (file <- args) {
   val lines: LineIterator = new LineIterator(new FastBufferedReader(new FileReader(file)))
   //val lines: Iterator[String] = scala.io.Source.fromFile(file).getLines()
@@ -22,14 +24,16 @@ for (file <- args) {
     val tokens = line.toString.split("\t")
 
     val sample = tokens(0)
-    val sampleIndex = if (sampleMap.contains(sample)) {
-      sampleMap.get(sample)
+    val sampleIndex :Int = if (sampleMap.contains(sample)) {
+      sampleMap.get(sample).get
     } else {
       nextSampleIndex+=1
       val newSampleIndex = (nextSampleIndex)
       sampleMap += (sample -> newSampleIndex)
       newSampleIndex
     }
+    sampleMap += (sample -> sampleIndex)
+    indexToSample += (sampleIndex -> sample)
   }
 }
 
@@ -68,7 +72,11 @@ for (file <- args) {
 
 //printf("chromosome\tintron-first-base\tintron-last-base\t%s",sampleMap.keys.mkString("\t"))
 //printf("chromosome|intron-first-base|intron-last-base|\telement-type\t%s",sampleMap.keys.mkString("\t"))
-printf("element-id\telement-type\t%s",sampleMap.keys.mkString("\t"))
+val sortedKeys= ListBuffer[String]()
+for (sampleIndex <- 0 to sampleMap.size-1) {
+  sortedKeys += indexToSample.get(sampleIndex).get
+}
+printf("element-id\telement-type\t%s",sortedKeys.mkString("\t"))
 println()
 val LOG2: Double = StrictMath.log(2)
 var i = 0;

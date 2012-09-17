@@ -86,7 +86,7 @@ function plugin_alignment_analysis_combine {
 
     scala ${PLUGIN_NEED_COMBINE_JVM} ${SGE_O_WORKDIR}/goby.jar  ${PLUGINS_ALIGNMENT_ANALYSIS_SPLICING_DIFF_EXP_FILES_PROCESS_SCRIPT} \
                                                 ${PART_RESULT_FILES} > counts.tsv
-
+    cp counts.tsv ${SGE_O_WORKDIR}/
     cp ${SGE_O_WORKDIR}/sampleGroups.tsv .
     dieUponError  "Cannot copy sample to group mapping information to local directory."
 
