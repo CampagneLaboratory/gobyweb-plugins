@@ -144,12 +144,19 @@ function plugin_alignment_analysis_process {
         local REF_BASENAME="viralref"
 
     else
-        #extract viral ref tarball
+    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
+        #extract microbial ref tarball
         tar -zxvf ${SGE_O_WORKDIR}/microref.tar.gz
 
         local REF_BASENAME="microref"
+    else
+         #extract fungal ref tarball
+        tar -zxvf ${SGE_O_WORKDIR}/fungalref.tar.gz
+
+        local REF_BASENAME="fungalref"
     fi
-	
+	fi
+
 	#run alignment and print results into tsv format
 	${RESOURCES_LAST_EXEC_PATH} -f 0 ${REF_BASENAME} "assembled${CURRENT_PART}.fasta" | \
   		${RESOURCES_LAST_EXPECT} ${REF_BASENAME}.prj assembled.prj - | \
@@ -239,7 +246,11 @@ function plugin_alignment_analysis_combine {
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
         ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
     else
+    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
         ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/micro-names.map"
+    else
+        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/fungal-names.map"
+    fi
     fi
 
 	

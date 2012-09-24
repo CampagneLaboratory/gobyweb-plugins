@@ -69,6 +69,14 @@
             <id>MICRO_NAMES</id>
             <filename>micro-names.map</filename>
         </file>
+        <file>
+            <id>FUNGAL_REF</id>
+            <filename>fungalref.tar.gz</filename>
+        </file>
+        <file>
+            <id>FUNGAL_NAMES</id>
+            <filename>fungal-names.map</filename>
+        </file>
     </files>
     <requires>
         <resource>
@@ -243,6 +251,12 @@
                     <id>MICROBIAL</id>
                     <name>Microbial</name>
                     <value>MICROBIAL</value>
+                    <help> </help>
+                </category>
+                 <category>
+                    <id>FUNGAL</id>
+                    <name>Fungal</name>
+                    <value>FUNGAL</value>
                     <help> </help>
                 </category>
             </categories>
