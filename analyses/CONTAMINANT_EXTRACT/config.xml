@@ -47,7 +47,6 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <copyWeightFiles>false</copyWeightFiles>
-    <indexDirectory>%NODE_LOCAL_DATA_ROOT%/../pathogen-db</indexDirectory>
     <version>1.7</version>
     <files>
         <file>
