@@ -55,7 +55,6 @@
 . ${RESOURCES_EXTRACT_NONMATCHED_SHELL_SCRIPT}
 . ${JOB_DIR}/plugin-constants.sh
 
-
 function plugin_alignment_analysis_split {
 	local SPLICING_PLAN_RESULT=$2
 	echo ;
@@ -137,21 +136,22 @@ function plugin_alignment_analysis_process {
 	${RESOURCES_LAST_INDEXER} -x assembled "assembled${CURRENT_PART}.fasta"
 	dieUponError "Could not index assembled file"
 
+
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
         #extract viral ref tarball
-        tar -zxvf ${SGE_O_WORKDIR}/viralref.tar.gz
+        tar -zxvf ${INDEX_DIRECTORY}/viral/viralref.tar.gz
 
         local REF_BASENAME="viralref"
 
     else
     if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
         #extract microbial ref tarball
-        tar -zxvf ${SGE_O_WORKDIR}/microref.tar.gz
+        tar -zxvf ${INDEX_DIRECTORY}/bacterial/microref.tar.gz
 
         local REF_BASENAME="microref"
     else
          #extract fungal ref tarball
-        tar -zxvf ${SGE_O_WORKDIR}/fungalref.tar.gz
+        tar -zxvf ${INDEX_DIRECTORY}/fungal/fungalref.tar.gz
 
         local REF_BASENAME="fungalref"
     fi
@@ -244,12 +244,12 @@ function plugin_alignment_analysis_combine {
 	dieUponError "Could not combine realigned output files"
 	
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
-        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/viral-names.map"
+        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}/viral/viral-names.map"
     else
     if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
-        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/micro-names.map"
+        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}/bacterial/micro-names.map"
     else
-        ACCESSION_NAME_MAP="${SGE_O_WORKDIR}/fungal-names.map"
+        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}/fungal/fungal-names.map"
     fi
     fi
 

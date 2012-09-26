@@ -47,7 +47,8 @@
     <producesTabDelimitedOutput>true</producesTabDelimitedOutput>
     <supportsGobyAlignments>true</supportsGobyAlignments>
     <copyWeightFiles>false</copyWeightFiles>
-    <version>1.6</version>
+    <indexDirectory>%NODE_LOCAL_DATA_ROOT%/../pathogen-db</indexDirectory>
+    <version>1.7</version>
     <files>
         <file>
             <id>OUTPUT_FORMATTER</id>
