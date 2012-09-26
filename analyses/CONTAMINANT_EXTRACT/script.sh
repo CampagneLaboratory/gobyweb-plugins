@@ -139,23 +139,17 @@ function plugin_alignment_analysis_process {
 
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
         #extract viral ref tarball
-        tar -zxvf ${INDEX_DIRECTORY}../pathogen-db/viral/viralref.tar.gz
-
+        tar -zxvf ${NODE_LOCAL_DATA_ROOT}../pathogen-db/viral/viralref.tar.gz
         local REF_BASENAME="viralref"
-
-    else
-    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
+    elif [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
         #extract microbial ref tarball
-        tar -zxvf ${INDEX_DIRECTORY}../pathogen-db/bacterial/microref.tar.gz
-
+        tar -zxvf ${NODE_LOCAL_DATA_ROOT}../pathogen-db/bacterial/microref.tar.gz
         local REF_BASENAME="microref"
     else
          #extract fungal ref tarball
-        tar -zxvf ${INDEX_DIRECTORY}../pathogen-db/fungal/fungalref.tar.gz
-
+        tar -zxvf ${NODE_LOCAL_DATA_ROOT}../pathogen-db/fungal/fungalref.tar.gz
         local REF_BASENAME="fungalref"
     fi
-	fi
 
 	#run alignment and print results into tsv format
 	${RESOURCES_LAST_EXEC_PATH} -f 0 ${REF_BASENAME} "assembled${CURRENT_PART}.fasta" | \
@@ -244,13 +238,11 @@ function plugin_alignment_analysis_combine {
 	dieUponError "Could not combine realigned output files"
 	
 	if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "VIRAL" ]; then
-        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}../pathogen-db/viral/viral-names.map"
+        ACCESSION_NAME_MAP="${NODE_LOCAL_DATA_ROOT}../pathogen-db/viral/viral-names.map"
+    elif [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
+        ACCESSION_NAME_MAP="${NODE_LOCAL_DATA_ROOT}../pathogen-db/bacterial/micro-names.map"
     else
-    if [ "${PLUGINS_ALIGNMENT_ANALYSIS_CONTAMINANT_EXTRACT_SEARCH_REFERENCE}" == "MICROBIAL" ]; then
-        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}../pathogen-db/bacterial/micro-names.map"
-    else
-        ACCESSION_NAME_MAP="${INDEX_DIRECTORY}../pathogen-db/fungal/fungal-names.map"
-    fi
+        ACCESSION_NAME_MAP="${NODE_LOCAL_DATA_ROOT}../pathogen-db/fungal/fungal-names.map"
     fi
 
 	
