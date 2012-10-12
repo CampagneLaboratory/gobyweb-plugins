@@ -52,7 +52,7 @@
     <requires>
         <resource>
             <id>GOBY</id>
-            <versionAtLeast>20120914141055</versionAtLeast>
+            <versionAtLeast>20121012122417</versionAtLeast>
         </resource>
         <resource>
             <id>SCALA</id>
