@@ -64,20 +64,20 @@
         </resource>
     </requires>
     <runtime>
-       <need scope="PROCESS" key="excl" value="false"/>
-        <need scope="PROCESS" key="h_vmem" value="4g"/>
+        <need scope="PROCESS" key="excl" value="false"/>
+        <need scope="PROCESS" key="h_vmem" value="6g"/>
         <need scope="PROCESS" key="virtual_free" value="6g"/>
+        <need scope="PROCESS_JVM" value="4g"/>
         <need scope="GLOBAL" key="excl" value="false"/>
         <need scope="GLOBAL" key="h_vmem" value="8g"/>
         <need scope="GLOBAL" key="virtual_free" value="8g"/>
         <need scope="COMBINE" key="excl" value="false"/>
         <need scope="COMBINE" key="h_vmem" value="22g"/>
-        <need scope="COMBINE" key="virtual_free" value="24g"/>
+        <need scope="COMBINE" key="virtual_free" value="22g"/>
+        <need scope="COMBINE_JVM" value="16g"/>
         <need scope="SPLIT_JVM" value="6g"/>
-        <need scope="PROCESS_JVM" value="3g"/>
-        <need scope="COMBINE_JVM" value="20g"/>
     </runtime>
-       <execute>
+    <execute>
         <script phase="pre-deployment" language="groovy" filename="sampleToGroups.groovy"/>
     </execute>
     <options>
@@ -122,7 +122,7 @@
             <type>DOUBLE</type>
             <autoFormat>false</autoFormat>
         </option>
-         <option>
+        <option>
             <id>WEIGHT_ADJUSTMENT</id>
             <dbLegacyId>weightAdjustment</dbLegacyId>
             <name>weight adjustment</name>
@@ -281,7 +281,8 @@
             <id>FILTERING</id>
             <dbLegacyId>filtering_flag</dbLegacyId>
             <name>apply filtering</name>
-            <help>Indicate whether low count tags should be filtered. This prevents reporting spurious DE tags in the final result. See edgeR documentation for more details.
+            <help>Indicate whether low count tags should be filtered. This prevents reporting spurious DE tags in the
+                final result. See edgeR documentation for more details.
             </help>
             <required>true</required>
             <defaultsTo>TRUE</defaultsTo>
