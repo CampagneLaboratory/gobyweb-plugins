@@ -53,8 +53,6 @@
     <runtime>
         <!-- Since STAR uses shared memory, we allow running multiple jobs -->
         <need scope="ALIGN" key="excl" value="false"/>
-        <!-- requests one thread slot -->
-        <need scope="ALIGN" key="slots" value="1"/>
         <!-- Since STAR uses shared memory, we trick SGE into keeping jobs alive even if they appear to use too much memory. -->
         <need scope="ALIGN" key="h_vmem" value="800g"/>
         <!-- This setting will start a new STAR process if at least 5g are still free on the node -->
