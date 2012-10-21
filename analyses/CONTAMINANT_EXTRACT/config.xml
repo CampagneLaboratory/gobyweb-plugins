@@ -109,10 +109,14 @@
         </resource>
     </requires>
     <runtime>
+
         <need scope="PROCESS" key="excl" value="false"/>
-        <need scope="PROCESS" key="h_vmem" value="20g"/>
-        <need scope="PROCESS" key="virtual_free" value="20g"/>
-        <need scope="PROCESS_JVM" value="15g"/>
+        <!-- The following values are optimized to increase throughput when using the MINIA aligner.
+        If you need to support Trinity (not recommended), increase virtual_free and h_vmem to 20g
+        and specify 15g for PROCESS_JVM -->
+        <need scope="PROCESS" key="h_vmem" value="8g"/>
+        <need scope="PROCESS" key="virtual_free" value="8g"/>
+        <need scope="PROCESS_JVM" value="6g"/>
         <need scope="GLOBAL" key="excl" value="false"/>
         <need scope="GLOBAL" key="h_vmem" value="8g"/>
         <need scope="GLOBAL" key="virtual_free" value="8g"/>
