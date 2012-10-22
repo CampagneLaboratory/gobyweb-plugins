@@ -118,15 +118,16 @@ function plugin_alignment_analysis_combine {
         COLUMNS="${COLUMNS}\t${sample}-MC\t${sample}-UC\t${sample}-MR"
     done
 
-    echo -e ${COLUMNS} > ${OUTPUT_FILE}
+    echo -e ${COLUMNS} > tmp-output.tsv
 
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CpG_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCpG\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CpG_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCpG\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CpG_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCpG\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CpG_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCpG\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
 
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHG_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCHG\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHG_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCHG\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHG_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCHG\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHG_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCHG\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
 
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHH_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCHH\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
-    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHH_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCHH\t" + split[2..-1].join("\t")' >> ${OUTPUT_FILE}
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHH_OT-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t+\tCHH\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
+    ${SGE_O_WORKDIR}/CombineAggregator.groovy ${TAG}-CHH_OB-*.tsv | groovy -p -a '\t' -e 'split[0..1].join("\t") + "\t-\tCHH\t" + split[2..-1].join("\t")' >>  tmp-output.tsv
+    sed 's/\tNA/\t/g' tmp-output.tsv > ${OUTPUT_FILE}
 
 }

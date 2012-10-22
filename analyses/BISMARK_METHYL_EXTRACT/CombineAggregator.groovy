@@ -40,10 +40,11 @@ while ((window = read()).any {it.line != null}){
             it.parts[2..4].join("\t")
         }
         else{
-            ['', '', ''].join("\t")
+            ["NA", "NA", "NA"].join("\t")
         }
     }
-
+    def line="${chromosome}\t${minPosition}\t${row.join("\t")}"
+    print (line.split("\t").length)
     println "${chromosome}\t${minPosition}\t${row.join("\t")}"
 
 }
