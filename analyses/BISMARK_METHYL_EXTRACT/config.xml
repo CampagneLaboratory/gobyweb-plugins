@@ -98,6 +98,15 @@
             <help>todo</help>
         </outputFile>
         <outputFile>
+            <id>METHYLATION_RESULTS_LUCENE_INDEX</id>
+            <name>Methylation Rates</name>
+            <required>true</required>
+            <mimeType>application/lucene-index</mimeType>
+            <filename>methylation.lucene.index</filename>
+            <tableName>methylation</tableName>
+            <help>todo</help>
+        </outputFile>
+        <outputFile>
             <id>METHYLATION_RESULTS</id>
             <name>Methylation Rates</name>
             <required>true</required>
