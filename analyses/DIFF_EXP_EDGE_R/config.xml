@@ -60,7 +60,7 @@
         </resource>
         <resource>
             <id>EDGE_R_SCRIPT</id>
-            <versionExactly>2012.07.25</versionExactly>
+            <versionAtLeast>2012.08.24</versionAtLeast>
         </resource>
     </requires>
     <runtime>

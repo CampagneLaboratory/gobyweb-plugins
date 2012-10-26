@@ -96,6 +96,17 @@
             </help>
         </outputFile>
         <outputFile>
+            <id>STATS_RESULTS_LUCENE_INDEX</id>
+            <name>table of statistics</name>
+            <required>true</required>
+            <mimeType>application/lucene-index</mimeType>
+            <tableName>junctions</tableName>
+            <filename>junctions.lucene.index</filename>
+            <help>View the table of results in the interactive GobyWeb table browser. Table contains usage of splice
+                sites across groups and samples.
+            </help>
+        </outputFile>
+        <outputFile>
             <id>STATS_RESULTS</id>
             <required>true</required>
             <name>splice junction usage data</name>
@@ -103,7 +114,7 @@
             <filename>junctions.tsv</filename>
             <help>Statistics of differential expression splice junction usage.</help>
         </outputFile>
-         <outputFile>
+        <outputFile>
             <id>SAMPLE_MDS_PLOT</id>
             <required>true</required>
             <name>MDS Plot</name>
