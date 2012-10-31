@@ -133,12 +133,12 @@ function run_fdr() {
    # The following sections extracts the info.xml file stored among split-results
    # and adjust the PART_RESULT_FILES variables to exclude the fake tsv info file.
    INFO_FILE=`ls -1 ${PART_RESULT_FILES} |grep info`
-   cp ${INFO_FILE} ./info.xml
+   if [ ${INFO_FILE} != "" ] && [ -e ${INFO_FILE} ]; then
+       cp ${INFO_FILE} ./info.xml
+       # Run FDR to combine parts:
 
-   # Run FDR to combine parts:
-
-   PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
-
+       PART_RESULT_FILES=`echo ${PART_RESULT_FILES} | sed -e 's!'${INFO_FILE}'!!'`
+   fi
    OUT_FILENAME=combined-stats.tsv
    run-goby ${PLUGIN_NEED_COMBINE_JVM} fdr \
           --column-selection-filter t-test  \
