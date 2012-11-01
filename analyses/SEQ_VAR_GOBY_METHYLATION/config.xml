@@ -133,6 +133,15 @@
             <help>Data in tab-delimited format about the depth of coverage of the measured cytosines.</help>
         </outputFile>
         <outputFile>
+            <id>DEPTH_RESULTS_LUCENE_INDEX</id>
+            <name>depths of coverage</name>
+            <required>true</required>
+            <mimeType>application/lucene-index</mimeType>
+            <filename>depths.lucene.index</filename>
+            <tableName>depths</tableName>
+            <help>Data in tab-delimited format about the depth of coverage of the measured cytosines.</help>
+        </outputFile>
+        <outputFile>
             <id>CONVERSION_RATES_RESULTS_DB</id>
             <name>bisulfite conversion rates</name>
             <required>true</required>
