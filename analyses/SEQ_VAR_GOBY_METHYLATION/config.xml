@@ -151,11 +151,29 @@
             <help>Data in tab-delimited format about rate of conversion of cytosines in a non-CpG context.</help>
         </outputFile>
         <outputFile>
+            <id>CONVERSION_RATES_RESULTS_LUCENE_INDEX</id>
+            <name>bisulfite conversion rates</name>
+            <required>true</required>
+            <mimeType>application/lucene-index</mimeType>
+            <filename>conversion-rates.lucene.index</filename>
+            <tableName>conversion_rates</tableName>
+            <help>Data in tab-delimited format about rate of conversion of cytosines in a non-CpG context.</help>
+        </outputFile>
+        <outputFile>
             <id>NON_CONVERSION_RESULTS_DB</id>
             <name>non conversion context</name>
             <required>true</required>
             <mimeType>application/x-sqlite3</mimeType>
             <filename>non-conversion.db</filename>
+            <tableName>non_conversion</tableName>
+            <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
+        </outputFile>
+        <outputFile>
+            <id>NON_CONVERSION_RESULTS_LUCENE_INDEX</id>
+            <name>non conversion context</name>
+            <required>true</required>
+            <mimeType>application/lucene-index</mimeType>
+            <filename>non-conversion.lucene-index</filename>
             <tableName>non_conversion</tableName>
             <help>Data in tab-delimited format about the contexts observed for non-converted CpG.</help>
         </outputFile>
