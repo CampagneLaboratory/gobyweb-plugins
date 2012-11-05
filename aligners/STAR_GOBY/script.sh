@@ -88,6 +88,7 @@ function plugin_align {
          nice ${RESOURCES_STAR_EXEC_PATH}  ${ALIGNER_OPTIONS} ${PLUGINS_ALIGNER_STAR_GOBY_ALIGNER_OPTIONS} ${ambiguityOption} --readFilesIn reads.fastq
          RETURN_STATUS=$?
      fi
+
      cat Log.out
      cat Log.progress.out
      echo "STARR Finished with status code=${RETURN_STATUS}"
