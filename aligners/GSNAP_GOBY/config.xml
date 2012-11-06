@@ -102,7 +102,7 @@
         </option>
         <option>
             <id>STRANDNESS</id>
-            <name>Standness option.</name>
+            <name>Standness option</name>
             <help>Determines whether --cmet-stranded of --cmet-nonstranded or --atoi-stranded or --atoi-nonstranded are
                 used.
             </help>
