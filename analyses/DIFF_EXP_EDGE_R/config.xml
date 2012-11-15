@@ -38,7 +38,6 @@
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Differential Expression Analysis with EdgeR</name>
     <id>DIFF_EXP_EDGE_R</id>
-    <dbLegacyId>EdgeR</dbLegacyId>
     <help>Compares groups of samples to determine set of gene/exon or other annotations differentially expressed across
         groups. Counts are calculated with Goby, statistics of differential expression are estimated using the EdgeR
         Bioconductor package.
