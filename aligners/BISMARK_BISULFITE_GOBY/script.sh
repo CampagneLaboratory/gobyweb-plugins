@@ -85,12 +85,13 @@ function plugin_align {
     FASTQ_READS='trimmed-reads-sanger.fastq'
 	INPUT_OPTIONS="${INDEX_DIRECTORY}"
     if [ "${PAIRED_END_ALIGNMENT}" == "true" ]; then
-    	goby compact-to-fasta --output-format fastq --quality-encoding Sanger --input ${TRIMMED_READS} --output ${FASTQ_READS}-1 --pair-output ${FASTQ_READS}-2
+        # Bismark expects fastq format files with sequence line in one row - guarantee with --fasta-line-length parameter
+    	goby compact-to-fasta --output-format fastq --quality-encoding Sanger --fasta-line-length 1000 --input ${TRIMMED_READS} --output ${FASTQ_READS}-1 --pair-output ${FASTQ_READS}-2
     	
     	INPUT_OPTIONS="${INPUT_OPTIONS} -1 ${FASTQ_READS}-1 -2 ${FASTQ_READS}-2"
     	
     else
-        goby compact-to-fasta --output-format fastq --quality-encoding Sanger --input ${TRIMMED_READS} --output ${FASTQ_READS}
+        goby compact-to-fasta --output-format fastq --quality-encoding Sanger --fasta-line-length 1000 --input ${TRIMMED_READS} --output ${FASTQ_READS}
     	
     	INPUT_OPTIONS="${INPUT_OPTIONS} ${FASTQ_READS}"
         
