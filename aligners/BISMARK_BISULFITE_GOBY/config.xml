@@ -38,7 +38,7 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <name>Bismark Bisulfite Mapper</name>
     <id>BISMARK_BISULFITE_GOBY</id>
-    <help>Alignment bisulfite converted reads with Bismark.</help>
+    <help>Align bisulfite converted reads with Bismark.</help>
     <supportsColorSpace>false</supportsColorSpace>
     <supportsGobyReads>true</supportsGobyReads>
     <supportsGobyAlignments>true</supportsGobyAlignments>
