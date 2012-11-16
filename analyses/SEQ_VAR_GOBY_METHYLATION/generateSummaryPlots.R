@@ -59,8 +59,8 @@ drawSamplesDepthPlots <- function(dataTable, title){
   # Change x and y axis labels
   p <- p + xlab("Coverage") + ylab("Density")
   p <- formatPlotAppearance(p, title) 
-  p <- p + facet_wrap(~ sample, scales="free_x", ncol=6)
-  p <- p + opts(strip.text.x= theme_text(size=7))
+  p <- p + facet_wrap(~ sample, scales="free_x", ncol=2)
+  p <- p + opts(strip.text.x= theme_text(size=9))
                # strip.background = theme_rect(colour="white", fill="lightgrey"))
   return(p)
 }
@@ -94,8 +94,8 @@ average.non.cpg.conversion <- function(conversionRatesFile){
 # input: *conversion-rates.tsv
 drawConversionPlot <- function(dataTable, title){
   conversionPlot <- ggplot(data=dataTable, aes(x=percentConvertedInNonCpGcontext))
-  q <- conversionPlot + geom_histogram() + coord_flip()
-  #scale_x_continuous(limits=c(80,100), breaks=seq(80,100,1)) + coord_flip()
+  q <- conversionPlot + geom_histogram(binwidth=5) + 
+  scale_x_continuous(limits=c(0,100), breaks=seq(0,100,10)) + coord_flip()
   # Change x and y axis labels
   q <- q + ylab("Count") + xlab("Conversion in Non-CpG Context (%)")
   q <- formatPlotAppearance(q, title)
@@ -133,17 +133,10 @@ num.depth.bins <- dim(table(depths[,3]))
 num.samples <- (dim(depths)[1]/num.depth.bins)/2
 sampleDepths <- average.densities.per.sample(depths)
 colnames(sampleDepths) <- c("sample","depth-bin", "depthMidPoint", "log2OfDepthMidpoint", "density")
-plot.width=0
-plot.height=0
-if(num.samples >= 3){
-  plot.width=700
-  num.rows=ceiling(num.samples/3)
-  plot.height=num.rows*233
-}else{
-  plot.width=num.samples*233
-  plot.height=233
-  }
-
+plot.width=700
+num.rows=ceiling(num.samples/2)
+plot.height=num.rows*233
+  
 CairoPNG("coverage.png", width=plot.width, height=plot.height)
 drawSamplesDepthPlots(sampleDepths, "Read Coverage Across Samples")  
 dev.off()
