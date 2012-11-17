@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2011-2012  by Cornell University  and the  Cornell Research Foundation,
+ * Inc. All Rights Reserved.
+ *
+ * GobyWeb plugins  are released  under the LGPL3 license,  unless  otherwise specified
+ * by the license of a specific plugin. See the file LGPL3.license in this distribution
+ * for a copy of the LGPL license.
+ *
+ * When a plugin is not released under the LGPL3 license,  the comments  at the top  of
+ * the plugin's config.xml will indicate how that specific plugin is released/licensed.
+ */
+
 //import edu.cornell.med.icb.nga.datamodel.DiffExp
  /**
  * Make an output file which maps alignments to reads.
