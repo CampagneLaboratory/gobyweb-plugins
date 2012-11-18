@@ -1,0 +1,5 @@
+# Ignore executables that we cannot re-distribute
+adapters.txt
+gsnap-icb
+gsnap
+minia
