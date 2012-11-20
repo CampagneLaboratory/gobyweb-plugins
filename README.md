@@ -7,9 +7,8 @@ GobyWeb is currently being developed by the members of the [Campagne laboratory]
 GobyWeb plugin source code is now on GitHub.  You can obtain the plugins as follows:
    ```
    git clone git://github.com/CampagneLaboratory/gobyweb-plugins.git
-   cd gobyweb-plugins
    ```
-#### Installation:
+### Installation
 See the GobyWeb installation instructions for details of how to install plugins in an instance of GobyWeb.
 
 ### Documentation and forums
